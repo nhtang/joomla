@@ -14,6 +14,9 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 //require_once __DIR__ . '/conn.php';
 
+JHTML::stylesheet('override.css','modules/mod_meter_model_submit/css/');
+JHTML::stylesheet('style.css','modules/mod_meter_model_submit/css/');
+
 @$meter_model = trim($_POST['meter_model']); 
 
 if($meter_model==""){
