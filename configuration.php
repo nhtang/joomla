@@ -18,7 +18,7 @@ class JConfig {
 	public $db = 'huge_mysql';
 	public $dbprefix = 'joomla3_';
 	public $live_site = '';
-	public $secret = 'uYBgSxBIDTu1GDBO';
+	public $secret = 'JvW0uRHOrjf4fjst';
 	public $gzip = '0';
 	public $error_reporting = 'default';
 	public $helpurl = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';

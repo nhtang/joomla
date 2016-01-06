@@ -34,6 +34,8 @@ class ModDianbiaoHelper
 	    }
 	    return $string;
 	}
+	
+	
 
 	public function getElectricalStatus() {
 		// read electrical status
@@ -48,6 +50,18 @@ class ModDianbiaoHelper
 
 		$electrical_status = $row['electrical_status'];
 		return $electrical_status;
+	}
+	
+	public function getMeterModelValus() {
+		  // read MeterModelValus
+		  $db = JFactory::getDBO();
+          $query = 'SELECT * FROM #__metermodel order by meter_model_id desc';
+          $db->setQuery($query);
+          $result = $db->loadObjectList();
+          /*foreach($result as $row)
+          {
+            // echo ' id is '.$row->meter_model_id.' meter_model is ' . $row->meter_model .'<br/>';
+          }*/
 	}
 	
 	

@@ -18,8 +18,21 @@ JHTML::stylesheet('styles.css','modules/mod_dianbiao/css/');
 
 //system("gpio")
 
-$device_id = "01"; // unique id address of individual biao
-$biao_command_code = "03";  // command code to read holding register
+//read meter_model values from table joomla3_metermodel
+ModDianBiaoHelper::getMeterModelValus();
+foreach($result as $row){
+	$device_id = $row['address_code'];
+	$biao_command_code = $row['function_code'];
+	$var_len = $row['var_len'];
+	
+	$meter_model_id = $row['meter_model_id'];
+	$meter_model = $row['meter_model'];
+
+
+
+
+//$device_id = "01";  //address_code  // unique id address of individual biao 
+//$biao_command_code = "03";  //function_code  // command code to read holding register  
 
 $u2_address = "00 19"; // address of voltage variable
 $i2_address = "00 25"; // address of voltage variable
@@ -27,7 +40,7 @@ $s2_address = "00 43"; // address of voltage variable
 $f2_address = "00 4b"; // address of voltage variable
 
 
-$var_len = "00 02"; // length of variable
+//$var_len = "00 02"; // length of variable
 
 $u2_checksum = "15 cc"; // checksum for u2
 $i2_checksum = "d5 c0"; // checksum for i2
@@ -81,10 +94,10 @@ $hexString = $f2_output[3] . $f2_output[4] . $f2_output[5] . $f2_output[6];
 $f2 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
 
-echo "u2 is $u2 <br>";
-echo "i2 is $i2 <br>";
-echo "s2 is $s2 <br>";
-echo "f2 is $f2 <br>";
+echo "meter_model_id : $meter_model_id || u2 : $u2 <br>";
+echo "meter_model_id : $meter_model_id || i2 : $i2 <br>";
+echo "meter_model_id : $meter_model_id || s2 : $s2 <br>";
+echo "meter_model_id : $meter_model_id || f2 : $f2 <br>";
 //echo "f2 is $f2_output[3] . $f2_output[4] . $f2_output[5] . $f2_output[6] <br>";
 
 
@@ -106,8 +119,9 @@ $time = $datetime;
 ModDianBiaoHelper::insertElectricalValues($datetime,$u2, $i2, $s2, $f2);
 
 
-}
+}//while
 
+}//foreach
 // call new web page, then exit
 
 if ($electrical_status) {
