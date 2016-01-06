@@ -19,7 +19,7 @@ JHTML::stylesheet('style.css','modules/mod_meter_model/css/');
 
 ModMeterModelHelper::getMeterModel();
 
-
+//
 require(JModuleHelper::getLayoutPath('mod_meter_model', 'default'));
 ?>
 
