@@ -14,23 +14,23 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 require_once __DIR__ . '/conn.php';
 
-$meter_model_id = JRequest::getVar('meter_model_id', '-1'); 
+$meter_model_id = trim(JRequest::getVar('meter_model_id', '-1')); 
 
 if($meter_model_id == "-1"){
     mysql_close();
     echo "<script>alert('请先修改记录！');history.back(); </script>";
 }else{
-	  $meter_model = JRequest::getVar('meter_model', '-1');
-	  //$meter_model = JRequest::getVar('meter_model' '-1');
-	  $meter_factory = JRequest::getVar('meter_factory', '-1');
-	  $command_code = JRequest::getVar('command_code', '-1');
-	  $var_len = JRequest::getVar('var_len', '-1');
-	  $address_code = JRequest::getVar('address_code', '-1');
-	  $function_code = JRequest::getVar('function_code', '-1');
-	  $storage_start_address = JRequest::getVar('storage_start_address', '-1');
-	  $storage_numbers = JRequest::getVar('storage_numbers', '-1');
-	  $check_code = JRequest::getVar('check_code', '-1');
-	  $data_index = JRequest::getVar('data_index', '-1');
+	  $meter_model = trim(JRequest::getVar('meter_model', '-1'));
+	  //$meter_model = trim(JRequest::getVar('meter_model' '-1'));
+	  $meter_factory = trim(JRequest::getVar('meter_factory', '-1'));
+	  $command_code = trim(JRequest::getVar('command_code', '-1'));
+	  $var_len = trim(JRequest::getVar('var_len', '-1'));
+	  $address_code = trim(JRequest::getVar('address_code', '-1'));
+	  $function_code = trim(JRequest::getVar('function_code', '-1'));
+	  $storage_start_address = trim(JRequest::getVar('storage_start_address', '-1'));
+	  $storage_numbers = trim(JRequest::getVar('storage_numbers', '-1'));
+	  $check_code = trim(JRequest::getVar('check_code', '-1'));
+	  $data_index = trim(JRequest::getVar('data_index', '-1'));
 		
 	  date_default_timezone_set('Asia/Singapore');
       $datetime = date('Y-m-d H:i:s');

@@ -191,9 +191,9 @@ defined('_JEXEC') or die;
 		    * 参数位置的填写模式为：( u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx )
 		  </font>
 		   <?php
-            /*		   
+            		   
 		    echo '<br/>';
-			$str = "u1-10,u2-20,u3-30,i1-11,i2-15,i3-19";
+			$str = "     u1-00 10, u2-0x 20, u3-30, i1-11, i2-15, i3-19";
 		    $strArr=explode(',',$str); //explode str
 			$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
 			for($i = 0; $i<$arr_num ; $i++){
@@ -201,9 +201,9 @@ defined('_JEXEC') or die;
             }
 		  
 			$var_u1 = $strArr[0]; 
-			$strArr2=explode("-",$var_u1);
-			echo $strArr2[1];
-			*/
+	        $u1_address = explode("-",$var_u1);
+	        echo $u1_address[1]; 
+			
 		   ?>
 		<br>
     <div>

@@ -15,11 +15,16 @@ JHTML::stylesheet('styles.css','modules/mod_dianbiao/css/');
 
 //$electrical_status = JRequest::getVar('electrical_status', '-1');
 //$quantity = JRequest::getVar('quantity', '0');
+$meter_model = JRequest::getVar('location_id', '-1');  //get location_id 
+$meter_model = JRequest::getVar('meter_model', '-1');  //get meter_model 
+if($meter_model == "-1"){
+	echo "<script>alert('请先选择要采集的电表！');history.back(); </script>";
+}
 
 //system("gpio")
 
 //read meter_model values from table joomla3_metermodel
-ModDianBiaoHelper::getMeterModelValus();
+ModDianBiaoHelper::getMeterModelValus($meter_model);
 foreach($result as $row){
 	$device_id = $row['address_code'];
 	$biao_command_code = $row['function_code'];
@@ -27,20 +32,82 @@ foreach($result as $row){
 	
 	$meter_model_id = $row['meter_model_id'];
 	$meter_model = $row['meter_model'];
+    $data_index = $row['data_index'];
+	
+	//example :$data_index = "u1-00 10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
+	$strArr=explode(',',$data_index); //explode $data_index
+	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
+	for($i = 0; $i<$arr_num ; $i++){
+        echo $i.':'.$strArr[$i].'<br/>';
+    }
+	
+    
+	$var_u1 = $strArr[0]; 
+	$u1_arr = explode("-",$var_u1);
+	$u1_address = $u1_arr[1];   // explode $u1_address
+	
+	/*/ explode $u2_address
+	$var_u2 = $strArr[1]; 
+	$u2_arr = explode("-",$var_u2);
+	$u2_address = $u2_arr[1];
+	
+	// explode $u3_address
+	$var_u3 = $strArr[2]; 
+	$u3_arr = explode("-",$var_u3);
+	$u3_address = $u3_arr[1];*/
+    
+	
+    $var_i1 = $strArr[3]; 
+	$i1_arr = explode("-",$var_i1);
+	$i1_address = $i1_arr[1];   // explode $i1_address
+	
+	/*$var_i2 = $strArr[4]; 
+	$i2_arr = explode("-",$var_i2);
+	$i2_address = $i2_arr[1]; 
+	
+	$var_i3 = $strArr[5]; 
+	$i3_arr = explode("-",$var_i3);
+	$i3_address = $i3_arr[1];*/	
+	
+	
+    $var_s1 = $strArr[6]; 
+	$s1_arr = explode("-",$var_s1);
+	$s1_address = $s1_arr[1];   // explode $s1_address 
+	
+	/*$var_s2 = $strArr[7]; 
+	$s2_arr = explode("-",$var_s2);
+	$s2_address = $s2_arr[1]; 
+	
+	$var_s3 = $strArr[8]; 
+	$s3_arr = explode("-",$var_s3);
+	$s3_address = $s3_arr[1];*/	
+	
+	$var_f1 = $strArr[6]; 
+	$f1_arr = explode("-",$var_f1);
+	$f1_address = $f1_arr[1];   // explode $f1_address 
+	
+	/*$var_f2 = $strArr[7]; 
+	$f2_arr = explode("-",$var_f2);
+	$f2_address = $f2_arr[1]; 
+	
+	$var_f3 = $strArr[8]; 
+	$f3_arr = explode("-",$var_f3);
+	$f3_address = $f3_arr[1];*/	
 
 
 
-
-//$device_id = "01";  //address_code  // unique id address of individual biao 
+//$devsce_id = "01";  //address_code  // unique id address of individual biao 
 //$biao_command_code = "03";  //function_code  // command code to read holding register  
 
-$u2_address = "00 19"; // address of voltage variable
-$i2_address = "00 25"; // address of voltage variable
-$s2_address = "00 43"; // address of voltage variable
-$f2_address = "00 4b"; // address of voltage variable
+//$u2_address = "00 19"; // address of voltage variable
+//$i2_address = "00 25"; // address of voltage variable
+//$s2_address = "00 43"; // address of voltage variable
+//$f2_address = "00 4b"; // address of voltage variable
 
 
 //$var_len = "00 02"; // length of variable
+
+
 
 $u2_checksum = "15 cc"; // checksum for u2
 $i2_checksum = "d5 c0"; // checksum for i2
@@ -61,6 +128,52 @@ $k++;
 //$electrical_status = ModDianBiaoHelper::getElectricalStatus();
 //sleep(1);
 
+
+
+/*-----------------------------------------------*/
+//  frist array data to the table joomla3_electrical u1, i1, s1, f1
+$var_address = $u1_address;
+$checksum = $u1_checksum;
+unset($u1_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $u1_output);
+foreach($u1_output AS $u1_temp){
+//echo " $u1_temp ";
+}
+
+$hexString = $u1_output[3] . $u1_output[4] . $u1_output[5] . $u1_output[6];
+$u1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+
+$var_address = $i1_address;
+$checksum = $i1_checksum;
+unset($i1_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $i1_output);
+$hexString = $i1_output[3] . $i1_output[4] . $i1_output[5] . $i1_output[6];
+$i1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+
+$var_address = $s1_address;
+$checksum = $s1_checksum;
+unset($s1_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $s1_output);
+$hexString = $s1_output[3] . $s1_output[4] . $s1_output[5] . $s1_output[6];
+$s1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+
+$var_address = $f1_address;
+$checksum = $f1_checksum;
+unset($f1_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $f1_output);
+$hexString = $f1_output[3] . $f1_output[4] . $f1_output[5] . $f1_output[6];
+$f1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+
+
+echo " u1 : $u1 <br>";
+echo " i1 : $i1 <br>";
+echo " s1 : $s1 <br>";
+echo " f1 : $f1 <br>";
+
+
+
+/*-----------------------------------------------*/
+// second array to the table joomla3_electrical u2, i2, s2, f2
 $var_address = $u2_address;
 $checksum = $u2_checksum;
 unset($u2_output);
@@ -94,29 +207,63 @@ $hexString = $f2_output[3] . $f2_output[4] . $f2_output[5] . $f2_output[6];
 $f2 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
 
-echo "meter_model_id : $meter_model_id || u2 : $u2 <br>";
-echo "meter_model_id : $meter_model_id || i2 : $i2 <br>";
-echo "meter_model_id : $meter_model_id || s2 : $s2 <br>";
-echo "meter_model_id : $meter_model_id || f2 : $f2 <br>";
-//echo "f2 is $f2_output[3] . $f2_output[4] . $f2_output[5] . $f2_output[6] <br>";
+echo " u2 : $u2 <br>";
+echo " i2 : $i2 <br>";
+echo " s2 : $s2 <br>";
+echo " f2 : $f2 <br>";
 
 
-$voltage1 = $u2;
-$current1 = $i2;
-$power1 = $s2;
-$frequency1 = $f2;
+/*-----------------------------------------------*/
+// third array to the table joomla3_electrical  u3, i3, s3, f3
+$var_address = $u3_address;
+$checksum = $u3_checksum;
+unset($u3_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $u3_output);
+foreach($u3_output AS $u3_temp){
+//echo " $u3_temp ";
+}
 
-//voltage1 = 230;
-//$current1 = 1.3;
-//$power1 = 0.55;
-//$frequency1 = 50;
+$hexString = $u3_output[3] . $u3_output[4] . $u3_output[5] . $u3_output[6];
+$u3 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+
+$var_address = $i3_address;
+$checksum = $i3_checksum;
+unset($i3_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $i3_output);
+$hexString = $i3_output[3] . $i3_output[4] . $i3_output[5] . $i3_output[6];
+$i3 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+
+$var_address = $s3_address;
+$checksum = $s3_checksum;
+unset($s3_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $s3_output);
+$hexString = $s3_output[3] . $s3_output[4] . $s3_output[5] . $s3_output[6];
+$s3 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+
+$var_address = $f3_address;
+$checksum = $f3_checksum;
+unset($f3_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $f3_output);
+$hexString = $f3_output[3] . $f3_output[4] . $f3_output[5] . $f3_output[6];
+$f3 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+
+
+echo " u3 : $u3 <br>";
+echo " i3 : $i3 <br>";
+echo " s3 : $s3 <br>";
+echo " f3 : $f3 <br>";
+
+
+/*---------------------------------------------*/
+
 
 date_default_timezone_set('Asia/Singapore');
 $datetime = date('Y-m-d H:i:s');
 $time = $datetime;
 
 // insert to database
-ModDianBiaoHelper::insertElectricalValues($datetime,$u2, $i2, $s2, $f2);
+ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $u1, $i1, $s1, $f1);
+//ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $u1, $i1, $s1, $f1, $u2, $i2, $s2, $f2, $u3, $i3, $s3, $f3);
 
 
 }//while

@@ -52,12 +52,12 @@ class ModDianbiaoHelper
 		return $electrical_status;
 	}
 	
-	public function getMeterModelValus() {
+	public function getMeterModelValus($meter_model) {
 		  // read MeterModelValus
 		  $db = JFactory::getDBO();
-          $query = 'SELECT * FROM #__metermodel order by meter_model_id desc';
+          $query = 'SELECT * FROM #__metermodel where meter_model = '.$meter_model ;
           $db->setQuery($query);
-          $result = $db->loadObjectList();
+          $result = $db->loadObjectList();  
           /*foreach($result as $row)
           {
             // echo ' id is '.$row->meter_model_id.' meter_model is ' . $row->meter_model .'<br/>';
@@ -65,10 +65,11 @@ class ModDianbiaoHelper
 	}
 	
 	
-	public function insertElectricalValues($datetime,$u, $i, $s, $f) {
+	public function insertElectricalValues($datetime, $location_id, $meter_address, $u, $i, $s, $f) {
 		// Create and populate an object.
 		$profile = new stdClass();
-		$profile->location_id = 1;
+		$profile->location_id = $location_id;
+		$profile->meter_address = $meter_address;
 		$profile->datetime = $datetime;
 		$profile->phase1_voltage = $u;
 		$profile->phase1_current = $i;
