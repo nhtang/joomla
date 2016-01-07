@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
 
-//defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 class ModMeterModelSubmitHelper
 {
@@ -48,13 +48,13 @@ class ModMeterModelSubmitHelper
 
                 $metermodel = $row['metermodel'];
                 return $metermodel;
-        }*/
+        }
 		
 
-        public function insertMetermodelValues($datetime_create, $meter_model, $meter_factory, $command_code, $var_len, $address_code, $function_code, $storage_start_address, $storage_numbers, $check_code) {
+        public function insertMetermodelValues($datetime_create, $meter_model, $meter_factory, $command_code, $var_len, $address_code, $function_code, $storage_start_address, $storage_numbers, $check_code，$data_index) {
                 // Create and populate an object.
                 $profile = new stdClass();
-                $profile->datetime = $datetime;
+                $profile->datetime_create = $datetime_create;
                 $profile->meter_model = $meter_model;
 				$profile->meter_factory = $meter_factory;
                 $profile->command_code = $command_code;
@@ -63,7 +63,8 @@ class ModMeterModelSubmitHelper
 				$profile->function_code = $function_code;
 				$profile->storage_start_address = $storage_start_address;
 				$profile->storage_numbers = $storage_numbers;
-				$profile->check_code = $check_code;
+				$profile->check_code = $check_code;$data_index
+				$profile->data_index = $data_index;
 
                 // Insert the object into the user profile table.
                 $result = JFactory::getDbo()->insertObject('joomal3_metermodel', $profile);
@@ -74,4 +75,5 @@ class ModMeterModelSubmitHelper
 				}
 
         }
+		*/
 }

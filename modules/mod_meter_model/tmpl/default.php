@@ -50,26 +50,17 @@ defined('_JEXEC') or die;
 		
 ?>
  <tr align=center >
-  <td width=50px ><b>序号</font>  
-  </td>
-  <td width=120px ><b>电表型号</font>  
-  </td>
-  <td width=100px><b>生产厂名</font>  
-  </td> 
-  <td width=100px><b>指令码</font>  
-  </td> 
-   <td width=50px><b>长度</font>  
-  </td> 
-  <td width=100px><b>地址码</font>  
-  </td>
-  <td width=100px><b>功能码</font>  
-  </td>
-  <td width=140px><b>起始寄存器地址</font>  
-  </td>
-  <td width=110px><b>寄存器个数</font>  
-  </td>
-  <td width=100px><b>校验码</font>  
-  </td>
+  <td width=50px><b>序号</font></td>
+  <td width=120px><b>电表型号</font></td>
+  <td width=100px><b>生产厂名</font></td> 
+  <td width=100px><b>指令码</font></td> 
+  <td width=50px><b>长度</font></td> 
+  <td width=100px><b>地址码</font></td>
+  <td width=100px><b>功能码</font></td>
+  <td width=140px><b>起始寄存器地址</font></td>
+  <td width=110px><b>寄存器个数</font></td>
+  <td width=100px><b>校验码</font></td>
+  <td width=100px><b>参数位置</font></td>
  </tr>
 
     <?php		
@@ -85,6 +76,7 @@ defined('_JEXEC') or die;
 	      $storage_start_address = $row['storage_start_address'];
 	      $storage_numbers = $row['storage_numbers'];
 	      $check_code = $row['check_code'];
+		  $data_index = $row['data_index'];
     ?> 
  <tr  onmouseover="this.style.backgroundColor='#e5ff00'" onmouseout="this.style.backgroundColor='#ffffff'" style="font-size:12px;color:#000035;">
  
@@ -102,6 +94,7 @@ defined('_JEXEC') or die;
    <td align="center" ><?php echo $storage_start_address;?></td>
    <td align="center" ><?php echo $storage_numbers;?></td>
    <td align="center" ><?php echo $check_code;?></td>
+   <td align="center" ><?php echo $data_index;?></td>
   
  </tr>
 
@@ -137,7 +130,7 @@ defined('_JEXEC') or die;
                  else
                    echo $notepage+1 ;?>" title=下一页>&nbsp;下一页</a>&nbsp;
           
-        <select width=30 onChange="window.location=this.options[this.selectedIndex].value">
+        <select class="input-small" onChange="window.location=this.options[this.selectedIndex].value">
             <?php 
                 for($i=1;$i<=$pagecount;$i++) 
                 { 
@@ -192,8 +185,29 @@ defined('_JEXEC') or die;
         <input id="storage_numbers" name="storage_numbers" type="text" size="10" value="" /><br>
            校&nbsp;&nbsp;验&nbsp;&nbsp;码：
         <input id="check_code" name="check_code" type="text" size="10" value="" /><br>
-
+		   参数位置：&nbsp;
+        <input class="input-xxlarge" id="data_index" name="data_index" type="text"  value="" /><br>
+          <font style="color:#5d5d5d;"> 
+		    * 参数位置的填写模式为：( u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx )
+		  </font>
+		   <?php
+            /*		   
+		    echo '<br/>';
+			$str = "u1-10,u2-20,u3-30,i1-11,i2-15,i3-19";
+		    $strArr=explode(',',$str); //explode str
+			$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
+			for($i = 0; $i<$arr_num ; $i++){
+              echo $i.':'.$strArr[$i].'<br/>';
+            }
+		  
+			$var_u1 = $strArr[0]; 
+			$strArr2=explode("-",$var_u1);
+			echo $strArr2[1];
+			*/
+		   ?>
+		<br>
     <div>
+	<br>
 	    <input type="submit" value=" 提  交 "  id="send-btn">
     </div>
     <br><br>

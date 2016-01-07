@@ -30,12 +30,13 @@ if($meter_model_id == "-1"){
 	  $storage_start_address = $_POST['storage_start_address'];
 	  $storage_numbers = $_POST['storage_numbers'];
 	  $check_code = $_POST['check_code'];
+	  $data_index = $_POST['data_index'];
 		
 	  date_default_timezone_set('Asia/Singapore');
       $datetime = date('Y-m-d H:i:s');
       $datetime_change = $datetime;
 	  
-  ModMeterModelUpdateHelper::updateMetermodelValues($datetime_change, $meter_model_id, $meter_model, $meter_factory, $command_code, $var_len, $address_code, $function_code, $storage_start_address, $storage_numbers, $check_code);
+  ModMeterModelUpdateHelper::updateMetermodelValues($datetime_change, $meter_model_id, $meter_model, $meter_factory, $command_code, $var_len, $address_code, $function_code, $storage_start_address, $storage_numbers, $check_code, $data_index);
 	  
 	  
 	/*

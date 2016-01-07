@@ -38,6 +38,7 @@ if($meter_model_id == ""){
 	  $storage_start_address = $row['storage_start_address'];
 	  $storage_numbers = $row['storage_numbers'];
 	  $check_code = $row['check_code'];
+	  $data_index = $row['data_index'];
 		
 	  date_default_timezone_set('Asia/Singapore');
       $datetime = date('Y-m-d H:i:s');

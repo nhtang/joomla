@@ -32,6 +32,7 @@ $function_code = trim($_POST["function_code"]);
 $storage_start_address =trim($_POST['storage_start_address']); 
 $storage_numbers =trim($_POST['storage_numbers']);
 $check_code = trim($_POST['check_code']);
+$data_index = trim($_POST['data_index']);
 
 date_default_timezone_set('Asia/Singapore');
 $datetime = date('Y-m-d H:i:s');
@@ -39,7 +40,7 @@ $datetime_create = $datetime;
 
 
 // insert to database
-ModMeterModelSubmitHelper::insertMetermodelValues($datetime_create, $meter_model, $meter_factory, $command_code, $var_len, $address_code, $function_code, $storage_start_address, $storage_numbers, $check_code);
+ModMeterModelSubmitHelper::insertMetermodelValues($datetime_create, $meter_model, $meter_factory, $command_code, $var_len, $address_code, $function_code, $storage_start_address, $storage_numbers, $check_code, $data_index);
 
   
 	   

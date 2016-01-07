@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 class ModMeterModelSubmitHelper
 {
 
-        function insertMetermodelValues($datetime_create, $meter_model, $meter_factory, $command_code, $var_len, $address_code, $function_code, $storage_start_address, $storage_numbers, $check_code) {
+        function insertMetermodelValues($datetime_create, $meter_model, $meter_factory, $command_code, $var_len, $address_code, $function_code, $storage_start_address, $storage_numbers, $check_code, $data_index) {
                
                 // read meter_model values
 		        $db = JFactory::getDBO();
@@ -38,6 +38,7 @@ class ModMeterModelSubmitHelper
 				$profile->storage_start_address = $storage_start_address;
 				$profile->storage_numbers = $storage_numbers;
 				$profile->check_code = $check_code;
+				$profile->data_index = $data_index;
                 $profile->datetime_create = $datetime_create;
 				
                 // Insert the object into the user profile table.
