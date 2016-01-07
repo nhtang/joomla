@@ -63,7 +63,7 @@ class ModMeterModelSubmitHelper
 				$profile->function_code = $function_code;
 				$profile->storage_start_address = $storage_start_address;
 				$profile->storage_numbers = $storage_numbers;
-				$profile->check_code = $check_code;$data_index
+				$profile->check_code = $check_code;
 				$profile->data_index = $data_index;
 
                 // Insert the object into the user profile table.

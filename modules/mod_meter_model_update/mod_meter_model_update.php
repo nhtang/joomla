@@ -21,16 +21,16 @@ if($meter_model_id == "-1"){
     echo "<script>alert('请先修改记录！');history.back(); </script>";
 }else{
 	  $meter_model = JRequest::getVar('meter_model', '-1');
-	  //$meter_model = $_POST['meter_model'];
-	  $meter_factory = $_POST['meter_factory'];
-	  $command_code = $_POST['command_code'];
-	  $var_len = $_POST['var_len'];
-	  $address_code = $_POST['address_code'];
-	  $function_code = $_POST['function_code'];
-	  $storage_start_address = $_POST['storage_start_address'];
-	  $storage_numbers = $_POST['storage_numbers'];
-	  $check_code = $_POST['check_code'];
-	  $data_index = $_POST['data_index'];
+	  //$meter_model = JRequest::getVar('meter_model' '-1');
+	  $meter_factory = JRequest::getVar('meter_factory', '-1');
+	  $command_code = JRequest::getVar('command_code', '-1');
+	  $var_len = JRequest::getVar('var_len', '-1');
+	  $address_code = JRequest::getVar('address_code', '-1');
+	  $function_code = JRequest::getVar('function_code', '-1');
+	  $storage_start_address = JRequest::getVar('storage_start_address', '-1');
+	  $storage_numbers = JRequest::getVar('storage_numbers', '-1');
+	  $check_code = JRequest::getVar('check_code', '-1');
+	  $data_index = JRequest::getVar('data_index', '-1');
 		
 	  date_default_timezone_set('Asia/Singapore');
       $datetime = date('Y-m-d H:i:s');
