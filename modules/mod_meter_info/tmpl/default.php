@@ -55,6 +55,7 @@ defined('_JEXEC') or die;
   <td width=50px><b>位置码</font></td>
   <td width=100px><b>表地址</font></td> 
   <td width=100px><b>电表型号</font></td> 
+  <td width=100px><b></font></td> 
  </tr>
 
     <?php		
@@ -68,13 +69,25 @@ defined('_JEXEC') or die;
  <tr  onmouseover="this.style.backgroundColor='#e5ff00'" onmouseout="this.style.backgroundColor='#ffffff'" style="font-size:12px;color:#000035;">
  
    <td align="center" >
-      <a href="index.php/meter-model-fix?info_id=<?php echo $info_id; ?>" title="记录序号：<?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
+      <a href="index.php/meter-info-fix?info_id=<?php echo $info_id; ?>
+	  " title="记录序号：
+	  <?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
 	  <?php echo $info_id;?>
 	  </a>
 	  </td>
    <td align="center" ><?php echo $location_id;?></td>
    <td align="center" ><?php echo $meter_address;?></td>
    <td align="center" ><?php echo $meter_model;?></td>
+   <td align="center" >
+       <a href="index.php/meter-connect?info_id=<?php echo $info_id; ?>
+	   &location_id=<?php echo $location_id; ?>
+	   &meter_address=<?php echo $meter_address; ?>
+	   &meter_model=<?php echo $meter_model; ?>
+	   " title="记录序号：
+	   <?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
+	   <?php echo $info_id;?>
+	  </a>
+	</td>
 
  </tr>
 

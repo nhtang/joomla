@@ -5,40 +5,58 @@
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
-
+//error_reporting( E_ALL&~E_NOTICE );
 defined('_JEXEC') or die;
 
 // Include the functions only once
 require_once __DIR__ . '/helper.php';
+require_once __DIR__ . '/conn.php';
 
 JHTML::stylesheet('styles.css','modules/mod_dianbiao/css/');
 
 //$electrical_status = JRequest::getVar('electrical_status', '-1');
 //$quantity = JRequest::getVar('quantity', '0');
-$meter_model = JRequest::getVar('location_id', '-1');  //get location_id 
+$location_id = JRequest::getVar('location_id', '-1');  //get location_id 
+$meter_address = JRequest::getVar('meter_address', '-1');  //get location_id 
 $meter_model = JRequest::getVar('meter_model', '-1');  //get meter_model 
+//echo  $location_id ."-". $meter_address ."-". $meter_address;
 if($meter_model == "-1"){
 	echo "<script>alert('请先选择要采集的电表！');history.back(); </script>";
 }
 
 //system("gpio")
 
-//read meter_model values from table joomla3_metermodel
-ModDianBiaoHelper::getMeterModelValus($meter_model);
-foreach($result as $row){
+  //read meter_model values from table joomla3_metermodel
+  //$result = ModDianBiaoHelper::getMeterModelValus($meter_model);
+  /*$db = JFactory::getDBO();
+  $query = 'SELECT * FROM #__metermodel where meter_model = '.$meter_model ;
+  $db->setQuery($query);
+  $result = $db->loadObjectList();
+   
+  foreach($result as $row){*/
+    
+	$sql = "select * from joomla3_metermodel where meter_model = '$meter_model' order by meter_model_id desc";
+	$rs = mysql_query($sql);
+	//$rsnum = mysql_num_rows($rs);
+	$row = mysql_fetch_array($rs);
+	if($row == ""){
+		echo "<script>alert('数据库中还没有此电表型号记录！请录入！');history.back();</script>";
+	}
+    
 	$device_id = $row['address_code'];
 	$biao_command_code = $row['function_code'];
 	$var_len = $row['var_len'];
 	
 	$meter_model_id = $row['meter_model_id'];
 	$meter_model = $row['meter_model'];
+	$check_code = $row['check_code'];
     $data_index = $row['data_index'];
 	
-	//example :$data_index = "u1-00 10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
+	//example :$data_index = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
 	$strArr=explode(',',$data_index); //explode $data_index
-	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
-	for($i = 0; $i<$arr_num ; $i++){
-        echo $i.':'.$strArr[$i].'<br/>';
+	$arr_num_check = sizeof($strArr); //cout array numbers or // $arr_num_check = count($strArr);
+	for($i = 0; $i<$arr_num_check ; $i++){
+        //echo $i.':'.$strArr[$i].'<br/>';
     }
 	
     
@@ -107,12 +125,70 @@ foreach($result as $row){
 
 //$var_len = "00 02"; // length of variable
 
+  //example :$check_code = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
+	$strArr_check=explode(',',$check_code); //explode $check_code
+	$arr_num_check = sizeof($strArr_check); //cout array numbers or // $arr_num_check = count($strArr_check);
+	for($i = 0; $i<$arr_num_check ; $i++){
+        //echo $i.':'.$strArr_check[$i].'<br/>';
+    }
+	
+    
+	$var_u1_check = $strArr_check[0]; 
+	$u1_arr_check = explode("-",$var_u1_check);
+	$u1_checksum = $u1_arr_check[1];   // explode $u1_checksum
+	
+	/*/ explode $u2_checksum
+	$var_u2_check = $strArr_check[1]; 
+	$u2_arr_check = explode("-",$var_u2_check);
+	$u2_checksum = $u2_arr_check[1];
+	
+	// explode $u3_checksum
+	$var_u3_check = $strArr_check[2]; 
+	$u3_arr_check = explode("-",$var_u3_check);
+	$u3_checksum = $u3_arr_check[1];*/
+    
+	
+    $var_i1_check = $strArr_check[3]; 
+	$i1_arr_check = explode("-",$var_i1_check);
+	$i1_checksum = $i1_arr_check[1];   // explode $i1_checksum
+	
+	/*$var_i2_check = $strArr_check[4]; 
+	$i2_arr_check = explode("-",$var_i2_check);
+	$i2_checksum = $i2_arr_check[1]; 
+	
+	$var_i3_check = $strArr_check[5]; 
+	$i3_arr_check = explode("-",$var_i3_check);
+	$i3_checksum = $i3_arr_check[1];*/	
+	
+	
+    $var_s1_check = $strArr_check[6]; 
+	$s1_arr_check = explode("-",$var_s1_check);
+	$s1_checksum = $s1_arr_check[1];   // explode $s1_checksum 
+	
+	/*$var_s2_check = $strArr_check[7]; 
+	$s2_arr_check = explode("-",$var_s2_check);
+	$s2_checksum = $s2_arr_check[1]; 
+	
+	$var_s3_check = $strArr_check[8]; 
+	$s3_arr_check = explode("-",$var_s3_check);
+	$s3_checksum = $s3_arr_check[1];*/	
+	
+	$var_f1_check = $strArr_check[6]; 
+	$f1_arr_check = explode("-",$var_f1_check);
+	$f1_checksum = $f1_arr_check[1];   // explode $f1_checksum 
+	
+	/*$var_f2_check = $strArr_check[7]; 
+	$f2_arr_check = explode("-",$var_f2_check);
+	$f2_checksum = $f2_arr_check[1]; 
+	
+	$var_f3_check = $strArr_check[8]; 
+	$f3_arr_check = explode("-",$var_f3_check);
+	$f3_checksum = $f3_arr_check[1];*/	
 
-
-$u2_checksum = "15 cc"; // checksum for u2
-$i2_checksum = "d5 c0"; // checksum for i2
-$s2_checksum = "35 df"; // checksum for s2
-$f2_checksum = "b4 1d"; // checksum for f2
+//$u1_checksum = "15 cc"; // checksum for u2
+//$i1_checksum = "d5 c0"; // checksum for i2
+//$s1_checksum = "35 df"; // checksum for s2
+//$f1_checksum = "b4 1d"; // checksum for f2
 
 
 
@@ -122,7 +198,7 @@ $electrical_status = ModDianBiaoHelper::getElectricalStatus();
 //$electrical_status=1;
 $k = 0;
 //while ($k<5){
-while ( ($k<5) && ($electrical_status) ) {
+while ( ($k<1) && ($electrical_status) ) {
 $k++;
 //echo "$k <br>";
 //$electrical_status = ModDianBiaoHelper::getElectricalStatus();
@@ -170,9 +246,12 @@ echo " i1 : $i1 <br>";
 echo " s1 : $s1 <br>";
 echo " f1 : $f1 <br>";
 
+$voltage1 = $u1;
+$current1 = $i1;
+$power1 = $s1;
+$frequency1 = $f1;
 
-
-/*-----------------------------------------------*/
+/*-----------------------------------------------
 // second array to the table joomla3_electrical u2, i2, s2, f2
 $var_address = $u2_address;
 $checksum = $u2_checksum;
@@ -212,8 +291,12 @@ echo " i2 : $i2 <br>";
 echo " s2 : $s2 <br>";
 echo " f2 : $f2 <br>";
 
+$voltage2 = $u2;
+$current2 = $i2;
+$power2 = $s2;
+$frequency2 = $f2;
 
-/*-----------------------------------------------*/
+/*-----------------------------------------------
 // third array to the table joomla3_electrical  u3, i3, s3, f3
 $var_address = $u3_address;
 $checksum = $u3_checksum;
@@ -253,6 +336,10 @@ echo " i3 : $i3 <br>";
 echo " s3 : $s3 <br>";
 echo " f3 : $f3 <br>";
 
+$voltage3 = $u3;
+$current3 = $i3;
+$power3 = $s3;
+$frequency3 = $f3;
 
 /*---------------------------------------------*/
 
@@ -268,11 +355,11 @@ ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_addres
 
 }//while
 
-}//foreach
+//}//foreach
 // call new web page, then exit
 
-if ($electrical_status) {
+/*if ($electrical_status) {
   $lines = file("http://192.168.0.211/joomla/index.php/connect-meter");
-}
+}*/
 
 require(JModuleHelper::getLayoutPath('mod_dianbiao', 'default'));

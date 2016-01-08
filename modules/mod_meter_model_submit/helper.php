@@ -18,13 +18,13 @@ class ModMeterModelSubmitHelper
                 $query = $db->getQuery(true);
 		        $query->select('meter_model_id, command_code');
 		        $query->from($db->quoteName('joomla3_metermodel'));
-		        $query->where($db->quoteName('command_code')." = ".$command_code);
+		        $query->where($db->quoteName('meter_model')." = ".$meter_model);
 
-                //$query = 'SELECT * FROM joomla3_metermodel WHERE command_code ='.$command_code;
+                //$query = 'SELECT * FROM joomla3_metermodel WHERE meter_model ='.$meter_model;
                 $db->setQuery($query);
                 $result = $db->loadResult();
                 if($result != ""){
-					echo " <script>alert('数据库中已存在相同的指令码！ 记录序号：".$result."');history.back(); </script>";
+					echo " <script>alert('数据库中已存在相同的电表型号！ 记录序号：".$result."');history.back(); </script>";
 				}else{
 
 			   // Create and populate an object.

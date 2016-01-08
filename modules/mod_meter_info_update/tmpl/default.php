@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     electromonitor.com
- * @subpackage  mod_meter_model_submit
+ * @subpackage  mod_meter_info_update
  *
- * @copyright   Copyright (C) 2015 All rights reserved.
+ * @copyright   Copyright (C) 2016 All rights reserved.
  */
 
 defined('_JEXEC') or die;
@@ -14,9 +14,8 @@ defined('_JEXEC') or die;
 </head>
 
 
-<div id="electrical">
-    <h1>电表信息提交数据</h1>
-    正在返回......
+<div id="meter_info">
+    
           
    
 </div>
