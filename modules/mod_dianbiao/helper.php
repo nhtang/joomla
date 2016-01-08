@@ -55,9 +55,11 @@ class ModDianbiaoHelper
 	public function getMeterModelValus($meter_model) {
 		  // read MeterModelValus
 		  $db = JFactory::getDBO();
-          $query = 'SELECT * FROM #__metermodel where meter_model = '.$meter_model ;
+          $query = 'SELECT * FROM #__metermodel where meter_model = '.$meter_model.' limit 1' ;
           $db->setQuery($query);
-          $result = $db->loadObjectList();  
+          $result = $db->loadObjectList(); 
+		  
+		  return $result;
           /*foreach($result as $row)
           {
             // echo ' id is '.$row->meter_model_id.' meter_model is ' . $row->meter_model .'<br/>';

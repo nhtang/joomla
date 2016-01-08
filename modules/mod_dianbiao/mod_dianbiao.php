@@ -5,27 +5,44 @@
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
-
+//error_reporting( E_ALL&~E_NOTICE );
 defined('_JEXEC') or die;
 
 // Include the functions only once
 require_once __DIR__ . '/helper.php';
+require_once __DIR__ . '/conn.php';
 
 JHTML::stylesheet('styles.css','modules/mod_dianbiao/css/');
 
 //$electrical_status = JRequest::getVar('electrical_status', '-1');
 //$quantity = JRequest::getVar('quantity', '0');
-$meter_model = JRequest::getVar('location_id', '-1');  //get location_id 
+$location_id = JRequest::getVar('location_id', '-1');  //get location_id 
+$meter_address = JRequest::getVar('meter_address', '-1');  //get location_id 
 $meter_model = JRequest::getVar('meter_model', '-1');  //get meter_model 
+//echo  $location_id ."-". $meter_address ."-". $meter_address;
 if($meter_model == "-1"){
 	echo "<script>alert('请先选择要采集的电表！');history.back(); </script>";
 }
 
 //system("gpio")
 
-//read meter_model values from table joomla3_metermodel
-ModDianBiaoHelper::getMeterModelValus($meter_model);
-foreach($result as $row){
+  //read meter_model values from table joomla3_metermodel
+  //$result = ModDianBiaoHelper::getMeterModelValus($meter_model);
+  /*$db = JFactory::getDBO();
+  $query = 'SELECT * FROM #__metermodel where meter_model = '.$meter_model ;
+  $db->setQuery($query);
+  $result = $db->loadObjectList();
+   
+  foreach($result as $row){*/
+    
+	$sql = "select * from joomla3_metermodel where meter_model = '$meter_model' order by meter_model_id desc";
+	$rs = mysql_query($sql);
+	//$rsnum = mysql_num_rows($rs);
+	$row = mysql_fetch_array($rs);
+	if($row == ""){
+		echo "<script>alert('数据库中还没有此电表型号记录！请录入！');history.back();</script>";
+	}
+    
 	$device_id = $row['address_code'];
 	$biao_command_code = $row['function_code'];
 	$var_len = $row['var_len'];
@@ -38,7 +55,7 @@ foreach($result as $row){
 	$strArr=explode(',',$data_index); //explode $data_index
 	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
 	for($i = 0; $i<$arr_num ; $i++){
-        echo $i.':'.$strArr[$i].'<br/>';
+        //echo $i.':'.$strArr[$i].'<br/>';
     }
 	
     
@@ -109,10 +126,10 @@ foreach($result as $row){
 
 
 
-$u2_checksum = "15 cc"; // checksum for u2
-$i2_checksum = "d5 c0"; // checksum for i2
-$s2_checksum = "35 df"; // checksum for s2
-$f2_checksum = "b4 1d"; // checksum for f2
+$u1_checksum = "15 cc"; // checksum for u2
+$i1_checksum = "d5 c0"; // checksum for i2
+$s1_checksum = "35 df"; // checksum for s2
+$f1_checksum = "b4 1d"; // checksum for f2
 
 
 
@@ -122,7 +139,7 @@ $electrical_status = ModDianBiaoHelper::getElectricalStatus();
 //$electrical_status=1;
 $k = 0;
 //while ($k<5){
-while ( ($k<5) && ($electrical_status) ) {
+while ( ($k<1) && ($electrical_status) ) {
 $k++;
 //echo "$k <br>";
 //$electrical_status = ModDianBiaoHelper::getElectricalStatus();
@@ -170,9 +187,12 @@ echo " i1 : $i1 <br>";
 echo " s1 : $s1 <br>";
 echo " f1 : $f1 <br>";
 
+$voltage1 = $u1;
+$current1 = $i1;
+$power1 = $s1;
+$frequency1 = $f1;
 
-
-/*-----------------------------------------------*/
+/*-----------------------------------------------
 // second array to the table joomla3_electrical u2, i2, s2, f2
 $var_address = $u2_address;
 $checksum = $u2_checksum;
@@ -212,8 +232,12 @@ echo " i2 : $i2 <br>";
 echo " s2 : $s2 <br>";
 echo " f2 : $f2 <br>";
 
+$voltage2 = $u2;
+$current2 = $i2;
+$power2 = $s2;
+$frequency2 = $f2;
 
-/*-----------------------------------------------*/
+/*-----------------------------------------------
 // third array to the table joomla3_electrical  u3, i3, s3, f3
 $var_address = $u3_address;
 $checksum = $u3_checksum;
@@ -253,6 +277,10 @@ echo " i3 : $i3 <br>";
 echo " s3 : $s3 <br>";
 echo " f3 : $f3 <br>";
 
+$voltage3 = $u3;
+$current3 = $i3;
+$power3 = $s3;
+$frequency3 = $f3;
 
 /*---------------------------------------------*/
 
@@ -268,11 +296,11 @@ ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_addres
 
 }//while
 
-}//foreach
+//}//foreach
 // call new web page, then exit
 
-if ($electrical_status) {
+/*if ($electrical_status) {
   $lines = file("http://192.168.0.211/joomla/index.php/connect-meter");
-}
+}*/
 
 require(JModuleHelper::getLayoutPath('mod_dianbiao', 'default'));

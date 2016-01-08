@@ -30,7 +30,7 @@ defined('_JEXEC') or die;
     $pagesize=10;
 	
     
-    $sql = "select * from joomla3_metermodel  order by meter_model_id desc";
+    $sql = "select * from joomla3_metermodel order by meter_model_id desc";
 	$rs = mysql_query($sql);
 	$rsnum = mysql_num_rows($rs); 
 	 
@@ -184,16 +184,16 @@ defined('_JEXEC') or die;
            寄存器个数：
         <input id="storage_numbers" name="storage_numbers" type="text" size="10" value="" /><br>
            校&nbsp;&nbsp;验&nbsp;&nbsp;码：
-        <input id="check_code" name="check_code" type="text" size="10" value="" /><br>
+        <input class="input-xxlarge" id="check_code" name="check_code" type="text" size="10" value="" /><br>
 		   参数位置：&nbsp;
         <input class="input-xxlarge" id="data_index" name="data_index" type="text"  value="" /><br>
           <font style="color:#5d5d5d;"> 
-		    * 参数位置的填写模式为：( u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx )
+		    * 校验码、参数位置的填写模式为：( u1-00 10 / u2-00 15 / u3-00 20 / i1-00 11 / i2-xx xx / i3-xx xx / s1-xx xx / s2-xx xx / s3-xx xx / f1-xx xx / f2-xx xx / f3-xx xx )
 		  </font>
 		   <?php
-            		   
+            /*		   
 		    echo '<br/>';
-			$str = "     u1-00 10, u2-0x 20, u3-30, i1-11, i2-15, i3-19";
+			$str = "u1-00 10, u2-0x 20, u3-30, i1-11, i2-15, i3-19";
 		    $strArr=explode(',',$str); //explode str
 			$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
 			for($i = 0; $i<$arr_num ; $i++){
@@ -203,7 +203,7 @@ defined('_JEXEC') or die;
 			$var_u1 = $strArr[0]; 
 	        $u1_address = explode("-",$var_u1);
 	        echo $u1_address[1]; 
-			
+			*/
 		   ?>
 		<br>
     <div>
