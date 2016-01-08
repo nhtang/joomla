@@ -54,8 +54,8 @@ if($meter_model == "-1"){
 	
 	//example :$data_index = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
 	$strArr=explode(',',$data_index); //explode $data_index
-	$arr_num_check = sizeof($strArr); //cout array numbers or // $arr_num_check = count($strArr);
-	for($i = 0; $i<$arr_num_check ; $i++){
+	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
+	for($i = 0; $i<$arr_num ; $i++){
         //echo $i.':'.$strArr[$i].'<br/>';
     }
 	
@@ -190,7 +190,10 @@ if($meter_model == "-1"){
 //$s1_checksum = "35 df"; // checksum for s2
 //$f1_checksum = "b4 1d"; // checksum for f2
 
-
+echo $u1_checksum ; // checksum for u2
+echo $i1_checksum ; // checksum for i2
+echo $s1_checksum ; // checksum for s2
+echo $f1_checksum ; // checksum for f2
 
 //$send = exec("sudo /usr/bin/./mod_dianbiao 01 03 00 19 00 02 15 cc", $output);
 
