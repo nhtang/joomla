@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     electromonitor.com
- * @subpackage  mod_dianbiao
+ * @subpackage  mod_meter_connect
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 require_once __DIR__ . '/conn.php';
 
-JHTML::stylesheet('styles.css','modules/mod_dianbiao/css/');
+JHTML::stylesheet('styles.css','modules/mod_meter_connect/css/');
 
 //$electrical_status = JRequest::getVar('electrical_status', '-1');
 //$quantity = JRequest::getVar('quantity', '0');
@@ -195,7 +195,7 @@ echo $i1_checksum ; // checksum for i2
 echo $s1_checksum ; // checksum for s2
 echo $f1_checksum ; // checksum for f2
 
-//$send = exec("sudo /usr/bin/./mod_dianbiao 01 03 00 19 00 02 15 cc", $output);
+//$send = exec("sudo /usr/bin/./mod_meter_connect 01 03 00 19 00 02 15 cc", $output);
 
 $electrical_status = ModDianBiaoHelper::getElectricalStatus();
 //$electrical_status=1;
@@ -214,7 +214,7 @@ $k++;
 $var_address = $u1_address;
 $checksum = $u1_checksum;
 unset($u1_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $u1_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $u1_output);
 if(is_array($u1_output)){
 	echo "<script>alert('返回的电压数据为空！');history.back();</script>";
 }else{
@@ -231,7 +231,7 @@ $u1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 $var_address = $i1_address;
 $checksum = $i1_checksum;
 unset($i1_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $i1_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $i1_output);
 if(is_array($i1_output)){
 	echo "<script>alert('返回的电流数据为空！');history.back();</script>";
 }else{
@@ -243,7 +243,7 @@ $i1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 $var_address = $s1_address;
 $checksum = $s1_checksum;
 unset($s1_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $s1_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $s1_output);
 if(is_array($s1_output)){
 	echo "<script>alert('返回的功率数据为空！');history.back();</script>";
 }else{
@@ -255,7 +255,7 @@ $s1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 $var_address = $f1_address;
 $checksum = $f1_checksum;
 unset($f1_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $f1_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $f1_output);
 if(is_array($f1_output)){
 	echo "<script>alert('返回的频率数据为空！');history.back();</script>";
 }else{
@@ -278,7 +278,7 @@ $frequency1 = $f1;
 $var_address = $u2_address;
 $checksum = $u2_checksum;
 unset($u2_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $u2_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $u2_output);
 foreach($u2_output AS $u2_temp){
 //echo " $u2_temp ";
 }
@@ -289,21 +289,21 @@ $u2 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 $var_address = $i2_address;
 $checksum = $i2_checksum;
 unset($i2_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $i2_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $i2_output);
 $hexString = $i2_output[3] . $i2_output[4] . $i2_output[5] . $i2_output[6];
 $i2 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
 $var_address = $s2_address;
 $checksum = $s2_checksum;
 unset($s2_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $s2_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $s2_output);
 $hexString = $s2_output[3] . $s2_output[4] . $s2_output[5] . $s2_output[6];
 $s2 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
 $var_address = $f2_address;
 $checksum = $f2_checksum;
 unset($f2_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $f2_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $f2_output);
 $hexString = $f2_output[3] . $f2_output[4] . $f2_output[5] . $f2_output[6];
 $f2 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
@@ -323,7 +323,7 @@ $frequency2 = $f2;
 $var_address = $u3_address;
 $checksum = $u3_checksum;
 unset($u3_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $u3_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $u3_output);
 foreach($u3_output AS $u3_temp){
 //echo " $u3_temp ";
 }
@@ -334,21 +334,21 @@ $u3 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 $var_address = $i3_address;
 $checksum = $i3_checksum;
 unset($i3_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $i3_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $i3_output);
 $hexString = $i3_output[3] . $i3_output[4] . $i3_output[5] . $i3_output[6];
 $i3 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
 $var_address = $s3_address;
 $checksum = $s3_checksum;
 unset($s3_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $s3_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $s3_output);
 $hexString = $s3_output[3] . $s3_output[4] . $s3_output[5] . $s3_output[6];
 $s3 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
 $var_address = $f3_address;
 $checksum = $f3_checksum;
 unset($f3_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $f3_output);
+$send = exec("sudo /usr/bin/./mod_meter_connect $device_id $biao_command_code $var_address $var_len $checksum", $f3_output);
 $hexString = $f3_output[3] . $f3_output[4] . $f3_output[5] . $f3_output[6];
 $f3 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
@@ -384,6 +384,6 @@ ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_addres
   //$lines = file("http://127.0.0.1/joomla/index.php/meter-connect");
 }*/
 
-require(JModuleHelper::getLayoutPath('mod_dianbiao', 'default'));
+require(JModuleHelper::getLayoutPath('mod_meter_connect', 'default'));
 	}//else no meter_model
 }//else //meter_model == "-1"

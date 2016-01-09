@@ -40,7 +40,7 @@ class ModMeterModelSubmitHelper
                 $db = JFactory::getDbo();
                 $query = $db->getQuery(true);
                 $query->select('metermodel, command_code, var_len, datetime_create');
-                $query->from($db->quoteName('joomal3_metermodel'));
+                $query->from($db->quoteName('joomla3_metermodel'));
                 $query->where($db->quoteName('meter_model_id')." = ".$db->quote(1));
 
                 $db->setQuery($query);
@@ -67,7 +67,7 @@ class ModMeterModelSubmitHelper
 				$profile->data_index = $data_index;
 
                 // Insert the object into the user profile table.
-                $result = JFactory::getDbo()->insertObject('joomal3_metermodel', $profile);
+                $result = JFactory::getDbo()->insertObject('joomla3_metermodel', $profile);
 				if($result==true){
 					echo "<script>alert('录入成功！');history.back(); </script>";
 				}else{

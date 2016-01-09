@@ -42,7 +42,7 @@ class ModDianbiaoHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('electrical_status');
-		$query->from($db->quoteName('joomal3_electrical_status'));
+		$query->from($db->quoteName('joomla3_electrical_status'));
 		$query->where($db->quoteName('location_id')." = ".$db->quote(1));
 
 		$db->setQuery($query);
@@ -79,7 +79,7 @@ class ModDianbiaoHelper
 		$profile->phase1_frequency = $f;
 
 		// Insert the object into the user profile table.
-		$result = JFactory::getDbo()->insertObject('joomal3_electrical', $profile);
+		$result = JFactory::getDbo()->insertObject('joomla3_electrical', $profile);
 
 	}
 }

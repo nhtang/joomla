@@ -39,7 +39,7 @@ class ModMeterInfoHelper
 		    $db = JFactory::getDbo();
 		    $query = $db->getQuery(true);
 		    $query->select('electrical_status');
-		    $query->from($db->quoteName('joomal3_electrical_status'));
+		    $query->from($db->quoteName('joomla3_electrical_status'));
 		    $query->where($db->quoteName('location_id')." = ".$db->quote(1));
 
 		    $db->setQuery($query);
