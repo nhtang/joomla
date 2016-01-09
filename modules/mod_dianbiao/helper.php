@@ -55,7 +55,7 @@ class ModDianbiaoHelper
 	public function getMeterModelValus($meter_model) {
 		  // read MeterModelValus
 		  $db = JFactory::getDBO();
-          $query = 'SELECT * FROM #__metermodel where meter_model = '.$meter_model.' limit 1' ;
+          $query = 'SELECT * FROM joomla3_metermodel where meter_model = '.$meter_model.' limit 1' ;
           $db->setQuery($query);
           $result = $db->loadObjectList(); 
 		  

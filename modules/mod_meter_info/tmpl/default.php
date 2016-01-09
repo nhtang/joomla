@@ -51,11 +51,11 @@ defined('_JEXEC') or die;
 ?>
  
  <tr align=center >
-  <td width=50px><b>序号</font></td>
-  <td width=50px><b>位置码</font></td>
-  <td width=100px><b>表地址</font></td> 
-  <td width=100px><b>电表型号</font></td> 
-  <td width=100px><b></font></td> 
+  <td width=50px><b>序号</td>
+  <td width=50px><b>位置码</td>
+  <td width=100px><b>表地址</td> 
+  <td width=100px><b>电表型号</td> 
+  <td width=100px><b>采集数据</td> 
  </tr>
 
     <?php		
@@ -70,8 +70,7 @@ defined('_JEXEC') or die;
  
    <td align="center" >
       <a href="index.php/meter-info-fix?info_id=<?php echo $info_id; ?>
-	  " title="记录序号：
-	  <?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
+	  " title="点击修改：<?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
 	  <?php echo $info_id;?>
 	  </a>
 	  </td>
@@ -83,8 +82,7 @@ defined('_JEXEC') or die;
 	   &location_id=<?php echo $location_id; ?>
 	   &meter_address=<?php echo $meter_address; ?>
 	   &meter_model=<?php echo $meter_model; ?>
-	   " title="记录序号：
-	   <?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
+	   " title="点击采集：<?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
 	   <?php echo $info_id;?>
 	  </a>
 	</td>

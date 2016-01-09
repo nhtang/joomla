@@ -15,7 +15,7 @@ class ModMeterModelHelper
 		  // read meter_model values
 		   $db = JFactory::getDBO();
 
-          $query = 'SELECT * FROM #__meter_info order by info_id desc';
+          $query = 'SELECT * FROM joomla3_meter_info order by info_id desc';
           $db->setQuery($query);
           $result = $db->loadObjectList();
           /*foreach($result as $row)

@@ -22,14 +22,14 @@ $meter_model = JRequest::getVar('meter_model', '-1');  //get meter_model
 //echo  $location_id ."-". $meter_address ."-". $meter_address;
 if($meter_model == "-1"){
 	echo "<script>alert('请先选择要采集的电表！');history.back(); </script>";
-}
+}else{
 
 //system("gpio")
 
   //read meter_model values from table joomla3_metermodel
   //$result = ModDianBiaoHelper::getMeterModelValus($meter_model);
   /*$db = JFactory::getDBO();
-  $query = 'SELECT * FROM #__metermodel where meter_model = '.$meter_model ;
+  $query = 'SELECT * FROM joomla3_metermodel where meter_model = '.$meter_model ;
   $db->setQuery($query);
   $result = $db->loadObjectList();
    
@@ -41,7 +41,7 @@ if($meter_model == "-1"){
 	$row = mysql_fetch_array($rs);
 	if($row == ""){
 		echo "<script>alert('数据库中还没有此电表型号记录！请录入！');history.back();</script>";
-	}
+	}else{
     
 	$device_id = $row['address_code'];
 	$biao_command_code = $row['function_code'];
@@ -215,34 +215,53 @@ $var_address = $u1_address;
 $checksum = $u1_checksum;
 unset($u1_output);
 $send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $u1_output);
-foreach($u1_output AS $u1_temp){
-//echo " $u1_temp ";
-}
+if(is_array($u1_output)){
+	echo "<script>alert('返回的电压数据为空！');history.back();</script>";
+}else{
+
+/*foreach($u1_output AS $u1_temp){
+echo " $u1_temp ";
+}*/
 
 $hexString = $u1_output[3] . $u1_output[4] . $u1_output[5] . $u1_output[6];
 $u1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+}
+
 
 $var_address = $i1_address;
 $checksum = $i1_checksum;
 unset($i1_output);
 $send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $i1_output);
+if(is_array($i1_output)){
+	echo "<script>alert('返回的电流数据为空！');history.back();</script>";
+}else{
 $hexString = $i1_output[3] . $i1_output[4] . $i1_output[5] . $i1_output[6];
 $i1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+}
+
 
 $var_address = $s1_address;
 $checksum = $s1_checksum;
 unset($s1_output);
 $send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $s1_output);
+if(is_array($s1_output)){
+	echo "<script>alert('返回的功率数据为空！');history.back();</script>";
+}else{
 $hexString = $s1_output[3] . $s1_output[4] . $s1_output[5] . $s1_output[6];
 $s1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+}
+
 
 $var_address = $f1_address;
 $checksum = $f1_checksum;
 unset($f1_output);
 $send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $f1_output);
+if(is_array($f1_output)){
+	echo "<script>alert('返回的频率数据为空！');history.back();</script>";
+}else{
 $hexString = $f1_output[3] . $f1_output[4] . $f1_output[5] . $f1_output[6];
 $f1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
-
+}
 
 echo " u1 : $u1 <br>";
 echo " i1 : $i1 <br>";
@@ -362,7 +381,9 @@ ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_addres
 // call new web page, then exit
 
 /*if ($electrical_status) {
-  $lines = file("http://192.168.0.211/joomla/index.php/connect-meter");
+  //$lines = file("http://127.0.0.1/joomla/index.php/meter-connect");
 }*/
 
 require(JModuleHelper::getLayoutPath('mod_dianbiao', 'default'));
+	}//else no meter_model
+}//else //meter_model == "-1"

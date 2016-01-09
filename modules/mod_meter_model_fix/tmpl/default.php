@@ -41,11 +41,11 @@ defined('_JEXEC') or die;
            寄存器个数：
         <input id="storage_numbers" name="storage_numbers" type="text" size="10" value="<?php echo $storage_numbers; ?>" /><br>
            校&nbsp;&nbsp;验&nbsp;&nbsp;码：
-        <input id="check_code" name="check_code" type="text" size="10" value="<?php echo $check_code; ?>" /><br>
+        <input class="input-xxlarge" id="check_code" name="check_code" type="text" size="10" value="<?php echo $check_code; ?>" /><br>
 		   参数位置：&nbsp;
         <input class="input-xxlarge" id="data_index" name="data_index" type="text"  value="<?php echo $data_index; ?>" /><br>
           <font style="color:#5d5d5d;"> 
-		    * 参数位置的填写模式为：( u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx )
+		    * 校验码、参数位置的填写模式为：( u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx )
 		  </font>
 
     <div>

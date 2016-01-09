@@ -54,7 +54,7 @@ class ModMeterInfoHelper
 			$db = JFactory::getDBO();
 			$query = $db -> getQuery(true);
 			$query -> select('*');
-			$query -> from($db->quoteName('#__meter_info'));
+			$query -> from($db->quoteName('joomla3_meter_info'));
 			$query -> where($db->quoteName('info_id')." = ".$info_id );
 			$db -> setQuery($query);
 			$result = $db->loadObjectList();  
