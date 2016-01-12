@@ -26,7 +26,7 @@ class ModMeterInfoUpdateHelper
                 $db->setQuery($query);
                 $result = $db->loadResult();
                 if($result != ""){
-					echo " <script>alert('数据库中已存在相同的记录！ 记录序号：".$result."');history.back(); </script>";
+					echo " <script>alert('数据库中已存在位置、表地址码相同的记录！ 记录序号：".$result."');history.back(); </script>";
 				}else{
 				
 				

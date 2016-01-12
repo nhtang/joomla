@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * @package     electromonitor.com
  * @subpackage  mod_meter_model
@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
     $noterecs=0; 
     $pagesize=10;
 	
-	echo "--1'";
+
     
     $sql = "select * from joomla3_metermodel order by meter_model_id desc";
 	$rs = mysql_query($sql);
@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
 		echo $none_data;}
     else{
 		
-		echo "--2'";
+		
 		$pagecount=ceil($rsnum/$pagesize); 
         mysql_data_seek($rs,($notepage-1)*$pagesize); 	
         
@@ -56,10 +56,10 @@ defined('_JEXEC') or die;
   <td width=100px><b>生产厂名</font></td> 
   <td width=100px><b>指令码</font></td> 
   <td width=50px><b>长度</font></td> 
-  <td width=100px><b>地址码</font></td>
+  <td width=100px><b>表地址码</font></td>
   <td width=100px><b>功能码</font></td>
   <td width=140px><b>起始寄存器地址</font></td>
-  <td width=110px><b>寄存器个数</font></td>
+  <td width=110px><b>寄存器长度</font></td>
   <td width=100px><b>校验码</font></td>
   <td width=100px><b>参数位置</font></td>
  </tr>
@@ -79,7 +79,7 @@ defined('_JEXEC') or die;
 	      $check_code = $row['check_code'];
 		  $data_index = $row['data_index'];
 		  
-		  echo "--3'";
+		 
     ?> 
  <tr  onmouseover="this.style.backgroundColor='#e5ff00'" onmouseout="this.style.backgroundColor='#ffffff'" style="font-size:12px;color:#000035;">
  
@@ -103,7 +103,7 @@ defined('_JEXEC') or die;
 
 
     <?php  
-        echo "--3'";
+        
         $noterecs = $noterecs+1; 
         $i = $i+1;
         }//while 
@@ -178,13 +178,13 @@ defined('_JEXEC') or die;
         <input id="command_code" name="command_code" type="text" size="10" value="" /><br>
            长&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：
         <input id="var_len" name="var_len" type="text" size="10" value="" /><br>
-           地&nbsp;&nbsp;址&nbsp;&nbsp;码：
+           表地址码:&nbsp;
         <input id="address_code" name="address_code" type="text" size="10" value="" /><br>
            功&nbsp;&nbsp;能&nbsp;&nbsp;码：
         <input id="function_code" name="function_code" type="text" size="10" value="" /><br>
            起始寄存器地址：
         <input id="storage_start_address" name="storage_start_address" type="text" size="10" value="" /><br>
-           寄存器个数：
+           寄存器长度：
         <input id="storage_numbers" name="storage_numbers" type="text" size="10" value="" /><br>
            校&nbsp;&nbsp;验&nbsp;&nbsp;码：
         <input class="input-xxlarge" id="check_code" name="check_code" type="text" size="10" value="" /><br>

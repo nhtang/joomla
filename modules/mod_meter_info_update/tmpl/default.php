@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 
 
 <div id="meter_info">
-    
+    正在返回......
           
    
 </div>

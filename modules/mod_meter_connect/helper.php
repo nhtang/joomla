@@ -42,7 +42,7 @@ class ModDianbiaoHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('electrical_status');
-		$query->from($db->quoteName('joomla3_electrical_status'));
+		$query->from($db->quoteName('joomal3_electrical_status'));
 		$query->where($db->quoteName('location_id')." = ".$db->quote(1));
 
 		$db->setQuery($query);
@@ -67,16 +67,27 @@ class ModDianbiaoHelper
 	}
 	
 	
-	public function insertElectricalValues($datetime, $location_id, $meter_address, $u, $i, $s, $f) {
+	public function insertElectricalValues($datetime, $location_id, $meter_address, $u1, $i1, $s1, $f1, $u2, $i2, $s2, $f2, $u3, $i3, $s3, $f3) {
 		// Create and populate an object.
 		$profile = new stdClass();
 		$profile->location_id = $location_id;
 		$profile->meter_address = $meter_address;
 		$profile->datetime = $datetime;
-		$profile->phase1_voltage = $u;
-		$profile->phase1_current = $i;
-		$profile->phase1_apparent_power = $s;
-		$profile->phase1_frequency = $f;
+		
+		$profile->phase1_voltage = $u1;
+		$profile->phase1_current = $i1;
+		$profile->phase1_apparent_power = $s1;
+		$profile->phase1_frequency = $f1;
+		
+		$profile->phase2_voltage = $u2;
+		$profile->phase2_current = $i2;
+		$profile->phase2_apparent_power = $s2;
+		$profile->phase2_frequency = $f2;
+		
+		$profile->phase3_voltage = $u3;
+		$profile->phase3_current = $i3;
+		$profile->phase3_apparent_power = $s3;
+		$profile->phase3_frequency = $f3;
 
 		// Insert the object into the user profile table.
 		$result = JFactory::getDbo()->insertObject('joomla3_electrical', $profile);

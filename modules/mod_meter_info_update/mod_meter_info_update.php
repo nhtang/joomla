@@ -17,7 +17,7 @@ $info_id = trim(JRequest::getVar('info_id', '-1'));
 
 if($info_id == "-1"){
     mysql_close();
-    echo "<script>alert('请先修改记录！');history.back(); </script>";
+    echo "<script>alert('请先选择要修改记录！');history.back(); </script>";
 }else{
 	  
 	  $location_id = trim(JRequest::getVar('location_id', '-1'));

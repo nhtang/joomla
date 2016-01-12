@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_meter_connect</name>
-	<author>Sam</author>
+	<author>Tang</author>
 	<creationDate>1 2016</creationDate>
 	<copyright>Copyright (C) 2015 All rights reserved.</copyright>
 	<authorEmail>admin@electromonitor.com</authorEmail>

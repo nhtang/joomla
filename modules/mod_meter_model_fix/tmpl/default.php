@@ -32,13 +32,13 @@ defined('_JEXEC') or die;
         <input id="command_code" name="command_code" type="text" size="10" value="<?php echo $command_code; ?>" /><br>
            长&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：
         <input id="var_len" name="var_len" type="text" size="10" value="<?php echo $var_len; ?>" /><br>
-           地&nbsp;&nbsp;址&nbsp;&nbsp;码：
+           表地址码：&nbsp;
         <input id="address_code" name="address_code" type="text" size="10" value="<?php echo $address_code; ?>" /><br>
            功&nbsp;&nbsp;能&nbsp;&nbsp;码：
         <input id="function_code" name="function_code" type="text" size="10" value="<?php echo $function_code; ?>" /><br>
            起始寄存器地址：
         <input id="storage_start_address" name="storage_start_address" type="text" size="10" value="<?php echo $storage_start_address; ?>" /><br>
-           寄存器个数：
+           寄存器长度：
         <input id="storage_numbers" name="storage_numbers" type="text" size="10" value="<?php echo $storage_numbers; ?>" /><br>
            校&nbsp;&nbsp;验&nbsp;&nbsp;码：
         <input class="input-xxlarge" id="check_code" name="check_code" type="text" size="10" value="<?php echo $check_code; ?>" /><br>
