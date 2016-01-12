@@ -43,7 +43,7 @@ class ModMeterModelSubmitHelper
 				
                 // Insert the object into the user profile table.
                 $result2 = JFactory::getDbo()->insertObject('joomla3_metermodel', $profile);
-				  if($result2==true){
+				  if($result2 == true){
 					  echo "<script>alert('录入成功！');history.back(); </script>";
 				  }else{
 					  echo "<script>alert('录入失败，请重新录入！');history.back(); </script>";

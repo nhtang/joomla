@@ -57,7 +57,7 @@ class ModMeterInfoHelper
 			$query -> from($db->quoteName('joomla3_meter_info'));
 			$query -> where($db->quoteName('info_id')." = ".$info_id );
 			$db -> setQuery($query);
-			$result = $db->loadObjectList();  
+			$result = $db->loadAssocList();  
             return $result;
 		}
 		

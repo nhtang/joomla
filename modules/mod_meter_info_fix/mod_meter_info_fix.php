@@ -5,8 +5,6 @@
  *
  * @copyright   Copyright (C) 2016 All rights reserved.
  */
- 
- //header('Content-type:text/html;charset=utf8');
 
 defined('_JEXEC') or die;
 
@@ -20,24 +18,25 @@ if($info_id == "-1"){
     echo "<script>alert('请先选择要更新的记录！');history.back(); </script>";
 }else{
 	
-	ModMeterInfoHelper::getMeterInfoValues($info_id);
+	$result = ModMeterInfoHelper::getMeterInfoValues($info_id);
 	//ModMeterInfoHelper::getElectricalStatus();
 	
-    $sq = "select * from joomla3_meter_info where info_id = '$info_id' ";
+    /*$sq = "select * from joomla3_meter_info where info_id = '$info_id' ";
 	$rst = mysql_query($sq);
 	//$rsnum = mysql_num_rows($rst);
-    $row = mysql_fetch_array($rst);
+    $row = mysql_fetch_array($rst);*/
    
-    //foreach ($result as $row)
-    if($row == ""){
+    
+    if($result == ""){
       mysql_close();
       echo " <script>alert('不存在的记录项！');history.back(); </script>";
     }else{
-		
+	  foreach ($result as $row){
 	  $location_id = $row['location_id'];
 	  $meter_address = $row['meter_address'];
 	  $meter_model = $row['meter_model'];
-	  
+	  $data_select = $row['data_select'];
+	  }
 		
 	  date_default_timezone_set('Asia/Singapore');
       $datetime = date('Y-m-d H:i:s');

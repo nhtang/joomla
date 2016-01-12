@@ -12,12 +12,10 @@ defined('_JEXEC') or die;
 
 // Include the functions only once
 require_once __DIR__ . '/helper.php';
-//require_once __DIR__ . '/conn.php';
 
-JHTML::stylesheet('override.css','modules/mod_meter_model_submit/css/');
 JHTML::stylesheet('style.css','modules/mod_meter_model_submit/css/');
 
-@$meter_model = trim(JRequest::getVar('meter_model', '-1')); 
+$meter_model = trim(JRequest::getVar('meter_model', '-1')); 
 
 if($meter_model=="-1"){
          mysql_close();

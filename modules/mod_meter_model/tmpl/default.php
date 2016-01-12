@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
   <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
   <head>
   </head>
-<body>
-
 
 <div id="table" style="padding-top:5px;">
 <table width="710px" align=center  cellpadding="0" cellspacing="0" style="background-color:#F8F8FF;border-left:none;border-top:none;border-right:none;">
@@ -29,6 +27,7 @@ defined('_JEXEC') or die;
     $noterecs=0; 
     $pagesize=10;
 	
+	echo "--1'";
     
     $sql = "select * from joomla3_metermodel order by meter_model_id desc";
 	$rs = mysql_query($sql);
@@ -39,9 +38,11 @@ defined('_JEXEC') or die;
 	if($rsnum == ""){
 		echo $none_data;}
     else{
+		
+		echo "--2'";
 		$pagecount=ceil($rsnum/$pagesize); 
         mysql_data_seek($rs,($notepage-1)*$pagesize); 	
-
+        
         if ($notepage == 1){
 	      $i=1;
         }else{
@@ -77,6 +78,8 @@ defined('_JEXEC') or die;
 	      $storage_numbers = $row['storage_numbers'];
 	      $check_code = $row['check_code'];
 		  $data_index = $row['data_index'];
+		  
+		  echo "--3'";
     ?> 
  <tr  onmouseover="this.style.backgroundColor='#e5ff00'" onmouseout="this.style.backgroundColor='#ffffff'" style="font-size:12px;color:#000035;">
  
@@ -100,7 +103,7 @@ defined('_JEXEC') or die;
 
 
     <?php  
-       
+        echo "--3'";
         $noterecs = $noterecs+1; 
         $i = $i+1;
         }//while 
@@ -188,23 +191,8 @@ defined('_JEXEC') or die;
 		   参数位置：&nbsp;
         <input class="input-xxlarge" id="data_index" name="data_index" type="text"  value="" /><br>
           <font style="color:#5d5d5d;"> 
-		    * 校验码、参数位置的填写模式为：( u1-00 10 / u2-00 15 / u3-00 20 / i1-00 11 / i2-xx xx / i3-xx xx / s1-xx xx / s2-xx xx / s3-xx xx / f1-xx xx / f2-xx xx / f3-xx xx )
+		    * 校验码、参数位置的填写模式为：( u1-10 , u2-15 , u3-20 , i1-11 , i2-xx , i3-xx , s1-xx , s2-xx , s3-xx , f1-xx , f2-xx , f3-xx )
 		  </font>
-		   <?php
-            /*		   
-		    echo '<br/>';
-			$str = "u1-00 10, u2-0x 20, u3-30, i1-11, i2-15, i3-19";
-		    $strArr=explode(',',$str); //explode str
-			$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
-			for($i = 0; $i<$arr_num ; $i++){
-              echo $i.':'.$strArr[$i].'<br/>';
-            }
-		  
-			$var_u1 = $strArr[0]; 
-	        $u1_address = explode("-",$var_u1);
-	        echo $u1_address[1]; 
-			*/
-		   ?>
 		<br>
     <div>
 	<br>

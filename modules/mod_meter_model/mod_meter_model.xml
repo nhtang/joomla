@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.1" client="site" method="upgrade">
-	<name>mod_meter_model</name>
+	<name>电表型号</name>
 	<author>Tang</author>
-	<creationDate>Dec 2015</creationDate>
+	<creationDate>1 2016</creationDate>
 	<copyright>Copyright (C) 2015 All rights reserved.</copyright>
 	<authorEmail>admin@electromonitor.com</authorEmail>
 	<authorUrl>www.electromonitor.com</authorUrl>
@@ -10,7 +10,7 @@
 	<description>电表型号</description>
 	<files>
 		<filename module="mod_meter_model">mod_meter_model.php</filename>
-		<filename>conn.php</filename>
+		<filename module="mod_meter_model">conn.php</filename>
 		<folder>tmpl</folder>
 		<filename>tmpl/default.php</filename>
 		<filename>css/styles.css</filename>

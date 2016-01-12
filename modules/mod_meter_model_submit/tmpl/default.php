@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die;
 ?>
-
+<html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 </head>
@@ -20,3 +20,4 @@ defined('_JEXEC') or die;
           
    
 </div>
+</html>

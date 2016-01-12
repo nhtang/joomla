@@ -54,7 +54,8 @@ defined('_JEXEC') or die;
   <td width=50px><b>序号</td>
   <td width=50px><b>位置码</td>
   <td width=100px><b>表地址</td> 
-  <td width=100px><b>电表型号</td> 
+  <td width=100px><b>电表型号</td>
+  <td width=100px><b>采集参数项</td>  
   <td width=100px><b>采集数据</td> 
  </tr>
 
@@ -65,6 +66,7 @@ defined('_JEXEC') or die;
           $location_id = $row['location_id'];
 	      $meter_address = $row['meter_address'];
 		  $meter_model = $row['meter_model'];
+		  $data_select = $row['data_select'];
     ?> 
  <tr  onmouseover="this.style.backgroundColor='#e5ff00'" onmouseout="this.style.backgroundColor='#ffffff'" style="font-size:12px;color:#000035;">
  
@@ -77,11 +79,13 @@ defined('_JEXEC') or die;
    <td align="center" ><?php echo $location_id;?></td>
    <td align="center" ><?php echo $meter_address;?></td>
    <td align="center" ><?php echo $meter_model;?></td>
+   <td align="center" ><?php echo $data_select;?></td>
    <td align="center" >
        <a href="index.php/meter-connect?info_id=<?php echo $info_id; ?>
 	   &location_id=<?php echo $location_id; ?>
 	   &meter_address=<?php echo $meter_address; ?>
 	   &meter_model=<?php echo $meter_model; ?>
+	   &data_select=<?php echo $data_select; ?>
 	   " title="点击采集：<?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
 	   <?php echo $info_id;?>
 	  </a>
@@ -162,7 +166,11 @@ defined('_JEXEC') or die;
         <input id="meter_address" name="meter_address" type="text" size="10" value="" /><br>
            电&nbsp;表&nbsp;型&nbsp;号&nbsp;：
         <input id="meter_model" name="meter_model" type="text" size="10" value="" /><br>
-
+		   采集参数项&nbsp;：
+        <input id="data_select" name="data_select" type="text" size="10" value="" /><br>
+		  <font style="color:#5d5d5d;"> 
+		    * 采集参数项的填写模式为：( u1 , u2 , u3 , i1 , i2 , i3 , s1 , s2 , s3 , f1 , f2 , f3 , ... )
+		  </font>
     <div>
 	<br>
 	    <input type="submit" value=" 提  交 "  id="send-btn">
@@ -182,14 +190,26 @@ function javacheck(formct)
 	
       
         
-        if (formct.meter_model.value.replace(/^\s|\s$/g,'') == '') 
+        if (formct.location_id.value.replace(/^\s|\s$/g,'') == '') 
+	{
+		alert('请填写电表位置码！');
+                 formct.location_id.focus();
+		return false; 
+	} 
+
+        if (formct.meter_address.value.replace(/^\s|\s$/g,'') == '') 
+	{
+		alert('请填写电表地址码！');
+                 formct.meter_address.focus();
+		return false; 
+	} 
+	
+	    if (formct.meter_model.value.replace(/^\s|\s$/g,'') == '') 
 	{
 		alert('请填写电表型号！');
                  formct.meter_model.focus();
 		return false; 
 	} 
-
-    
        
 }
 

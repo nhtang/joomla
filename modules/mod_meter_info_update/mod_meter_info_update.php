@@ -23,13 +23,14 @@ if($info_id == "-1"){
 	  $location_id = trim(JRequest::getVar('location_id', '-1'));
 	  $meter_address = trim(JRequest::getVar('meter_address', '-1'));
 	  $meter_model = trim(JRequest::getVar('meter_model', '-1'));
+	  $data_select = trim(JRequest::getVar('data_select', '-1'));
 	  
 		
 	  date_default_timezone_set('Asia/Singapore');
       $datetime = date('Y-m-d H:i:s');
       $datetime_change = $datetime;
 	  
-  ModMeterInfoUpdateHelper::updateMeterInfolValues($datetime_change, $info_id, $location_id, $meter_address, $meter_model );
+  ModMeterInfoUpdateHelper::updateMeterInfolValues($datetime_change, $info_id, $location_id, $meter_address, $meter_model, $data_select );
 
   require(JModuleHelper::getLayoutPath('mod_meter_info_update', 'default'));
 	

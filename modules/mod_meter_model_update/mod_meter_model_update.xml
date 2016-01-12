@@ -10,7 +10,6 @@
 	<description>电表型号数据更新</description>
 	<files>
 		<filename module="mod_meter_model_update">mod_meter_model_update.php</filename>
-		<filename>conn.php</filename>
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>
 		<filename>tmpl/default.php</filename>

@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 // Include the functions only once
 require_once __DIR__ . '/helper.php';
-//require_once __DIR__ . '/conn.php';
 
 JHTML::stylesheet('style.css','modules/mod_meter_info_submit/css/');
 
@@ -25,6 +24,7 @@ if($meter_model == "-1"){
 	   
 $location_id = trim(JRequest::getVar('location_id', '-1'));
 $meter_address =trim(JRequest::getVar('meter_address', '-1'));
+$data_select =trim(JRequest::getVar('data_select', '-1'));
 
 
 date_default_timezone_set('Asia/Singapore');
@@ -33,7 +33,7 @@ $datetime_create = $datetime;
 
 
 // insert to database
-ModMeterInfoSubmitHelper::insertMeterInfoValues($datetime_create, $location_id, $meter_address, $meter_model);
+ModMeterInfoSubmitHelper::insertMeterInfoValues($datetime_create, $location_id, $meter_address, $meter_model, $data_select);
 
   
 	   

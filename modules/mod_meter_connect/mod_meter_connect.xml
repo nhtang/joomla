@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.1" client="site" method="upgrade">
-	<name>链接电表</name>
+	<name>mod_meter_connect</name>
 	<author>Sam</author>
 	<creationDate>1 2016</creationDate>
 	<copyright>Copyright (C) 2015 All rights reserved.</copyright>
@@ -10,6 +10,7 @@
 	<description>链接电表</description>
 	<files>
 		<filename module="mod_meter_connect">mod_meter_connect.php</filename>
+		<filename>conn.php</filename>
 		<filename>helper.php</filename>
 		<folder>tmpl</folder>
 		<filename>tmpl/default.php</filename>
