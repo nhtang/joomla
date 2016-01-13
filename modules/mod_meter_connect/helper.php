@@ -55,15 +55,26 @@ class ModDianbiaoHelper
 	public function getMeterModelValus($meter_model) {
 		  // read MeterModelValus
 		  $db = JFactory::getDBO();
-          $query = 'SELECT * FROM joomla3_metermodel where meter_model = '.$meter_model.' limit 1' ;
+          $query = "SELECT * FROM joomla3_metermodel where meter_model = '$meter_model'";
           $db->setQuery($query);
-          $result = $db->loadObjectList(); 
+          $result = $db->loadAssocList(); 
 		  
 		  return $result;
           /*foreach($result as $row)
           {
             // echo ' id is '.$row->meter_model_id.' meter_model is ' . $row->meter_model .'<br/>';
           }*/
+	}
+	
+	public function getMeterInfoValus($info_id) {
+		  // read MeterModelValus
+		  $db = JFactory::getDBO();
+          $query = "SELECT * FROM joomla3_meter_info where info_id = '$info_id' ";
+          $db->setQuery($query);
+          $rs_info = $db->loadAssocList(); 
+		  
+		  return $rs_info;
+          
 	}
 	
 	

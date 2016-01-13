@@ -16,46 +16,71 @@ JHTML::stylesheet('styles.css','modules/mod_meter_connect/css/');
 
 //$electrical_status = JRequest::getVar('electrical_status', '-1');
 //$quantity = JRequest::getVar('quantity', '0');
+
+$info_id = JRequest::getVar('info_id', '-1');  //get location_id 
 $location_id = JRequest::getVar('location_id', '-1');  //get location_id 
 $meter_address = JRequest::getVar('meter_address', '-1');  //get location_id 
 $meter_model = JRequest::getVar('meter_model', '-1');  //get meter_model 
+
 //echo  $location_id ."-". $meter_address ."-". $meter_address;
 if($meter_model == "-1"){
 	echo "<script>alert('请先选择要采集的电表！');history.back(); </script>";
 }else{
 
 //system("gpio")
+  
 
-  //read meter_model values from table joomla3_metermodel
-  //$result = ModDianBiaoHelper::getMeterModelValus($meter_model);
-  /*$db = JFactory::getDBO();
-  $query = 'SELECT * FROM joomla3_metermodel where meter_model = '.$meter_model ;
-  $db->setQuery($query);
-  $result = $db->loadObjectList();
-   
-  foreach($result as $row){*/
     
-	$sql = "select * from joomla3_metermodel where meter_model = '$meter_model' order by meter_model_id desc";
+	/*$sql = "select * from joomla3_metermodel where meter_model = '$meter_model' order by meter_model_id desc";
 	$rs = mysql_query($sql);
 	//$rsnum = mysql_num_rows($rs);
-	$row = mysql_fetch_array($rs);
-	if($row == ""){
+	$row = mysql_fetch_array($rs);*/
+	
+$result = ModDianBiaoHelper::getMeterModelValus($meter_model);
+	
+  if($result == ""){
 		echo "<script>alert('数据库中还没有此电表型号记录！请录入！');history.back();</script>";
-	}else{
-    
+  }else{
+	  
+    foreach($result as $row){
 	$device_id = $row['address_code'];
 	$biao_command_code = $row['function_code'];
 	$var_len = $row['storage_numbers'];
 	
-        $all_code = $row['command_code'];
+    $all_code = $row['command_code'];
 
 	$meter_model_id = $row['meter_model_id'];
 	$meter_model = $row['meter_model'];
 	$check_code = $row['check_code'];
     $data_index = $row['data_index'];
+	}
 	
-	//example :$data_index = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
-	$strArr=explode(',',$data_index); //explode $data_index
+	
+	echo "start get getMeterInfoValus:<br>";
+	$rs_info = ModDianBiaoHelper::getMeterInfoValus($info_id);
+
+      foreach($rs_info as $row_info){
+	    $data_select = $row_info['data_select'];
+	  }
+	  //explode $data_select    //example :$data_select = "u1,u2,u3,i1"; 
+	  $selArr=explode(',',$data_select); 
+	  $sel_num = sizeof($selArr); //cout array numbers or // $sel_num = count(selArr);
+	  $sel_var = "";
+	  for($l = 0; $l<$sel_num ; $l++){
+        //echo $l.':'.$selArr[$l].'<br/>';
+		//$sel_var = $sel_var.$selArr[$l];
+      }
+	  
+	   //$sel_u1 =  strstr($sel_var, 'u1'); 
+	   //echo "u1--------------------<br>".$sel_u1;  
+	  if (in_array("'u1'", $selArr)) {
+         echo "Got u1";
+      } 
+	
+
+	
+	//explode $data_index    //example :$data_index = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
+	$strArr=explode(',',$data_index); 
 	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
 	for($i = 0; $i<$arr_num ; $i++){
         //echo $i.':'.$strArr[$i].'<br/>';
@@ -66,12 +91,12 @@ if($meter_model == "-1"){
 	$u1_arr = explode("-",$var_u1);
 	$u1_address = $u1_arr[1];   // explode $u1_address
 	
-	// explode $u2_address
+	
 	$var_u2 = $strArr[1]; 
 	$u2_arr = explode("-",$var_u2);
 	$u2_address = $u2_arr[1];
 	
-	// explode $u3_address
+	
 	$var_u3 = $strArr[2]; 
 	$u3_arr = explode("-",$var_u3);
 	$u3_address = $u3_arr[1];
@@ -128,8 +153,9 @@ if($meter_model == "-1"){
 //$var_len = "00 02"; // length of variable
 
 //echo "start explode/ ";
-  //example :$check_code = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
-	$strArr_check=explode(',',$check_code); //explode $check_code
+   
+//explode $check_code   //example :$check_code = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx"; 
+	$strArr_check=explode(',',$check_code); 
 	$arr_num_check = sizeof($strArr_check); //cout array numbers or // $arr_num_check = count($strArr_check);
 	for($i = 0; $i<$arr_num_check ; $i++){
         //echo $i.':'.$strArr_check[$i].'<br/>';
@@ -140,15 +166,15 @@ if($meter_model == "-1"){
 	$u1_arr_check = explode("-",$var_u1_check);
 	$u1_checksum = $u1_arr_check[1];   // explode $u1_checksum
 	
-	// explode $u2_checksum
+	
 	$var_u2_check = $strArr_check[1]; 
 	$u2_arr_check = explode("-",$var_u2_check);
 	$u2_checksum = $u2_arr_check[1];
 	
-	/*/ explode $u3_checksum
+	
 	$var_u3_check = $strArr_check[2]; 
 	$u3_arr_check = explode("-",$var_u3_check);
-	$u3_checksum = $u3_arr_check[1];*/
+	$u3_checksum = $u3_arr_check[1];
     
 	
     $var_i1_check = $strArr_check[3]; 
@@ -159,9 +185,9 @@ if($meter_model == "-1"){
 	$i2_arr_check = explode("-",$var_i2_check);
 	$i2_checksum = $i2_arr_check[1]; 
 	
-	/*$var_i3_check = $strArr_check[5]; 
+	$var_i3_check = $strArr_check[5]; 
 	$i3_arr_check = explode("-",$var_i3_check);
-	$i3_checksum = $i3_arr_check[1];*/	
+	$i3_checksum = $i3_arr_check[1];	
 	
 	
     $var_s1_check = $strArr_check[6]; 
@@ -172,9 +198,9 @@ if($meter_model == "-1"){
 	$s2_arr_check = explode("-",$var_s2_check);
 	$s2_checksum = $s2_arr_check[1]; 
 	
-	/*$var_s3_check = $strArr_check[8]; 
+	$var_s3_check = $strArr_check[8]; 
 	$s3_arr_check = explode("-",$var_s3_check);
-	$s3_checksum = $s3_arr_check[1];*/	
+	$s3_checksum = $s3_arr_check[1];	
 	
 	$var_f1_check = $strArr_check[6]; 
 	$f1_arr_check = explode("-",$var_f1_check);
@@ -184,9 +210,9 @@ if($meter_model == "-1"){
 	$f2_arr_check = explode("-",$var_f2_check);
 	$f2_checksum = $f2_arr_check[1]; 
 	
-	/*$var_f3_check = $strArr_check[8]; 
+	$var_f3_check = $strArr_check[8]; 
 	$f3_arr_check = explode("-",$var_f3_check);
-	$f3_checksum = $f3_arr_check[1];*/	
+	$f3_checksum = $f3_arr_check[1];	
 
 //$u1_checksum = "15 cc"; // checksum for u2
 //$i1_checksum = "d5 c0"; // checksum for i2
@@ -212,32 +238,23 @@ $k++;
 
 
 
-/*-----------------------------------------------*/
-//  frist array data to the table joomla3_electrical u1, i1, s1, f1
-$var_address = $u1_address;
-$checksum = $u1_checksum;
-
 
 echo "<br>all code: $all_code";
-unset($u1_output);
-$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $u1_output);
-sleep(2);
+
 $send2 =  exec("sudo /usr/bin/./mod_dianbiao $all_code", $all_output);
-sleep(2);
-if(is_array($u1_output)==""){
-	echo "<script>alert('返回的电压数据为空！');history.back();</script>";
+//sleep(1);
+if(is_array($all_output)==""){
+	echo "<script>alert('返回的数据为空！');history.back();</script>";
 }else{
  
- $all_nums = sizeof($all_output);
-echo "<br>all_arr: ".$all_nums;
-echo "<br>all return:<br>";
+  $all_nums = sizeof($all_output);
+  echo "<br>all_arr: ".$all_nums;
+  echo "<br>all return:<br>";
 
-foreach($all_output AS $all_temp){
-echo "$all_temp";
-}
+  foreach($all_output AS $all_temp){
+  echo "$all_temp";
+  }
 
-//$hexString = $u1_output[3] . $u1_output[4] . $u1_output[5] . $u1_output[6];
-//$u1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 
 $hex_u1 = $all_output[3] . $all_output[4] . $all_output[5] . $all_output[6];      //Ua
 echo "<br>hex_u1: ".$hex_u1;
@@ -311,25 +328,75 @@ $hex_f3 = $all_output[99] . $all_output[100] . $all_output[101] . $all_output[10
 echo "<br>hex_f3: ".$hex_f3;
 
 
-$all_u1 = ModDianBiaoHelper::hexStringTo32Float($hex_u1);
-$all_u2 = ModDianBiaoHelper::hexStringTo32Float($hex_u2);
-$all_u3 = ModDianBiaoHelper::hexStringTo32Float($hex_u3);
+$all_u1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u1), 2);
+$all_u2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u2), 2);
+$all_u3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u3), 2);
 
-$all_i1 = ModDianBiaoHelper::hexStringTo32Float($hex_i1);
-$all_i2 = ModDianBiaoHelper::hexStringTo32Float($hex_i2);
-$all_i3 = ModDianBiaoHelper::hexStringTo32Float($hex_i3);
+$all_i1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i1), 2);
+$all_i2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i2), 2);
+$all_i3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i3), 2);
 
-$all_s1 = ModDianBiaoHelper::hexStringTo32Float($hex_s1);
-$all_s2 = ModDianBiaoHelper::hexStringTo32Float($hex_s2);
-$all_s3 = ModDianBiaoHelper::hexStringTo32Float($hex_s3);
+$all_s1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_s1), 2);
+$all_s2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_s2), 2);
+$all_s3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_s3), 2);
 
-$all_f1 = ModDianBiaoHelper::hexStringTo32Float($hex_f1);
-$all_f2 = ModDianBiaoHelper::hexStringTo32Float($hex_f2);
-$all_f3 = ModDianBiaoHelper::hexStringTo32Float($hex_f3);
+$all_f1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f1), 2);
+$all_f2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f2), 2);
+$all_f3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f3), 2);
+
+echo "<br>";
+
+$voltage1 = $all_u1;
+$current1 = $all_u1;
+$power1 = $all_u1;
+$frequency1 = $all_u1;
+
+echo "<br>all_1:";
+echo "<br>voltage1 : $voltage1 <br>";
+echo " current1 : $current1 <br>";
+echo " power1 : $power1 <br>";
+echo " frequency1 : $frequency1 <br>";
+
+$voltage2 = $all_u2;
+$current2 = $all_i2;
+$power2 = $all_s2;
+$frequency2 = $all_f2;
+
+echo "<br>all_2:";
+echo "<br>voltage2 : $voltage2 <br>";
+echo " current2 : $current2 <br>";
+echo " power2 : $power2 <br>";
+echo " frequency2 : $frequency2 <br>";
+
+$voltage3 = $all_u3;
+$current3 = $all_i3;
+$power3 = $all_s3;
+$frequency3 = $all_f3;
+
+echo "<br>all_3:";
+echo "<br>voltage3 : $voltage3 <br>";
+echo " current3 : $current3 <br>";
+echo " power3 : $power3 <br>";
+echo " frequency3 : $frequency3 <br>";
 
 }
 
-/*
+
+
+/*//-----------------------------------------------
+//  frist array data to the table joomla3_electrical u1, i1, s1, f1
+$var_address = $u1_address;
+$checksum = $u1_checksum;
+unset($u1_output);
+$send = exec("sudo /usr/bin/./mod_dianbiao $device_id $biao_command_code $var_address $var_len $checksum", $u1_output);
+//sleep(1);
+if(is_array($u1_output)){
+	echo "<script>alert('返回的电压数据为空！');history.back();</script>";
+}else{
+$hexString = $u1_output[3] . $u1_output[4] . $u1_output[5] . $u1_output[6];
+$u1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
+}
+
 $var_address = $i1_address;
 $checksum = $i1_checksum;
 unset($i1_output);
@@ -364,25 +431,18 @@ if(is_array($f1_output)){
 $hexString = $f1_output[3] . $f1_output[4] . $f1_output[5] . $f1_output[6];
 $f1 = ModDianBiaoHelper::hexStringTo32Float($hexString);
 }
-*/
+
 
 echo "<br> u1 : $u1 <br>";
 echo " i1 : $i1 <br>";
 echo " s1 : $s1 <br>";
 echo " f1 : $f1 <br>";
+*/
 
-$voltage1 = $all_u1;
-$current1 = $all_u1;
-$power1 = $all_u1;
-$frequency1 = $all_u1;
 
-echo "<br>all_1:";
-echo "<br>voltage1 : $voltage1 <br>";
-echo " current1 : $current1 <br>";
-echo " power1 : $power1 <br>";
-echo " frequency1 : $frequency1 <br>";
 
-//-----------------------------------------------
+
+/*//-----------------------------------------------
 // second array to the table joomla3_electrical u2, i2, s2, f2
 $var_address = $u2_address;
 $checksum = $u2_checksum;
@@ -427,17 +487,10 @@ echo "<br>u2 : $u2 <br>";
 echo " i2 : $i2 <br>";
 echo " s2 : $s2 <br>";
 echo " f2 : $f2 <br>";
+*/
 
-$voltage2 = $all_u2;
-$current2 = $all_i2;
-$power2 = $all_s2;
-$frequency2 = $all_f2;
 
-echo "<br>all_2:";
-echo "<br>voltage2 : $voltage2 <br>";
-echo " current2 : $current2 <br>";
-echo " power2 : $power2 <br>";
-echo " frequency2 : $frequency2 <br>";
+
 
 /*-----------------------------------------------
 // third array to the table joomla3_electrical  u3, i3, s3, f3
@@ -483,6 +536,9 @@ $voltage3 = $u3;
 $current3 = $i3;
 $power3 = $s3;
 $frequency3 = $f3;
+*/
+
+
 
 /*---------------------------------------------*/
 
