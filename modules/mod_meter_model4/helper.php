@@ -7,9 +7,19 @@
  */
 
 defined('_JEXEC') or die;
-
-class ModModelHelper
-{
-
+//echo "h1--";
+class ModMeterModelHelper
+{   
+    function getMeterModelValues(){
+        $db = JFactory::getDBO();
+        $query = 'SELECT * FROM joomla3_metermodel order by meter_model_id desc';
+        $db->setQuery($query);
+        $result = $db->loadAssocList();
+		return $result;
 		
-}
+		//echo "h2--";       
+		 
+    } 	
+} 
+
+?>

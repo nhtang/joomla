@@ -16,8 +16,7 @@ defined('_JEXEC') or die;
 
 <div id="electrical">
     <h1>电表型号提交数据</h1>
-    正在返回。。。
-          
+    正在返回......
    
 </div>
 </html>

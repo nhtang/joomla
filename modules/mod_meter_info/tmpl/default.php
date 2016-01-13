@@ -56,7 +56,7 @@ defined('_JEXEC') or die;
   <td width=100px><b>表地址</td> 
   <td width=100px><b>电表型号</td>
   <td width=100px><b>采集参数项</td>  
-  <td width=100px><b>采集数据</td> 
+  <td width=100px><b>电表状态</td> 
  </tr>
 
     <?php		
@@ -86,7 +86,7 @@ defined('_JEXEC') or die;
 	   &meter_address=<?php echo $meter_address; ?>
 	   &meter_model=<?php echo $meter_model; ?>
 	   &data_select=<?php echo $data_select; ?>
-	   " title="点击采集：<?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
+	   " title="电表状态 <?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
 	   <?php echo $info_id;?>
 	  </a>
 	</td>
@@ -150,10 +150,27 @@ defined('_JEXEC') or die;
 </table>
 </div>
 
+
     <?php
 	}
     ?>
-<!--循环体结束--> 
+<!--循环体结束-->
+
+
+<br>
+<a href="index.php/meter-connect?info_id=<?php echo $info_id; ?>
+	   &location_id=<?php echo $location_id; ?>
+	   &meter_address=<?php echo $meter_address; ?>
+	   &meter_model=<?php echo $meter_model; ?>
+	   &data_select=<?php echo $data_select; ?>
+	   " title="电表状态 <?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
+	   采集电表数据
+</a> 
+<form id=go  name="go"  method="post" action="index.php/meter-connect" onSubmit='return javacheck(this)'>
+    <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $info_id; ?>" /><br>
+	<br>
+	    <input type="submit" value=" 采集电表数据 "  id="get_data">
+</form>
 
 <br><br>
 <form id=form  name="form"  method="post" action="index.php/meter-info-submit" onSubmit='return javacheck(this)'>

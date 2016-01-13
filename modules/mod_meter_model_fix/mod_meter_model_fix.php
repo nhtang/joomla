@@ -31,12 +31,13 @@ if($meter_model_id == "-1"){
 	  $meter_model = $row['meter_model'];
 	  $meter_factory = $row['meter_factory'];
 	  $command_code = $row['command_code'];
+	  $command_code2 = $row['command_code2'];
 	  $var_len = $row['var_len'];
-	  $address_code = $row['address_code'];
+	  //$address_code = $row['address_code'];
 	  $function_code = $row['function_code'];
 	  $storage_start_address = $row['storage_start_address'];
 	  $storage_numbers = $row['storage_numbers'];
-	  $check_code = $row['check_code'];
+	  //$check_code = $row['check_code'];
 	  $data_index = $row['data_index'];
 	  }
 	  

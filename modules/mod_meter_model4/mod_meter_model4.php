@@ -10,8 +10,16 @@ defined('_JEXEC') or die;
 
 // Include the functions only once
 require_once __DIR__ . '/helper.php';
+require_once __DIR__ . '/conn.php';
 
-	   
+$result = ModMeterModelHelper::getMeterModelValues();
+
+	/*foreach($result as $row){
+			$meter_model = $row['meter_model'];
+			echo $meter_model."<br>";
+    } */
+	
+
 require(JModuleHelper::getLayoutPath('mod_meter_model4', 'default'));
 	
 

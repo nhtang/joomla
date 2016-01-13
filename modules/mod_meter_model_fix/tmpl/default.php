@@ -28,24 +28,22 @@ defined('_JEXEC') or die;
         <input id="meter_model" name="meter_model" type="text" size="10" value="<?php echo $meter_model; ?>" /><br>
            生产厂名：&nbsp;
         <input id="meter_factory" name="meter_factory" type="text" size="10" value="<?php echo $meter_factory; ?>" /><br>
-           指&nbsp;&nbsp;令&nbsp;&nbsp;码：
+           指&nbsp;令&nbsp;码A：
         <input id="command_code" name="command_code" type="text" size="10" value="<?php echo $command_code; ?>" /><br>
+		   指&nbsp;令&nbsp;码B：
+        <input id="command_code2" name="command_code2" type="text" size="10" value="<?php echo $command_code2; ?>" /><br>
            长&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：
         <input id="var_len" name="var_len" type="text" size="10" value="<?php echo $var_len; ?>" /><br>
-           表地址码：&nbsp;
-        <input id="address_code" name="address_code" type="text" size="10" value="<?php echo $address_code; ?>" /><br>
            功&nbsp;&nbsp;能&nbsp;&nbsp;码：
         <input id="function_code" name="function_code" type="text" size="10" value="<?php echo $function_code; ?>" /><br>
            起始寄存器地址：
         <input id="storage_start_address" name="storage_start_address" type="text" size="10" value="<?php echo $storage_start_address; ?>" /><br>
            寄存器长度：
         <input id="storage_numbers" name="storage_numbers" type="text" size="10" value="<?php echo $storage_numbers; ?>" /><br>
-           校&nbsp;&nbsp;验&nbsp;&nbsp;码：
-        <input class="input-xxlarge" id="check_code" name="check_code" type="text" size="10" value="<?php echo $check_code; ?>" /><br>
 		   参数位置：&nbsp;
         <input class="input-xxlarge" id="data_index" name="data_index" type="text"  value="<?php echo $data_index; ?>" /><br>
           <font style="color:#5d5d5d;"> 
-		    * 校验码、参数位置的填写模式为：( u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx )
+		   * 校验码、参数位置的填写模式为：( u1-10 , u2-12 , u3-14 , i1-22 , i2-24 , i3-xx , s1-xx , s2-xx , s3-xx , f1-xx , f2-xx , f3-xx )
 		  </font>
 
     <div>
@@ -72,6 +70,20 @@ function javacheck(formct)
                  formct.meter_model.focus();
 		return false; 
 	} 
+	
+	    if (formct.command_code.value.replace(/^\s|\s$/g,'') == '') 
+	{
+		alert('请填写指令码A！');
+                 formct.command_code.focus();
+		return false; 
+	}
+	
+	    if (formct.command_code2.value.replace(/^\s|\s$/g,'') == '') 
+	{
+		alert('请填写指令码B!');
+                 formct.command_code2.focus();
+		return false; 
+	}
 
     
        

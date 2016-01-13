@@ -23,18 +23,18 @@ $meter_address = JRequest::getVar('meter_address', '-1');  //get location_id
 $meter_model = JRequest::getVar('meter_model', '-1');  //get meter_model 
 
 //echo  $location_id ."-". $meter_address ."-". $meter_address;
+if($meter_model == "-1"){
+	echo "<script>alert('请先选择要采集的电表！');history.back(); </script>";
+}else{
 
 //system("gpio")
   
 
     
-$sql = "select * from joomla3_meter_info  order by info_id Asc";
-$rs = mysql_query($sql);
-//$rsnum = mysql_num_rows($rs);
-//$row_loop = mysql_fetch_array($rs);
-while($row_loop=mysql_fetch_array($rs)){
-	$location_id = $row_loop['location_id'];
-	$meter_address = $row_loop['meter_address'];
+	/*$sql = "select * from joomla3_metermodel where meter_model = '$meter_model' order by meter_model_id desc";
+	$rs = mysql_query($sql);
+	//$rsnum = mysql_num_rows($rs);
+	$row = mysql_fetch_array($rs);*/
 	
 $result = ModDianBiaoHelper::getMeterModelValus($meter_model);
 	
@@ -43,16 +43,15 @@ $result = ModDianBiaoHelper::getMeterModelValus($meter_model);
   }else{
 	  
     foreach($result as $row){
-	$device_id = $meter_address ;
+	$device_id = $row['address_code'];
 	$biao_command_code = $row['function_code'];
 	$var_len = $row['storage_numbers'];
 	
     $all_code = $row['command_code'];
-	$all_code2 = $row['command_code2'];
 
 	$meter_model_id = $row['meter_model_id'];
 	$meter_model = $row['meter_model'];
-	//$check_code = $row['check_code'];
+	$check_code = $row['check_code'];
     $data_index = $row['data_index'];
 	}
 	
@@ -70,114 +69,96 @@ $k++;
 //sleep(1);
 
 
-$check_A = "";
-$check_B = "";
-
-$code_A = $device_id . $biao_command_code . $all_code . $check_A ;
-$code_B = $device_id . $biao_command_code . $all_code2 . $check_B ;
-
-
 
 
 echo "<br>all code: $all_code";
-$send_all =  exec("sudo /usr/bin/./mod_dianbiao $all_code", $all_output);
-//$send_A =  exec("sudo /usr/bin/./mod_dianbiao $code_A", $all_output);
+
+$send2 =  exec("sudo /usr/bin/./mod_dianbiao $all_code", $all_output);
 //sleep(1);
 if(is_array($all_output)==""){
 	echo "<script>alert('返回的数据为空！');history.back();</script>";
 }else{
  
-  $all_nums1 = sizeof($all_output);
-  echo "<br>all_arr 1: ".$all_nums1;
-  echo "<br>all return code 1:<br>";
+  $all_nums = sizeof($all_output);
+  echo "<br>all_arr: ".$all_nums;
+  echo "<br>all return:<br>";
 
   foreach($all_output AS $all_temp){
   echo "$all_temp";
   }
 
-// get return code first time
-$hex_u1 =  $all_output[5] . $all_output[6]. $all_output[3] . $all_output[4];      //Ua
+
+$hex_u1 = $all_output[3] . $all_output[4] . $all_output[5] . $all_output[6];      //Ua
 echo "<br>hex_u1: ".$hex_u1;
-$hex_u2 = $all_output[9] . $all_output[10] . $all_output[7] . $all_output[8] ;     //Ub
+$hex_u2 = $all_output[7] . $all_output[8] . $all_output[9] . $all_output[10];     //Ub
 echo "<br>hex_u2: ".$hex_u2;
-$hex_u3 =  $all_output[13] . $all_output[14] . $all_output[11] . $all_output[12] ;  //Uc
+$hex_u3 = $all_output[11] . $all_output[12] . $all_output[13] . $all_output[14];  //Uc
 echo "<br>hex_u3: ".$hex_u3;
 
 
-$hex_Uab =  $all_output[17] . $all_output[18] . $all_output[15] . $all_output[16] ;  //Uab
-echo "<br>hex_Uab: ".$hex_Uab;
-$hex_Ubc =  $all_output[21] . $all_output[22] . $all_output[19] . $all_output[20] ;  //Ubc
-echo "<br>hex_Ubc: ".$hex_Ubc;
-$hex_Uca =  $all_output[25] . $all_output[26] . $all_output[23] . $all_output[24] ;  //Uca
-echo "<br>hex_Uca: ".$hex_Uca;
-
-$hex_i1 =  $all_output[29] . $all_output[30] . $all_output[27] . $all_output[28] ;  //Ia
+$hex_i1 = $all_output[15] . $all_output[16] . $all_output[17] . $all_output[18];  //Ia
 echo "<br>hex_i1: ".$hex_i1;
-$hex_i2 =  $all_output[33] . $all_output[34] . $all_output[31] . $all_output[32] ;  //Ib
+$hex_i2 = $all_output[19] . $all_output[20] . $all_output[21] . $all_output[22];  //Ib
 echo "<br>hex_i2: ".$hex_i2;
-$hex_i3 =  $all_output[37] . $all_output[38] . $all_output[35] . $all_output[36] ;  //Ic
+$hex_i3 = $all_output[23] . $all_output[24] . $all_output[25] . $all_output[26];  //Ic
 echo "<br>hex_i3: ".$hex_i3;
 
-$hex_p1 = $all_output[41] . $all_output[42] . $all_output[39] . $all_output[40] ;  //Pa
-echo "<br>hex_p1: ".$hex_p1;
-$hex_p2 = $all_output[45] . $all_output[46] .  $all_output[43] . $all_output[44] ;  //Pb
-echo "<br>hex_p2: ".$hex_p2;
-$hex_p3 = $all_output[49] . $all_output[50] . $all_output[47] . $all_output[48] ;  //Pc
-echo "<br>hex_p3: ".$hex_p3;
 
+$hex_s1 = $all_output[27] . $all_output[28] . $all_output[29] . $all_output[30];  //Pa
+echo "<br>hex_s1: ".$hex_s1;
+$hex_s2 = $all_output[31] . $all_output[32] . $all_output[33] . $all_output[34];  //Pb
+echo "<br>hex_s2: ".$hex_s2;
+$hex_s3 = $all_output[35] . $all_output[36] . $all_output[37] . $all_output[38];  //Pc
+echo "<br>hex_s13: ".$hex_s3;
+
+
+$hex_Psum = $all_output[39] . $all_output[40] . $all_output[41] . $all_output[42];
+echo "<br>hex_Psum: ".$hex_Psum;
+
+
+$hex_ns1 = $all_output[43] . $all_output[44] . $all_output[45] . $all_output[46];   //Qa
+echo "<br>hex_ns1: ".$hex_ns1;
+$hex_ns2 = $all_output[47] . $all_output[48] . $all_output[49] . $all_output[50];   //Qb
+echo "<br>hex_ns2: ".$hex_ns2;
+$hex_ns3 = $all_output[51] . $all_output[52] . $all_output[53] . $all_output[54];   //Qc
+echo "<br>hex_ns3: ".$hex_ns3;
+
+
+$hex_Qsum = $all_output[55] . $all_output[56] . $all_output[57] . $all_output[58];
+echo "<br>hex_Qsum: ".$hex_Qsum;
+
+
+$hex_pf1 = $all_output[59] . $all_output[60] . $all_output[61] . $all_output[62];   //PFA
+echo "<br>hex_pf1: ".$hex_pf1;
+$hex_pf2 = $all_output[63] . $all_output[64] . $all_output[65] . $all_output[66];   //PFB
+echo "<br>hex_pf2: ".$hex_pf2;
+$hex_pf3 = $all_output[67] . $all_output[68] . $all_output[69] . $all_output[70];   //PFC
+echo "<br>hex_pf3: ".$hex_pf3;
+
+
+$hex_PFsum = $all_output[71] . $all_output[72] . $all_output[73] . $all_output[74];
+echo "<br>hex_PFsum: ".$hex_PFsum;
+
+
+$hex_sa = $all_output[75] . $all_output[76] . $all_output[77] . $all_output[78];  //Sa
+echo "<br>hex_sa: ".$hex_sa;
+$hex_sb = $all_output[79] . $all_output[80] . $all_output[81] . $all_output[82];  //Sb
+echo "<br>hex_sb: ".$hex_sb;
+$hex_sc = $all_output[83] . $all_output[84] . $all_output[85] . $all_output[86];  //Sc
+echo "<br>hex_sc: ".$hex_sc;
+
+
+$hex_SSsum = $all_output[87] . $all_output[88] . $all_output[89] . $all_output[90];
+echo "<br>hex_SSsum: ".$hex_SSsum;
+
+
+$hex_f1 = $all_output[91] . $all_output[92] . $all_output[93] . $all_output[94];     //Fa
+echo "<br>hex_f1: ".$hex_f1;
+$hex_f2 = $all_output[95] . $all_output[96] . $all_output[97] . $all_output[98];     //Fb
+echo "<br>hex_f2: ".$hex_f2;
+$hex_f3 = $all_output[99] . $all_output[100] . $all_output[101] . $all_output[102];  //Fc
+echo "<br>hex_f3: ".$hex_f3;
 echo "<br>";
-
-//send code the second time
-echo "<br>all code 2: $all_code2";
-$send_all2 =  exec("sudo /usr/bin/./mod_dianbiao $all_code2", $all_output2);
-//$send_B =  exec("sudo /usr/bin/./mod_dianbiao $code_B", $all_output2);
-//sleep(1);
-if(is_array($all_output2)==""){
-	echo "<script>alert('all_output2 返回的数据为空！');history.back();</script>";
-    exit;
-}
- 
-  $all_nums2 = sizeof($all_output2);
-  echo "<br>all_arr 2: ".$all_nums2;
-  echo "<br>all return code 2:<br>";
-
-  foreach($all_output2 AS $all_temp2){
-  echo "$all_temp2";
-  }
-// get return code second time
-$hex_pE =  $all_output2[5] . $all_output2[6] . $all_output2[3] . $all_output2[4] ;      //PE
-echo "<br>hex_pE: ".$hex_pE;
-
-$hex_Q1 =  $all_output2[9] . $all_output2[10] . $all_output2[7] . $all_output2[8] ;     //Ub
-echo "<br>hex_Q1: ".$hex_Q1;
-$hex_Q2 = $all_output2[13] . $all_output2[14] . $all_output2[11] . $all_output2[12] ;  //Uc
-echo "<br>hex_Q2: ".$hex_Q2;
-$hex_Q3 = $all_output2[17] . $all_output2[18] . $all_output2[15] . $all_output2[16] ;  //Uab
-echo "<br>hex_Q3: ".$hex_Q3;
-
-$hex_QE = $all_output2[21] . $all_output2[22] . $all_output2[19] . $all_output2[20] ;  //Ubc
-echo "<br>hex_QE: ".$hex_QE;
-$hex_SE =  $all_output2[25] . $all_output2[26] . $all_output2[23] . $all_output2[24] ;  //Uca
-echo "<br>hex_SE: ".$hex_SE;
-$hex_cosQ = $all_output2[29] . $all_output2[30] . $all_output2[27] . $all_output2[28] ;  //Ia
-echo "<br>hex_cosQ: ".$hex_cosQ;
-
-$hex_F =  $all_output2[33] . $all_output2[34] . $all_output2[31] . $all_output2[32] ;  //Ib
-echo "<br>hex_F: ".$hex_F;
-
-$hex_Ep1 = $all_output2[37] . $all_output2[38] . $all_output2[35] . $all_output2[36] ;  //Ic
-echo "<br>hex_Ep1: ".$hex_Ep1;
-$hex_Ep2 = $all_output2[41] . $all_output2[42] .  $all_output2[39] . $all_output2[40] ;  //Pa
-echo "<br>hex_Ep2: ".$hex_Ep2;
-
-$hex_Eq1 = $all_output2[45] . $all_output2[46] . $all_output2[43] . $all_output2[44] ;  //Pb
-echo "<br>hex_Eq1: ".$hex_Eq1;
-$hex_Eq2 = $all_output2[49] . $all_output2[50] . $all_output2[47] . $all_output2[48] ;  //Pc
-echo "<br>hex_Eq2: ".$hex_Eq2;
-
-echo "<br>";
-
-
 
 //echo "start get getMeterInfoValus:<br>";
 $rs_info = ModDianBiaoHelper::getMeterInfoValus($info_id);
@@ -196,67 +177,67 @@ $rs_info = ModDianBiaoHelper::getMeterInfoValus($info_id);
        
     $sel_u1 =  strstr($sel_var, 'u1');  //$sel_u1 
     if( ($sel_u1 != "") && ($data_select != "") ){
-		  // echo "<br>u1--------------------".$sel_u1; 
+		   echo "<br>u1--------------------".$sel_u1; 
 		   $sel_u1 = 1 ;
 	} 
 	$sel_u2 =  strstr($sel_var, 'u2');
     if( ($sel_u2 != "") && ($data_select != "") ){
-		   //echo "<br>u2--------------------".$sel_u2; 
+		   echo "<br>u2--------------------".$sel_u2; 
 		   $sel_u2 = 2 ;
 	} 
     $sel_u3 =  strstr($sel_var, 'u3');
     if( ($sel_u3 != "") && ($data_select != "") ){
-		  // echo "<br>u3--------------------".$sel_u3; 
+		   echo "<br>u3--------------------".$sel_u3; 
 		   $sel_u3 = 3 ;
 	} 
 	
 	
 	$sel_i1 =  strstr($sel_var, 'i1');   //$sel_i1 
     if( ($sel_i1 != "") && ($data_select != "") ){
-		   //echo "<br>i1--------------------".$sel_i1; 
+		   echo "<br>i1--------------------".$sel_i1; 
 		   $sel_i1 = 1 ;
 	} 
 	$sel_i2 =  strstr($sel_var, 'i2');
     if( ($sel_i2 != "") && ($data_select != "") ){
-		   //echo "<br>i2--------------------".$sel_i2; 
+		   echo "<br>i2--------------------".$sel_i2; 
 		   $sel_i2 = 2 ;
 	} 
     $sel_i3 =  strstr($sel_var, 'i3');
     if( ($sel_i3 != "") && ($data_select != "") ){
-		   //echo "<br>i3--------------------".$sel_i3; 
+		   echo "<br>i3--------------------".$sel_i3; 
 		   $sel_i3 = 3 ;
 	} 
 	
 	
 	$sel_s1 =  strstr($sel_var, 's1');  //$sel_s1 
     if( ($sel_s1 != "") && ($data_select != "") ){
-		   //echo "<br>s1--------------------".$sel_s1; 
+		   echo "<br>s1--------------------".$sel_s1; 
 		   $sel_s1 = 1 ;
 	} 
 	$sel_s2 =  strstr($sel_var, 's2');
     if( ($sel_s2 != "") && ($data_select != "") ){
-		   //echo "<br>s2--------------------".$sel_s2; 
+		   echo "<br>s2--------------------".$sel_s2; 
 		   $sel_s2 = 2 ;
 	} 
     $sel_s3 =  strstr($sel_var, 's3');
     if( ($sel_s3 != "") && ($data_select != "") ){
-		   //echo "<br>s3--------------------".$sel_s1; 
+		   echo "<br>s3--------------------".$sel_s1; 
 		   $sel_s3 = 3 ;
 	}	
 	
 	$sel_f1 =  strstr($sel_var, 'f1');  //$sel_f1 
     if( ($sel_f1 != "") && ($data_select != "") ){
-		   //echo "<br>f1--------------------".$sel_f1; 
+		   echo "<br>f1--------------------".$sel_f1; 
 		   $sel_f1 = 1 ;
 	} 
 	$sel_f2 =  strstr($sel_var, 'f2');
     if( ($sel_f2 != "") && ($data_select != "") ){
-		   //echo "<br>f2--------------------".$sel_f2; 
+		   echo "<br>f2--------------------".$sel_f2; 
 		   $sel_f2 = 2 ;
 	} 
     $sel_f3 =  strstr($sel_var, 'f3');
     if( ($sel_f3 != "") && ($data_select != "") ){
-		   //echo "<br>f3--------------------".$sel_f1; 
+		   echo "<br>f3--------------------".$sel_f1; 
 		   $sel_f3 = 3 ;
 	}
 		
@@ -265,22 +246,21 @@ $rs_info = ModDianBiaoHelper::getMeterInfoValus($info_id);
 //} 	
 
 
-$all_u1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u1), 4);
-$all_u2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u2), 4);
-//$all_u2 = ModDianBiaoHelper::hexStringTo32Float("270F4361");
-$all_u3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u3), 4);
+$all_u1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u1), 2);
+$all_u2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u2), 2);
+$all_u3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u3), 2);
 
-$all_i1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i1), 4);
-$all_i2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i2), 4);
-$all_i3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i3), 4);
+$all_i1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i1), 2);
+$all_i2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i2), 2);
+$all_i3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_i3), 2);
 
-$all_s1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_p1), 4);
-$all_s2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_p2), 4);
-$all_s3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_p3), 4);
+$all_s1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_s1), 2);
+$all_s2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_s2), 2);
+$all_s3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_s3), 2);
 
-$all_f1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_F ), 4); //F
-$all_f2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f2), 4);
-$all_f3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f3), 4);
+$all_f1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f1), 2);
+$all_f2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f2), 2);
+$all_f3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f3), 2);
 
 echo "<br>";
 
@@ -641,28 +621,15 @@ $time = $datetime;
 ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $voltage1, $current1, $power1, $frequency1, $voltage2, $current2, $power2, $frequency2, $voltage3, $current3, $power3, $frequency3);
 
 
-  }//while ( ($k<1) && ($electrical_status)
-
-
-}//while meter_info 	  
+}//while
 
 //}//foreach
 // call new web page, then exit
 
 if ($electrical_status) {
-  //$lines = file("http://127.0.0.1/joomla/index.php/meter-connect");
+  $lines = file("http://127.0.0.1/joomla/index.php/meter-connect");
 }
 
 require(JModuleHelper::getLayoutPath('mod_meter_connect', 'default'));
 	}//else no meter_model
-	
-//fresh_page script----------------------------------------------	
-/*echo ("<script type=\"text/javascript\">");
-echo ("function fresh_page()");    
-echo ("{");
-echo ("window.location.reload();");
-echo ("}"); 
-echo ("setTimeout('fresh_page()',5000);");      
-echo ("</script>");
-*/	
-?>
+}//else //meter_model == "-1"
