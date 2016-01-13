@@ -55,176 +55,8 @@ $result = ModDianBiaoHelper::getMeterModelValus($meter_model);
     $data_index = $row['data_index'];
 	}
 	
-	
-	echo "start get getMeterInfoValus:<br>";
-	$rs_info = ModDianBiaoHelper::getMeterInfoValus($info_id);
-
-      foreach($rs_info as $row_info){
-	    $data_select = $row_info['data_select'];
-	  }
-	  //explode $data_select    //example :$data_select = "u1,u2,u3,i1"; 
-	  $selArr=explode(',',$data_select); 
-	  $sel_num = sizeof($selArr); //cout array numbers or // $sel_num = count(selArr);
-	  $sel_var = "";
-	  for($l = 0; $l<$sel_num ; $l++){
-        //echo $l.':'.$selArr[$l].'<br/>';
-		//$sel_var = $sel_var.$selArr[$l];
-      }
-	  
-	   //$sel_u1 =  strstr($sel_var, 'u1'); 
-	   //echo "u1--------------------<br>".$sel_u1;  
-	  if (in_array("'u1'", $selArr)) {
-         echo "Got u1";
-      } 
-	
-
-	
-	//explode $data_index    //example :$data_index = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
-	$strArr=explode(',',$data_index); 
-	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
-	for($i = 0; $i<$arr_num ; $i++){
-        //echo $i.':'.$strArr[$i].'<br/>';
-    }
-	
-    
-	$var_u1 = $strArr[0]; 
-	$u1_arr = explode("-",$var_u1);
-	$u1_address = $u1_arr[1];   // explode $u1_address
-	
-	
-	$var_u2 = $strArr[1]; 
-	$u2_arr = explode("-",$var_u2);
-	$u2_address = $u2_arr[1];
-	
-	
-	$var_u3 = $strArr[2]; 
-	$u3_arr = explode("-",$var_u3);
-	$u3_address = $u3_arr[1];
     
 	
-    $var_i1 = $strArr[3]; 
-	$i1_arr = explode("-",$var_i1);
-	$i1_address = $i1_arr[1];   // explode $i1_address
-	
-	$var_i2 = $strArr[4]; 
-	$i2_arr = explode("-",$var_i2);
-	$i2_address = $i2_arr[1]; 
-	
-	$var_i3 = $strArr[5]; 
-	$i3_arr = explode("-",$var_i3);
-	$i3_address = $i3_arr[1];	
-	
-	
-    $var_s1 = $strArr[6]; 
-	$s1_arr = explode("-",$var_s1);
-	$s1_address = $s1_arr[1];   // explode $s1_address 
-	
-	$var_s2 = $strArr[7]; 
-	$s2_arr = explode("-",$var_s2);
-	$s2_address = $s2_arr[1]; 
-	
-	$var_s3 = $strArr[8]; 
-	$s3_arr = explode("-",$var_s3);
-	$s3_address = $s3_arr[1];	
-	
-	$var_f1 = $strArr[6]; 
-	$f1_arr = explode("-",$var_f1);
-	$f1_address = $f1_arr[1];   // explode $f1_address 
-	
-	$var_f2 = $strArr[7]; 
-	$f2_arr = explode("-",$var_f2);
-	$f2_address = $f2_arr[1]; 
-	
-	$var_f3 = $strArr[8]; 
-	$f3_arr = explode("-",$var_f3);
-	$f3_address = $f3_arr[1];	
-
-
-
-//$devsce_id = "01";  //address_code  // unique id address of individual biao 
-//$biao_command_code = "03";  //function_code  // command code to read holding register  
-
-//$u2_address = "00 19"; // address of voltage variable
-//$i2_address = "00 25"; // address of voltage variable
-//$s2_address = "00 43"; // address of voltage variable
-//$f2_address = "00 4b"; // address of voltage variable
-
-
-//$var_len = "00 02"; // length of variable
-
-//echo "start explode/ ";
-   
-//explode $check_code   //example :$check_code = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx"; 
-	$strArr_check=explode(',',$check_code); 
-	$arr_num_check = sizeof($strArr_check); //cout array numbers or // $arr_num_check = count($strArr_check);
-	for($i = 0; $i<$arr_num_check ; $i++){
-        //echo $i.':'.$strArr_check[$i].'<br/>';
-    }
-	
-    
-	$var_u1_check = $strArr_check[0]; 
-	$u1_arr_check = explode("-",$var_u1_check);
-	$u1_checksum = $u1_arr_check[1];   // explode $u1_checksum
-	
-	
-	$var_u2_check = $strArr_check[1]; 
-	$u2_arr_check = explode("-",$var_u2_check);
-	$u2_checksum = $u2_arr_check[1];
-	
-	
-	$var_u3_check = $strArr_check[2]; 
-	$u3_arr_check = explode("-",$var_u3_check);
-	$u3_checksum = $u3_arr_check[1];
-    
-	
-    $var_i1_check = $strArr_check[3]; 
-	$i1_arr_check = explode("-",$var_i1_check);
-	$i1_checksum = $i1_arr_check[1];   // explode $i1_checksum
-	
-	$var_i2_check = $strArr_check[4]; 
-	$i2_arr_check = explode("-",$var_i2_check);
-	$i2_checksum = $i2_arr_check[1]; 
-	
-	$var_i3_check = $strArr_check[5]; 
-	$i3_arr_check = explode("-",$var_i3_check);
-	$i3_checksum = $i3_arr_check[1];	
-	
-	
-    $var_s1_check = $strArr_check[6]; 
-	$s1_arr_check = explode("-",$var_s1_check);
-	$s1_checksum = $s1_arr_check[1];   // explode $s1_checksum 
-	
-	$var_s2_check = $strArr_check[7]; 
-	$s2_arr_check = explode("-",$var_s2_check);
-	$s2_checksum = $s2_arr_check[1]; 
-	
-	$var_s3_check = $strArr_check[8]; 
-	$s3_arr_check = explode("-",$var_s3_check);
-	$s3_checksum = $s3_arr_check[1];	
-	
-	$var_f1_check = $strArr_check[6]; 
-	$f1_arr_check = explode("-",$var_f1_check);
-	$f1_checksum = $f1_arr_check[1];   // explode $f1_checksum 
-	
-	$var_f2_check = $strArr_check[7]; 
-	$f2_arr_check = explode("-",$var_f2_check);
-	$f2_checksum = $f2_arr_check[1]; 
-	
-	$var_f3_check = $strArr_check[8]; 
-	$f3_arr_check = explode("-",$var_f3_check);
-	$f3_checksum = $f3_arr_check[1];	
-
-//$u1_checksum = "15 cc"; // checksum for u2
-//$i1_checksum = "d5 c0"; // checksum for i2
-//$s1_checksum = "35 df"; // checksum for s2
-//$f1_checksum = "b4 1d"; // checksum for f2
-
-//echo $u1_checksum ; // checksum for u2
-//echo $i1_checksum ; // checksum for i2
-//echo $s1_checksum ; // checksum for s2
-//echo $f1_checksum ; // checksum for f2
-
-//$send = exec("sudo /usr/bin/./mod_meter_connect 01 03 00 19 00 02 15 cc", $output);
 
 $electrical_status = ModDianBiaoHelper::getElectricalStatus();
 //$electrical_status=1;
@@ -326,6 +158,92 @@ $hex_f2 = $all_output[95] . $all_output[96] . $all_output[97] . $all_output[98];
 echo "<br>hex_f2: ".$hex_f2;
 $hex_f3 = $all_output[99] . $all_output[100] . $all_output[101] . $all_output[102];  //Fc
 echo "<br>hex_f3: ".$hex_f3;
+echo "<br>";
+
+//echo "start get getMeterInfoValus:<br>";
+$rs_info = ModDianBiaoHelper::getMeterInfoValus($info_id);
+//select get which electricl_data
+    foreach($rs_info as $row_info){
+	    $data_select = $row_info['data_select'];
+	}
+	  //explode $data_select    //example :$data_select = "u1,u2,u3,i1"; 
+	  $selArr=explode(',',$data_select); 
+	  $sel_num = sizeof($selArr); //cout array numbers or // $sel_num = count(selArr);
+	  $sel_var = "";
+	  for($l = 0; $l<$sel_num ; $l++){
+        //echo $l.':'.$selArr[$l].'<br/>';
+		$sel_var = $sel_var.$selArr[$l];
+	  }
+       
+    $sel_u1 =  strstr($sel_var, 'u1');  //$sel_u1 
+    if( ($sel_u1 != "") && ($data_select != "") ){
+		   echo "<br>u1--------------------".$sel_u1; 
+		   $sel_u1 = 1 ;
+	} 
+	$sel_u2 =  strstr($sel_var, 'u2');
+    if( ($sel_u2 != "") && ($data_select != "") ){
+		   echo "<br>u2--------------------".$sel_u2; 
+		   $sel_u2 = 2 ;
+	} 
+    $sel_u3 =  strstr($sel_var, 'u3');
+    if( ($sel_u3 != "") && ($data_select != "") ){
+		   echo "<br>u3--------------------".$sel_u3; 
+		   $sel_u3 = 3 ;
+	} 
+	
+	
+	$sel_i1 =  strstr($sel_var, 'i1');   //$sel_i1 
+    if( ($sel_i1 != "") && ($data_select != "") ){
+		   echo "<br>i1--------------------".$sel_i1; 
+		   $sel_i1 = 1 ;
+	} 
+	$sel_i2 =  strstr($sel_var, 'i2');
+    if( ($sel_i2 != "") && ($data_select != "") ){
+		   echo "<br>i2--------------------".$sel_i2; 
+		   $sel_i2 = 2 ;
+	} 
+    $sel_i3 =  strstr($sel_var, 'i3');
+    if( ($sel_i3 != "") && ($data_select != "") ){
+		   echo "<br>i3--------------------".$sel_i3; 
+		   $sel_i3 = 3 ;
+	} 
+	
+	
+	$sel_s1 =  strstr($sel_var, 's1');  //$sel_s1 
+    if( ($sel_s1 != "") && ($data_select != "") ){
+		   echo "<br>s1--------------------".$sel_s1; 
+		   $sel_s1 = 1 ;
+	} 
+	$sel_s2 =  strstr($sel_var, 's2');
+    if( ($sel_s2 != "") && ($data_select != "") ){
+		   echo "<br>s2--------------------".$sel_s2; 
+		   $sel_s2 = 2 ;
+	} 
+    $sel_s3 =  strstr($sel_var, 's3');
+    if( ($sel_s3 != "") && ($data_select != "") ){
+		   echo "<br>s3--------------------".$sel_s1; 
+		   $sel_s3 = 3 ;
+	}	
+	
+	$sel_f1 =  strstr($sel_var, 'f1');  //$sel_f1 
+    if( ($sel_f1 != "") && ($data_select != "") ){
+		   echo "<br>f1--------------------".$sel_f1; 
+		   $sel_f1 = 1 ;
+	} 
+	$sel_f2 =  strstr($sel_var, 'f2');
+    if( ($sel_f2 != "") && ($data_select != "") ){
+		   echo "<br>f2--------------------".$sel_f2; 
+		   $sel_f2 = 2 ;
+	} 
+    $sel_f3 =  strstr($sel_var, 'f3');
+    if( ($sel_f3 != "") && ($data_select != "") ){
+		   echo "<br>f3--------------------".$sel_f1; 
+		   $sel_f3 = 3 ;
+	}
+		
+//if (in_array("u1", $selArr, true)) {
+         //echo "Got u1";
+//} 	
 
 
 $all_u1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u1), 2);
@@ -382,7 +300,159 @@ echo " frequency3 : $frequency3 <br>";
 }
 
 
+  
 
+	  
+	  
+	  
+//$devsce_id = "01";  //address_code  // unique id address of individual biao 
+//$biao_command_code = "03";  //function_code  // command code to read holding register  
+
+//$u2_address = "00 19"; // address of voltage variable
+//$i2_address = "00 25"; // address of voltage variable
+//$s2_address = "00 43"; // address of voltage variable
+//$f2_address = "00 4b"; // address of voltage variable
+
+
+//$var_len = "00 02"; // length of variable
+
+/*//explode $data_index    //example :$data_index = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx";  
+	$strArr=explode(',',$data_index); 
+	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
+	for($i = 0; $i<$arr_num ; $i++){
+        //echo $i.':'.$strArr[$i].'<br/>';
+    }
+	
+    
+	$var_u1 = $strArr[0]; 
+	$u1_arr = explode("-",$var_u1);
+	$u1_address = $u1_arr[1];   // explode $u1_address
+	
+	
+	$var_u2 = $strArr[1]; 
+	$u2_arr = explode("-",$var_u2);
+	$u2_address = $u2_arr[1];
+	
+	
+	$var_u3 = $strArr[2]; 
+	$u3_arr = explode("-",$var_u3);
+	$u3_address = $u3_arr[1];
+    
+	
+    $var_i1 = $strArr[3]; 
+	$i1_arr = explode("-",$var_i1);
+	$i1_address = $i1_arr[1];   // explode $i1_address
+	
+	$var_i2 = $strArr[4]; 
+	$i2_arr = explode("-",$var_i2);
+	$i2_address = $i2_arr[1]; 
+	
+	$var_i3 = $strArr[5]; 
+	$i3_arr = explode("-",$var_i3);
+	$i3_address = $i3_arr[1];	
+	
+	
+    $var_s1 = $strArr[6]; 
+	$s1_arr = explode("-",$var_s1);
+	$s1_address = $s1_arr[1];   // explode $s1_address 
+	
+	$var_s2 = $strArr[7]; 
+	$s2_arr = explode("-",$var_s2);
+	$s2_address = $s2_arr[1]; 
+	
+	$var_s3 = $strArr[8]; 
+	$s3_arr = explode("-",$var_s3);
+	$s3_address = $s3_arr[1];	
+	
+	$var_f1 = $strArr[6]; 
+	$f1_arr = explode("-",$var_f1);
+	$f1_address = $f1_arr[1];   // explode $f1_address 
+	
+	$var_f2 = $strArr[7]; 
+	$f2_arr = explode("-",$var_f2);
+	$f2_address = $f2_arr[1]; 
+	
+	$var_f3 = $strArr[8]; 
+	$f3_arr = explode("-",$var_f3);
+	$f3_address = $f3_arr[1];	
+
+
+
+//echo "start explode/------------------------------------------ ";
+   
+//explode $check_code   //example :$check_code = "u1-10, u2-15, u3-20, i1-11, i2-17, i3-23, s1-xx, s2-xx, s3-xx, f1-xx, f2-xx, f3-xx"; 
+	$strArr_check=explode(',',$check_code); 
+	$arr_num_check = sizeof($strArr_check); //cout array numbers or // $arr_num_check = count($strArr_check);
+	for($i = 0; $i<$arr_num_check ; $i++){
+        //echo $i.':'.$strArr_check[$i].'<br/>';
+    }
+	
+    
+	$var_u1_check = $strArr_check[0]; 
+	$u1_arr_check = explode("-",$var_u1_check);
+	$u1_checksum = $u1_arr_check[1];   // explode $u1_checksum
+	
+	
+	$var_u2_check = $strArr_check[1]; 
+	$u2_arr_check = explode("-",$var_u2_check);
+	$u2_checksum = $u2_arr_check[1];
+	
+	
+	$var_u3_check = $strArr_check[2]; 
+	$u3_arr_check = explode("-",$var_u3_check);
+	$u3_checksum = $u3_arr_check[1];
+    
+	
+    $var_i1_check = $strArr_check[3]; 
+	$i1_arr_check = explode("-",$var_i1_check);
+	$i1_checksum = $i1_arr_check[1];   // explode $i1_checksum
+	
+	$var_i2_check = $strArr_check[4]; 
+	$i2_arr_check = explode("-",$var_i2_check);
+	$i2_checksum = $i2_arr_check[1]; 
+	
+	$var_i3_check = $strArr_check[5]; 
+	$i3_arr_check = explode("-",$var_i3_check);
+	$i3_checksum = $i3_arr_check[1];	
+	
+	
+    $var_s1_check = $strArr_check[6]; 
+	$s1_arr_check = explode("-",$var_s1_check);
+	$s1_checksum = $s1_arr_check[1];   // explode $s1_checksum 
+	
+	$var_s2_check = $strArr_check[7]; 
+	$s2_arr_check = explode("-",$var_s2_check);
+	$s2_checksum = $s2_arr_check[1]; 
+	
+	$var_s3_check = $strArr_check[8]; 
+	$s3_arr_check = explode("-",$var_s3_check);
+	$s3_checksum = $s3_arr_check[1];	
+	
+	$var_f1_check = $strArr_check[6]; 
+	$f1_arr_check = explode("-",$var_f1_check);
+	$f1_checksum = $f1_arr_check[1];   // explode $f1_checksum 
+	
+	$var_f2_check = $strArr_check[7]; 
+	$f2_arr_check = explode("-",$var_f2_check);
+	$f2_checksum = $f2_arr_check[1]; 
+	
+	$var_f3_check = $strArr_check[8]; 
+	$f3_arr_check = explode("-",$var_f3_check);
+	$f3_checksum = $f3_arr_check[1];	
+
+//$u1_checksum = "15 cc"; // checksum for u2
+//$i1_checksum = "d5 c0"; // checksum for i2
+//$s1_checksum = "35 df"; // checksum for s2
+//$f1_checksum = "b4 1d"; // checksum for f2
+
+//echo $u1_checksum ; // checksum for u2
+//echo $i1_checksum ; // checksum for i2
+//echo $s1_checksum ; // checksum for s2
+//echo $f1_checksum ; // checksum for f2
+
+//$send = exec("sudo /usr/bin/./mod_meter_connect 01 03 00 19 00 02 15 cc", $output);	  
+*/	  
+	  
 /*//-----------------------------------------------
 //  frist array data to the table joomla3_electrical u1, i1, s1, f1
 $var_address = $u1_address;
@@ -542,14 +612,13 @@ $frequency3 = $f3;
 
 /*---------------------------------------------*/
 
-
 date_default_timezone_set('Asia/Singapore');
 $datetime = date('Y-m-d H:i:s');
 $time = $datetime;
 
 // insert to database
 //ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $u2, $i2, $s2, $f2);
-ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $voltage1, $current1, $power1, $frequency1, $voltage2, $current2, $power2, $frequency2, $voltage3, $current3, $power3, $ffrequency3);
+ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $voltage1, $current1, $power1, $frequency1, $voltage2, $current2, $power2, $frequency2, $voltage3, $current3, $power3, $frequency3);
 
 
 }//while
@@ -557,9 +626,9 @@ ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_addres
 //}//foreach
 // call new web page, then exit
 
-/*if ($electrical_status) {
-  //$lines = file("http://127.0.0.1/joomla/index.php/meter-connect");
-}*/
+if ($electrical_status) {
+  $lines = file("http://127.0.0.1/joomla/index.php/meter-connect");
+}
 
 require(JModuleHelper::getLayoutPath('mod_meter_connect', 'default'));
 	}//else no meter_model
