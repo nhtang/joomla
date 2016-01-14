@@ -35,6 +35,7 @@ $rs = mysql_query($sql);
 while($row_loop=mysql_fetch_array($rs)){
 	$location_id = $row_loop['location_id'];
 	$meter_address = $row_loop['meter_address'];
+	$meter_model = $row_loop['meter_model'];
 	
 $result = ModDianBiaoHelper::getMeterModelValus($meter_model);
 	
@@ -70,18 +71,14 @@ $k++;
 //sleep(1);
 
 
-$check_A = "";
-$check_B = "";
-
-$code_A = $device_id . $biao_command_code . $all_code . $check_A ;
-$code_B = $device_id . $biao_command_code . $all_code2 . $check_B ;
-
-
-
+$all_A = $device_id ." ". $biao_command_code ." ". $all_code . $check_A ;
+$all_B = $device_id ." ". $biao_command_code ." ". $all_code2 . $check_B ;
 
 echo "<br>all code: $all_code";
 $send_all =  exec("sudo /usr/bin/./mod_dianbiao $all_code", $all_output);
-//$send_A =  exec("sudo /usr/bin/./mod_dianbiao $code_A", $all_output);
+
+echo "<br>all codeA: $all_A";
+//$send_A =  exec("sudo /usr/bin/./mod_dianbiao $all_A", $all_output);
 //sleep(1);
 if(is_array($all_output)==""){
 	echo "<script>alert('返回的数据为空！');history.back();</script>";
@@ -128,9 +125,11 @@ echo "<br>hex_p3: ".$hex_p3;
 echo "<br>";
 
 //send code the second time
-echo "<br>all code 2: $all_code2";
+echo "<br>all code 2 : $all_code2";
 $send_all2 =  exec("sudo /usr/bin/./mod_dianbiao $all_code2", $all_output2);
-//$send_B =  exec("sudo /usr/bin/./mod_dianbiao $code_B", $all_output2);
+
+echo "<br>all codeB: $all_B";
+//$send_B =  exec("sudo /usr/bin/./mod_dianbiao $all_B", $all_output2);
 //sleep(1);
 if(is_array($all_output2)==""){
 	echo "<script>alert('all_output2 返回的数据为空！');history.back();</script>";

@@ -18,10 +18,21 @@ class ModMeterInfoHelper
           $query = 'SELECT * FROM joomla3_meter_info order by info_id desc';
           $db->setQuery($query);
           $result = $db->loadAssocList();
-          /*foreach($result as $row)
-          {
-           // echo ' id is '.$row->meter_info.' meter_model is ' . $row->meter_model .'<br/>';
-          }*/
+          return $result;
+	}
+	
+	public function getMeterStatus($location_id, $meter_address) {
+		  // read meter_model values
+		  $db = JFactory::getDBO();
+
+          $query = "SELECT * FROM joomla3_electrical_status where location_id = '$location_id' and meter_address = '$meter_address' ";
+          $db->setQuery($query);
+          //$result = $db->loadAssocList();
+          //return $result;
+		  $row = $db->loadAssoc();
+
+		  $electrical_status = $row['electrical_status'];
+		  return $electrical_status;
 	}
 	
 

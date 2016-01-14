@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     electromonitor.com
- * @subpackage  mod_meter_model
+ * @subpackage  mod_meter_model4
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
@@ -236,4 +236,3 @@ function javacheck(formct)
 }
 
 </script>
-

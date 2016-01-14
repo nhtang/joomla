@@ -15,12 +15,12 @@ class ModMeterModelSubmitHelper
                
                 // read meter_model values
 		        $db = JFactory::getDBO();
-                $query = $db->getQuery(true);
-		        $query->select('meter_model_id, command_code, command_code2');
-		        $query->from($db->quoteName('joomla3_metermodel'));
-		        $query->where($db->quoteName('meter_model')." = ".$meter_model);
+                //$query = $db->getQuery(true);
+		        //$query->select('*');
+		        //$query->from($db->quoteName('joomla3_metermodel'));
+		        //$query->where($db->quoteName('meter_model')." = ".$meter_model);
 
-                //$query = 'SELECT * FROM joomla3_metermodel WHERE meter_model ='.$meter_model;
+                $query = "SELECT * FROM joomla3_metermodel WHERE meter_model = '$meter_model' ";
                 $db->setQuery($query);
                 $result = $db->loadResult();
                 if($result != ""){

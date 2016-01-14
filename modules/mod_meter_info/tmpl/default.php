@@ -30,8 +30,8 @@ defined('_JEXEC') or die;
     $pagesize=10;
 	
     
-    $sql = "select * from joomla3_meter_info  order by info_id desc";
-	$rs = mysql_query($sql);
+    $sq = "select * from joomla3_meter_info  order by info_id desc";
+	$rs = mysql_query($sq);
 	$rsnum = mysql_num_rows($rs); 
 	 
     $none_data = "<tr align=center><td><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color=#ff000f>数据库中暂时还没有录入数据！</font></a><br><br></td></tr>";
@@ -56,7 +56,8 @@ defined('_JEXEC') or die;
   <td width=100px><b>表地址</td> 
   <td width=100px><b>电表型号</td>
   <td width=100px><b>采集参数项</td>  
-  <td width=100px><b>电表状态</td> 
+  <td width=100px><b>电表状态</td>
+  <td width=100px><b>行动</td>
  </tr>
 
     <?php		
@@ -67,6 +68,8 @@ defined('_JEXEC') or die;
 	      $meter_address = $row['meter_address'];
 		  $meter_model = $row['meter_model'];
 		  $data_select = $row['data_select'];
+		  
+		  $switch = ModMeterInfoHelper::getMeterStatus($location_id, $meter_address);
     ?> 
  <tr  onmouseover="this.style.backgroundColor='#e5ff00'" onmouseout="this.style.backgroundColor='#ffffff'" style="font-size:12px;color:#000035;">
  
@@ -81,14 +84,24 @@ defined('_JEXEC') or die;
    <td align="center" ><?php echo $meter_model;?></td>
    <td align="center" ><?php echo $data_select;?></td>
    <td align="center" >
-       <a href="index.php/meter-connect?info_id=<?php echo $info_id; ?>
-	   &location_id=<?php echo $location_id; ?>
-	   &meter_address=<?php echo $meter_address; ?>
-	   &meter_model=<?php echo $meter_model; ?>
-	   &data_select=<?php echo $data_select; ?>
-	   " title="电表状态 <?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
-	   <?php echo $info_id;?>
-	  </a>
+     <?php if($switch=="0"){echo "<b>OFF</b>";}else{echo "<B><font color=#green >ON</font></b>";}?>
+   </td>
+   <td align="center" >
+   <?php if($switch == "0"){?>
+      <form id=goswitch style="padding-top:15px;" name="goswitch"  method="post" action="index.php/meter-switch" onSubmit='return javacheck(this)'>
+        <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
+		<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
+		<input id="switch" name="switch" type="hidden" size="10" value="<?php echo $switch; ?>" />
+	    <input type="submit" value=" ON "  id="get_data" title="start get data status">
+      </form>
+   <?php }else{?>
+	  <form id=goswitch style="padding-top:15px;" name="goswitch"  method="post" action="index.php/meter-switch" onSubmit='return javacheck(this)'>
+        <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
+		<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
+		<input id="switch" name="switch" type="hidden" size="10" value="<?php echo $switch; ?>" />
+	    <input type="submit" value=" OFF "  id="get_data" title="stop get data status">
+      </form>
+	<?php }?>   
 	</td>
 
  </tr>
@@ -158,43 +171,48 @@ defined('_JEXEC') or die;
 
 
 <br>
-<a href="index.php/meter-connect?info_id=<?php echo $info_id; ?>
-	   &location_id=<?php echo $location_id; ?>
-	   &meter_address=<?php echo $meter_address; ?>
-	   &meter_model=<?php echo $meter_model; ?>
-	   &data_select=<?php echo $data_select; ?>
-	   " title="电表状态 <?php echo $info_id." &nbsp;&nbsp;&nbsp;&nbsp;位置码：".$location_id." &nbsp;&nbsp;&nbsp;&nbsp;电表地址：".$meter_address." &nbsp;&nbsp;&nbsp;&nbsp;电表型号：".$meter_model; ?>">
-	   采集电表数据
-</a> 
+
 <form id=go  name="go"  method="post" action="index.php/meter-connect" onSubmit='return javacheck(this)'>
     <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $info_id; ?>" /><br>
 	<br>
 	    <input type="submit" value=" 采集电表数据 "  id="get_data">
 </form>
 
+
+<?php
+    $sql = "select meter_model_id, meter_model from joomla3_metermodel  order by meter_model_id Asc";
+	$rsl = mysql_query($sql);
+?>
 <br><br>
 <form id=form  name="form"  method="post" action="index.php/meter-info-submit" onSubmit='return javacheck(this)'>
  <table width="900px" align=left  cellpadding="0" cellspacing="0" style="background-color:#F8F8FF;border-left:none;border-top:none;border-right:none;"> 
-   <tr > 
-    <td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 
+   <tr><td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 
            电表位置码&nbsp;：
         <input id="location_id" name="location_id" type="text" size="10" value="" /><br>
            电表地址码&nbsp;：
         <input id="meter_address" name="meter_address" type="text" size="10" value="" /><br>
+	</td></tr >
+      
+	<tr> <td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 	
            电&nbsp;表&nbsp;型&nbsp;号&nbsp;：
-        <input id="meter_model" name="meter_model" type="text" size="10" value="" /><br>
+		  <select id="select_model" name="meter_model" > 
+		   <?php while($row_sel=mysql_fetch_array($rsl)){ ?>
+		    <option width=50px  value="<?php echo $row_sel['meter_model'];?>"><?php echo $row_sel['meter_model'];?></option>
+		   <?php } ?>
+		  </select>
+	</td></tr>	  
+	<tr><td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 	  
 		   采集参数项&nbsp;：
         <input id="data_select" name="data_select" type="text" size="10" value="" /><br>
 		  <font style="color:#5d5d5d;"> 
 		    * 采集参数项的填写模式为：( u1 , u2 , u3 , i1 , i2 , i3 , s1 , s2 , s3 , f1 , f2 , f3 , ... )
 		  </font>
-    <div>
+	</td></tr>	  
+    <tr><td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 	
 	<br>
-	    <input type="submit" value=" 提  交 "  id="send-btn">
-    </div>
-    <br><br>
-    </td>
-   </tr>
+	    <input type="submit" value=" 提  交 "  id="send-btn"><br><br><br><br>
+    </td></tr>
+
  </table>
 </form>
 

@@ -17,7 +17,7 @@ JHTML::stylesheet('style.css','modules/mod_meter_info/css/');
 
 
 
-//$result = ModMeterInfoHelper::getMeterInfoValues();
+//$result = ModMeterInfoHelper::getMeterStatus($location_id, $meter_address);
 
 //
 require(JModuleHelper::getLayoutPath('mod_meter_info', 'default'));

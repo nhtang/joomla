@@ -1,9 +1,9 @@
 ﻿<?php
 /**
  * @package     electromonitor.com
- * @subpackage  mod_meter_model
+ * @subpackage  module="mod_meter_model4"
  *
- * @copyright   Copyright (C) 2015 All rights reserved.
+ * @copyright   Copyright (C) 2016 All rights reserved.
  */
 
 defined('_JEXEC') or die;
