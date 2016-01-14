@@ -12,11 +12,13 @@ defined('_JEXEC') or die;
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 </head>
+	
+	
 <form id=go  name="go"  method="post" action="index.php/meter-info" onSubmit='return javacheck(this)'>
     <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" /><br>
 	<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
 	<br>
-	    <input type="submit" value=" 全部停止采集 "  id="get_data">
+	    <input type="submit" value=" 全部暂停采集 "  id="stop">
 </form>
 <div id="electrical">
     <h1>电表 [ <?php echo $meter_address; ?> ] </h1>
@@ -27,14 +29,27 @@ defined('_JEXEC') or die;
             <tr>
               <td>行动</td>         
               <td colspan="6">
-			  <!--input type="submit" name="submit" value="更新数据" -->
-			  <form id=gostop  name="gostop"  method="post" action="index.php/" onSubmit='return javacheck(this)'>
-    			  <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
-				  <input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
-	    		  <input type="submit" value=" 停止采集 "  id="stop_data">
-			  </form>
+			  
+			    <?php if($switch == "0"){?>
+     			<form id=goswitch style="padding-top:15px;" name="goswitch"  method="post" action="index.php/meter-switch" onSubmit='return javacheck(this)'>
+        			<input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
+					<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
+					<input id="switch" name="switch" type="hidden" size="10" value="<?php echo $switch; ?>" />
+	    			<input type="submit" value=" 开启采集 "  id="get_data" title="start get data status">
+      			</form>
+   			     <?php }else{?>
+	  			 <form id=goswitch style="padding-top:15px;" name="goswitch"  method="post" action="index.php/meter-switch" onSubmit='return javacheck(this)'>
+        			<input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
+					<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
+				  	<input id="switch" name="switch" type="hidden" size="10" value="<?php echo $switch; ?>" />
+	  			    <input type="submit" value=" 停止采集 "  id="get_data" title="stop get data status">
+    			 </form>
+				 <?php }?>
+			  
 			  </td> 
-               <td colspan="4"></td>			   
+               <td colspan="4">状态:
+			   <?php if($switch=="0"){echo "<b>OFF</b>";}else{echo "<B><font color=#green >ON</font></b>";}?>
+			   </td>			   
             </tr>
             <tr>
               <td>时间</td>  
@@ -87,5 +102,6 @@ defined('_JEXEC') or die;
             </tr>
            </table>
     </form>
+	
 </div>
 </html>

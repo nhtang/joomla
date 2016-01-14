@@ -22,25 +22,37 @@ $location_id = JRequest::getVar('location_id', '-1');  //get location_id
 $meter_address = JRequest::getVar('meter_address', '-1');  //get location_id 
 $meter_model = JRequest::getVar('meter_model', '-1');  //get meter_model 
 
-//echo  $location_id ."-". $meter_address ."-". $meter_address;
+
 
 //system("gpio")
-  
 
-    
+$getChecklStatus = ModDianBiaoHelper::getChecklStatus();
+if($getChecklStatus != ""){
+	echo "<script>alert('全部电表状态为 ：OFF !');history.back();</script>";	
+}else{
+   
 $sql = "select * from joomla3_meter_info  order by info_id Asc";
 $rs = mysql_query($sql);
 //$rsnum = mysql_num_rows($rs);
 //$row_loop = mysql_fetch_array($rs);
-while($row_loop=mysql_fetch_array($rs)){
+ while($row_loop=mysql_fetch_array($rs)){
 	$location_id = $row_loop['location_id'];
 	$meter_address = $row_loop['meter_address'];
 	$meter_model = $row_loop['meter_model'];
 	
-$result = ModDianBiaoHelper::getMeterModelValus($meter_model);
+	
+	
+	$electrical_status = ModDianBiaoHelper::getElectricalStatus($location_id, $meter_address);
+	$switch = $electrical_status;  //The $switch For  default.php
+    //$electrical_status = 1 or 0;
+    if($electrical_status == "1"){  //check electrical_status 
+    //sleep(1);
+	
+	
+  $result = ModDianBiaoHelper::getMeterModelValus($meter_model);
 	
   if($result == ""){
-		echo "<script>alert('数据库中还没有此电表型号记录！请录入！');history.back();</script>";
+		echo "<script>alert('数据库中还没有此电表型号为：[  $meter_model ]  的记录！请先录入型号！');history.back();</script>";
   }else{
 	  
     foreach($result as $row){
@@ -57,28 +69,36 @@ $result = ModDianBiaoHelper::getMeterModelValus($meter_model);
     $data_index = $row['data_index'];
 	}
 	
-    
-	
+  // Get CRC check code  A-------------------------------------------
+  $merger =$device_id . $biao_command_code . $all_code ;
+  $merger_return = ModDianbiaoHelper::trimall($merger); 
+  //echo "<br>merger_return : $merger_return<br>";  
+  $P_merger = pack('H*', $merger_return);
+  $crc = ModDianbiaoHelper::crc16($P_merger); 
+  $ch_A=sprintf('%02x%02x', $crc%256, floor($crc/256));
+  $check_A = ModDianbiaoHelper::convert_code($ch_A);
+  //echo "<br>check_A : $check_A<br>";
+  
+  
+  // Get CRC check code  B------------------------------------------
+  $merger2 =$device_id . $biao_command_code . $all_code2 ;
+  $merger_return2 = ModDianbiaoHelper::trimall($merger2); 
+  //echo "<br>merger_return : $merger_return<br>";  
+  $P_merger2 = pack('H*', $merger_return2);
+  $crc2 = ModDianbiaoHelper::crc16($P_merger2); 
+  $ch_B=sprintf('%02x%02x', $crc2%256, floor($crc2/256));
+  $check_B = ModDianbiaoHelper::convert_code($ch_B);
+  //echo "<br>check_B : $check_B<br>";
 
-$electrical_status = ModDianBiaoHelper::getElectricalStatus();
-//$electrical_status=1;
-$k = 0;
-//while ($k<5){
-while ( ($k<1) && ($electrical_status) ) {
-$k++;
-//echo "$k <br>";
-//$electrical_status = ModDianBiaoHelper::getElectricalStatus();
-//sleep(1);
 
+$all_A = $device_id ." ". $biao_command_code ." ". $all_code ." ". $check_A ;
+$all_B = $device_id ." ". $biao_command_code ." ". $all_code2 ." ". $check_B ;
 
-$all_A = $device_id ." ". $biao_command_code ." ". $all_code . $check_A ;
-$all_B = $device_id ." ". $biao_command_code ." ". $all_code2 . $check_B ;
-
-echo "<br>all code: $all_code";
-$send_all =  exec("sudo /usr/bin/./mod_dianbiao $all_code", $all_output);
+//echo "<br>all code: $all_code";
+//$send_all =  exec("sudo /usr/bin/./mod_dianbiao $all_code", $all_output);
 
 echo "<br>all codeA: $all_A";
-//$send_A =  exec("sudo /usr/bin/./mod_dianbiao $all_A", $all_output);
+$send_A =  exec("sudo /usr/bin/./mod_dianbiao $all_A", $all_output);
 //sleep(1);
 if(is_array($all_output)==""){
 	echo "<script>alert('返回的数据为空！');history.back();</script>";
@@ -91,8 +111,9 @@ if(is_array($all_output)==""){
   foreach($all_output AS $all_temp){
   echo "$all_temp";
   }
+  
 
-// get return code first time
+// get return code first time ----------------------------------------------------------------*/
 $hex_u1 =  $all_output[5] . $all_output[6]. $all_output[3] . $all_output[4];      //Ua
 echo "<br>hex_u1: ".$hex_u1;
 $hex_u2 = $all_output[9] . $all_output[10] . $all_output[7] . $all_output[8] ;     //Ub
@@ -124,12 +145,15 @@ echo "<br>hex_p3: ".$hex_p3;
 
 echo "<br>";
 
+
+//time waitout for meter retrun data
+sleep(1);
 //send code the second time
-echo "<br>all code 2 : $all_code2";
-$send_all2 =  exec("sudo /usr/bin/./mod_dianbiao $all_code2", $all_output2);
+//echo "<br>all code 2 : $all_code2";
+//$send_all2 =  exec("sudo /usr/bin/./mod_dianbiao $all_code2", $all_output2);
 
 echo "<br>all codeB: $all_B";
-//$send_B =  exec("sudo /usr/bin/./mod_dianbiao $all_B", $all_output2);
+$send_B =  exec("sudo /usr/bin/./mod_dianbiao $all_B", $all_output2);
 //sleep(1);
 if(is_array($all_output2)==""){
 	echo "<script>alert('all_output2 返回的数据为空！');history.back();</script>";
@@ -143,7 +167,9 @@ if(is_array($all_output2)==""){
   foreach($all_output2 AS $all_temp2){
   echo "$all_temp2";
   }
-// get return code second time
+  
+  
+// get return code second time---------------------------------------------------------------------*/
 $hex_pE =  $all_output2[5] . $all_output2[6] . $all_output2[3] . $all_output2[4] ;      //PE
 echo "<br>hex_pE: ".$hex_pE;
 
@@ -180,7 +206,7 @@ echo "<br>";
 
 //echo "start get getMeterInfoValus:<br>";
 $rs_info = ModDianBiaoHelper::getMeterInfoValus($info_id);
-//select get which electricl_data
+//select get which electricl_data-----------------------------------------------------------------*/
     foreach($rs_info as $row_info){
 	    $data_select = $row_info['data_select'];
 	}
@@ -264,6 +290,7 @@ $rs_info = ModDianBiaoHelper::getMeterInfoValus($info_id);
 //} 	
 
 
+// covernt hex to 32Float string ------------------------------------------------------------*/
 $all_u1 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u1), 4);
 $all_u2 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_u2), 4);
 //$all_u2 = ModDianBiaoHelper::hexStringTo32Float("270F4361");
@@ -284,9 +311,9 @@ $all_f3 = number_format(ModDianBiaoHelper::hexStringTo32Float($hex_f3), 4);
 echo "<br>";
 
 $voltage1 = $all_u1;
-$current1 = $all_u1;
-$power1 = $all_u1;
-$frequency1 = $all_u1;
+$current1 = $all_i1;
+$power1 = $all_s1;
+$frequency1 = $all_f1;
 
 echo "<br>all_1:";
 echo "<br>voltage1 : $voltage1 <br>";
@@ -321,9 +348,60 @@ echo " frequency3 : $frequency3 <br>";
 
   
 
-	  
-	  
-	  
+	
+
+date_default_timezone_set('Asia/Singapore');
+$datetime = date('Y-m-d H:i:s');
+$time = $datetime;
+
+// insert to database ------------------------------------------*/
+//ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $u2, $i2, $s2, $f2);
+ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $voltage1, $current1, $power1, $frequency1, $voltage2, $current2, $power2, $frequency2, $voltage3, $current3, $power3, $frequency3);
+
+
+    } //else check no meter_model	
+
+require(JModuleHelper::getLayoutPath('mod_meter_connect', 'default'));
+  }  // if check $electrical_status 
+
+
+// call new web page, then exit
+
+     if ($electrical_status) {
+        //$lines = file("http://127.0.0.1/joomla/index.php/meter-connect");
+     }
+
+
+}//while meter_info 
+	
+// Fresh_page script----------------------------------------------*/	
+/*echo ("<script type=\"text/javascript\">");
+echo ("function fresh_page()");    
+echo ("{");
+echo ("window.location.reload();");
+echo ("}"); 
+echo ("setTimeout('fresh_page()',5000);");      
+echo ("</script>");
+*/	
+
+
+
+
+}  //end if($getChecklStatus)  
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------------------------------*/
+/*------This is Test code ---------------------------------------*/
+/*---------------------------------------------*/
 //$devsce_id = "01";  //address_code  // unique id address of individual biao 
 //$biao_command_code = "03";  //function_code  // command code to read holding register  
 
@@ -630,38 +708,4 @@ $frequency3 = $f3;
 
 
 /*---------------------------------------------*/
-
-date_default_timezone_set('Asia/Singapore');
-$datetime = date('Y-m-d H:i:s');
-$time = $datetime;
-
-// insert to database
-//ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $u2, $i2, $s2, $f2);
-ModDianBiaoHelper::insertElectricalValues($datetime, $location_id, $meter_address, $voltage1, $current1, $power1, $frequency1, $voltage2, $current2, $power2, $frequency2, $voltage3, $current3, $power3, $frequency3);
-
-
-  }//while ( ($k<1) && ($electrical_status)
-
-
-}//while meter_info 	  
-
-//}//foreach
-// call new web page, then exit
-
-if ($electrical_status) {
-  //$lines = file("http://127.0.0.1/joomla/index.php/meter-connect");
-}
-
-require(JModuleHelper::getLayoutPath('mod_meter_connect', 'default'));
-	}//else no meter_model
-	
-//fresh_page script----------------------------------------------	
-/*echo ("<script type=\"text/javascript\">");
-echo ("function fresh_page()");    
-echo ("{");
-echo ("window.location.reload();");
-echo ("}"); 
-echo ("setTimeout('fresh_page()',5000);");      
-echo ("</script>");
-*/	
 ?>

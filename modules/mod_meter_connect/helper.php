@@ -10,8 +10,39 @@ defined('_JEXEC') or die;
 
 class ModDianbiaoHelper
 {
-
-	function hexStringTo32Float($strHex) {
+    function crc16($string) {
+      $crc = 0xFFFF;
+      for ($x = 0; $x < strlen ($string); $x++) {
+          $crc = $crc ^ ord($string[$x]);
+        for ($y = 0; $y < 8; $y++) {
+            if (($crc & 0x0001) == 0x0001) {
+              $crc = (($crc >> 1) ^ 0xA001);
+            } else { $crc = $crc >> 1; }
+        }
+      }
+      return $crc;
+    }
+    //$s = pack('H*', '010300090002');
+    //$t = crc16($s);
+    //printf('=%02x%02x', $t%256, floor($t/256));  //14 09
+	//$cs=sprintf('%02x%02x', $t%256, floor($t/256));
+    //echo $cs;
+	
+	public function trimall($str)//删除空格
+    {
+        $qian=array(" ","　","\t","\n","\r");
+		$hou=array("","","","","");
+        return str_replace($qian,$hou,$str);    
+    }
+	
+	public function convert_code($str){
+      $str1 = substr($str,0,2);
+      $str2 = substr($str,2,2);
+	  $allstr = $str1." ".$str2;
+	  return $allstr;
+    }
+	
+	public function hexStringTo32Float($strHex) {
 	    $v = hexdec($strHex);
 	    $x = ($v & ((1 << 23) - 1)) + (1 << 23) * ($v >> 31 | 1);
 	    $exp = ($v >> 23 & 0xFF) - 127;
@@ -35,16 +66,19 @@ class ModDianbiaoHelper
 	    return $string;
 	}
 	
-	
-
-	public function getElectricalStatus() {
+	public function getChecklStatus() {
 		// read electrical status
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('electrical_status');
-		$query->from($db->quoteName('joomal3_electrical_status'));
-		$query->where($db->quoteName('location_id')." = ".$db->quote(1));
+		$query = "SELECT * FROM joomla3_electrical_status WHERE  electrical_status = 1 ";
+		$db->setQuery($query);
+		$row = $db->loadResult();
+		return $row;
+	}
 
+	public function getElectricalStatus($location_id, $meter_address) {
+		// read electrical status
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM joomla3_electrical_status WHERE location_id = '$location_id' and meter_address = '$meter_address' ";
 		$db->setQuery($query);
 		$row = $db->loadAssoc();
 
