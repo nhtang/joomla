@@ -14,7 +14,8 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 
 
-$switch = trim(JRequest::getVar('switch', '-1'));  
+$switch = trim(JRequest::getVar('switch', '-1'));
+$key = trim(JRequest::getVar('key', '-1'));   
 
 if($switch == "-1"){
     echo "<script>alert('请先选择要设置的电表信息记录！');history.back(); </script>";
@@ -28,7 +29,7 @@ if($switch == "-1"){
       $datetime = date('Y-m-d H:i:s');
       $datetime_change = $datetime;
 	  
-  ModMeterSwitchUpdateHelper::updateMeterSwitchValues($datetime_change, $location_id, $meter_address, $switch );
+  ModMeterSwitchUpdateHelper::updateMeterSwitchValues($datetime_change, $location_id, $meter_address, $switch, $key );
 
   require(JModuleHelper::getLayoutPath('mod_meter_switch', 'default'));
 	

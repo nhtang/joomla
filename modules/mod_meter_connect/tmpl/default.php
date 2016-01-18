@@ -14,49 +14,54 @@ defined('_JEXEC') or die;
 </head>
 	
 	
-<form id=go  name="go"  method="post" action="index.php/meter-info" onSubmit='return javacheck(this)'>
+<form id=go  name="go"  method="post" action="meter-info" onSubmit='return javacheck(this)'>
     <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" /><br>
 	<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
 	<br>
-	    <input type="submit" value=" 全部暂停采集 "  id="stop">
+	    <input type="submit" value=" 退出采集 "  id="stop">
 </form>
+
 <div id="electrical">
-    <h1>电表 [ <?php echo $meter_address; ?> ] </h1>
+    <h3>位置 [ <?php echo $location_id; ?> ] &nbsp;&nbsp; 电表 [ <?php echo $meter_address; ?> ] </h3>
 
-    <form action="index.php/meter-connect?meter_model=<?php echo $meter_model;?>&location_id=<?php echo $location_id;?>&meter_address=<?php echo $meter_address;?>" method="post" id="electrical_form">
+    
 
-          <table border="1">
-            <tr>
+          <table border="1" >
+            <tr >
               <td>行动</td>         
-              <td colspan="6">
+             
 			  
-			    <?php if($switch == "0"){?>
-     			<form id=goswitch style="padding-top:15px;" name="goswitch"  method="post" action="index.php/meter-switch" onSubmit='return javacheck(this)'>
+			    <?php if($switch == "0"){?><?php //echo $location_id.$meter_address.$switch; ?>
+     			<form id=goswitch  name="goswitch"  method="post" action="index.php/meter-switch" >
         			<input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
 					<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
 					<input id="switch" name="switch" type="hidden" size="10" value="<?php echo $switch; ?>" />
+					<input id="key" name="key" type="hidden" size="10" value="connect" />
+					 <td colspan="6" style="padding-left:20px;height:30px;">
 	    			<input type="submit" value=" 开启采集 "  id="get_data" title="start get data status">
+					</td>
       			</form>
-   			     <?php }else{?>
-	  			 <form id=goswitch style="padding-top:15px;" name="goswitch"  method="post" action="index.php/meter-switch" onSubmit='return javacheck(this)'>
+   			     <?php }else{?><?php //echo $location_id.$meter_address.$switch; ?>
+	  			 <form id=goswitch  name="goswitch"  method="post" action="index.php/meter-switch" >
         			<input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
 					<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
 				  	<input id="switch" name="switch" type="hidden" size="10" value="<?php echo $switch; ?>" />
+					<input id="key" name="key" type="hidden" size="10" value="connect" />
+					<td colspan="6" style="padding-left:20px;height:30px;">
 	  			    <input type="submit" value=" 停止采集 "  id="get_data" title="stop get data status">
+					</td>
     			 </form>
 				 <?php }?>
 			  
-			  </td> 
-               <td colspan="4">状态:
+               <td align=center colspan="4" >状态:
 			   <?php if($switch=="0"){echo "<b>OFF</b>";}else{echo "<B><font color=#green >ON</font></b>";}?>
 			   </td>			   
             </tr>
-            <tr>
+            <tr align=center>
               <td>时间</td>  
-              <td colspan="6"><?php echo $time; ?></td>
-			  <td colspan="4"></td>
+              <td colspan="8" align="left"><?php echo $time; ?></td>
             </tr>
-            <tr>
+            <tr align=center>
               <td>电压1</td>  
               <td><?php echo $voltage1; ?></td>
               <td>V</td>
@@ -67,7 +72,7 @@ defined('_JEXEC') or die;
               <td><?php echo $voltage3; ?></td>
               <td>V</td>
             </tr>
-            <tr>
+            <tr align=center>
               <td>电流1</td>
               <td><?php echo $current1; ?></td>
               <td>A</td>
@@ -78,30 +83,30 @@ defined('_JEXEC') or die;
               <td><?php echo $current3; ?></td>
               <td>A</td>
             </tr>
-            <tr>
+            <tr align=center>
               <td>功率1</td>
               <td><?php echo $power1; ?></td>
-              <td>kVA</td>
+              <td>W</td>
 			  <td>功率2</td>
               <td><?php echo $power2; ?></td>
-              <td>kVA</td>
+              <td>W</td>
 			  <td>功率3</td>
               <td><?php echo $power3; ?></td>
-              <td>kVA</td>
+              <td>W</td>
             </tr>
-            <tr>
-              <td>频率1</td>
+            <tr align=center>
+              <td>频率</td>
               <td><?php echo $frequency1; ?></td>
               <td>Hz</td>
-			  <td>频率2</td>
-              <td><?php echo $frequency2; ?></td>
-              <td>Hz</td>
-			  <td>频率3</td>
-              <td><?php echo $frequency3; ?></td>
-              <td>Hz</td>
+			  <td>总功率</td>
+              <td><?php echo $pE; ?></td>
+              <td>W</td>
+			  <td>电能</td>
+              <td><?php echo $Ep1; ?></td>
+              <td>kWh</td>
             </tr>
            </table>
-    </form>
+
 	
 </div>
 </html>

@@ -112,7 +112,7 @@ class ModDianbiaoHelper
 	}
 	
 	
-	public function insertElectricalValues($datetime, $location_id, $meter_address, $u1, $i1, $s1, $f1, $u2, $i2, $s2, $f2, $u3, $i3, $s3, $f3) {
+	public function insertElectricalValues($datetime, $location_id, $meter_address, $u1, $i1, $s1, $f1, $u2, $i2, $s2, $f2, $u3, $i3, $s3, $f3, $pE, $Ep1) {
 		// Create and populate an object.
 		$profile = new stdClass();
 		$profile->location_id = $location_id;
@@ -133,9 +133,65 @@ class ModDianbiaoHelper
 		$profile->phase3_current = $i3;
 		$profile->phase3_apparent_power = $s3;
 		$profile->phase3_frequency = $f3;
+		
+		$profile->total_apparent_power = $pE;
+		$profile->real_power = $Ep1;
 
 		// Insert the object into the user profile table.
 		$result = JFactory::getDbo()->insertObject('joomla3_electrical', $profile);
 
+	}
+	
+	public function checkFreshTime($time) {
+		// read fresh_time value
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM joomla3_varitely WHERE var_name = 'fresh_time'";
+		$db->setQuery($query);
+		$row_fresh = $db->loadAssoc();
+		
+
+		if($row_fresh == ""){
+			
+            $var_name = "fresh_time";
+			
+			if ($time == "-1"){ $var_value = 5 ;}else{ $var_value = $time ;}
+			
+            date_default_timezone_set('Asia/Singapore');
+            $create_time = date('Y-m-d H:i:s');	
+			
+			// if fresh_time is  null
+            $profile_fresh = new stdClass();
+			$profile_fresh->var_name = $var_name;
+			$profile_fresh->var_value = $var_value;
+			$profile_fresh->create_time = $create_time;
+               
+            // Update the object from the user profile table.
+            $fresh_update = JFactory::getDbo()->insertObject('joomla3_varitely', $profile_fresh);
+			
+			//return the insert  var_value
+			return $var_value;
+			
+		}else if(($row_fresh != "")&&($time == "-1")){
+			
+			$fresh_time = $row_fresh['var_value'];
+		    return $fresh_time ;
+			
+		}else{
+			
+			$var_name = "fresh_time";
+			
+            date_default_timezone_set('Asia/Singapore');
+            $change_time = date('Y-m-d H:i:s');	
+			
+			// Put var  fresh_time into table 
+            $profile_fresh = new stdClass();
+			$profile_fresh->var_name = $var_name;
+			$profile_fresh->var_value = $time;
+			$profile_fresh->change_time = $change_time;
+               
+            // Update the object from the user profile table.
+            $fresh_update = JFactory::getDbo()->updateObject('joomla3_varitely', $profile_fresh, 'var_name');
+			return $time;
+		}
 	}
 }

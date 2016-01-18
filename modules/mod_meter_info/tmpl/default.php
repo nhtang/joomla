@@ -16,8 +16,8 @@ defined('_JEXEC') or die;
 <body>
 
 
-<div id="table" style="padding-top:5px;">
-<table width="710px" align=center  cellpadding="0" cellspacing="0" style="background-color:#F8F8FF;border-left:none;border-top:none;border-right:none;">
+<div id="electrical" style="padding-top:5px;">
+<table width="710px" align=center   border="1px">
 
 <?php
     @$page = $_GET['page'];
@@ -51,13 +51,13 @@ defined('_JEXEC') or die;
 ?>
  
  <tr align=center >
-  <td width=50px><b>序号</td>
-  <td width=50px><b>位置码</td>
-  <td width=100px><b>表地址</td> 
-  <td width=100px><b>电表型号</td>
-  <td width=100px><b>采集参数项</td>  
-  <td width=100px><b>电表状态</td>
-  <td width=100px><b>行动</td>
+  <td width=50px ><b>序号</td>
+  <td width=50px ><b>位置码</td>
+  <td width=100px ><b>表地址</td> 
+  <td width=100px ><b>电表型号</td>
+  <td width=100px ><b>采集参数项</td>  
+  <td width=100px ><b>电表状态</td>
+  <td width=100px ><b>行动</td>
  </tr>
 
     <?php		
@@ -92,6 +92,7 @@ defined('_JEXEC') or die;
         <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
 		<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
 		<input id="switch" name="switch" type="hidden" size="10" value="<?php echo $switch; ?>" />
+		<input id="key" name="key" type="hidden" size="10" value="info" />
 	    <input type="submit" value=" ON "  id="get_data" title="start get data status">
       </form>
    <?php }else{?>
@@ -99,6 +100,7 @@ defined('_JEXEC') or die;
         <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
 		<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
 		<input id="switch" name="switch" type="hidden" size="10" value="<?php echo $switch; ?>" />
+		<input id="key" name="key" type="hidden" size="10" value="info" />
 	    <input type="submit" value=" OFF "  id="get_data" title="stop get data status">
       </form>
 	<?php }?>   
@@ -172,20 +174,28 @@ defined('_JEXEC') or die;
 
 <br>
 
-<form id=go  name="go"  method="post" action="index.php/meter-connect" onSubmit='return javacheck(this)'>
-    <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $info_id; ?>" /><br>
-	<br>
-	    <input type="submit" value=" 采集电表数据 "  id="get_data">
+<form id=getform  name="getform"  method="post" action="index.php/meter-connect" onSubmit='form_time()'>
+<table width="700px" align=left  cellpadding="0" cellspacing="0" >
+  <tr align=left>
+    <td width=200px style="padding-left:5px;">
+	 设置采集间隔：
+	<input class="input-small" id="fresh_time" name="fresh_time" type="text" size="10" value="<?php echo $fresh_time; ?>"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" onblur="change_time()" maxlength="10" /> 秒/次 
+	 &nbsp;&nbsp;&nbsp;&nbsp;
+	<input   type="submit" value=" 采集电表数据 "  id="get_data" >
+    </td>
+  </tr>
+</table>		
 </form>
-
+<br><br><br>
 
 <?php
     $sql = "select meter_model_id, meter_model from joomla3_metermodel  order by meter_model_id Asc";
 	$rsl = mysql_query($sql);
 ?>
 <br><br>
-<form id=form  name="form"  method="post" action="index.php/meter-info-submit" onSubmit='return javacheck(this)'>
+<form id=form  name="form"  method="post" action="index.php/meter-info-submit" onSubmit='javacheck(this)'>
  <table width="900px" align=left  cellpadding="0" cellspacing="0" style="background-color:#F8F8FF;border-left:none;border-top:none;border-right:none;"> 
+<h4>&nbsp;增加电表信息：</h4>
    <tr><td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 
            电表位置码&nbsp;：
         <input id="location_id" name="location_id" type="text" size="10" value="" /><br>
@@ -216,37 +226,65 @@ defined('_JEXEC') or die;
  </table>
 </form>
 
+<script>
+function change_time(){
 
+    var fresh_time = document.getElementById("fresh_time");
 
-<script language=JavaScript1.2>
+    if((fresh_time.value <= 5) || (fresh_time.value == "")){
+		
+		alert('最小刷新时间为 5 秒/次，间隔时间太短取回的数据容易发生错误！');
+		fresh_time.value = 5;
+		return false; 
+    }
+
+}
+
+function form_time(){
+
+    var fresh_time = document.getElementById("fresh_time");
+
+    if((fresh_time.value <= 5) || (fresh_time.value == "")){
+		
+		alert('最小刷新时间为 5 秒/次，将设置时间为 ：5 秒/次！');
+		fresh_time.value = 5;
+		fresh_tim.focus();
+		return false; 
+    }
+
+}
+
  
-function javacheck(formct)
+function javacheck()
 {
 	
       
         
-        if (formct.location_id.value.replace(/^\s|\s$/g,'') == '') 
+        if (document.getElementById("location_id").value.replace(/^\s|\s$/g,'') == '') 
 	{
 		alert('请填写电表位置码！');
-                 formct.location_id.focus();
+                 document.getElementById("fresh_time").focus();
 		return false; 
 	} 
 
-        if (formct.meter_address.value.replace(/^\s|\s$/g,'') == '') 
+        if (document.getElementById("meter_address").value.replace(/^\s|\s$/g,'') == '') 
 	{
 		alert('请填写电表地址码！');
-                 formct.meter_address.focus();
+                 document.getElementById("meter_address").focus();
 		return false; 
 	} 
 	
-	    if (formct.meter_model.value.replace(/^\s|\s$/g,'') == '') 
+	    if (document.getElementById("meter_model").value.replace(/^\s|\s$/g,'') == '') 
 	{
 		alert('请填写电表型号！');
-                 formct.meter_model.focus();
+                 document.getElementById("meter_model"). focus();
 		return false; 
 	} 
+	
        
 }
+
+
 
 </script>
 

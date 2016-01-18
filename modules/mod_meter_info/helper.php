@@ -35,5 +35,22 @@ class ModMeterInfoHelper
 		  return $electrical_status;
 	}
 	
-
+	public function getFreshTime() {
+		// read fresh_time value
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM joomla3_varitely WHERE var_name = 'fresh_time'";
+		$db->setQuery($query);
+		$row_fresh = $db->loadAssoc();
+		
+		if($row_fresh == ""){
+			
+			$fresh_time = 5 ;
+		    return $fresh_time ;
+	
+		}else {
+			
+			$fresh_time = $row_fresh['var_value'];
+		    return $fresh_time ;		
+	    }
+    }
 }

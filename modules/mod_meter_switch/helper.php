@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 class ModMeterSwitchUpdateHelper
 {
-    function updateMeterSwitchValues($datetime_change, $location_id, $meter_address, $switch) {
+    function updateMeterSwitchValues($datetime_change, $location_id, $meter_address, $switch, $key ) {
                 
 				// read meter_model values
 		        $db = JFactory::getDBO();
@@ -40,7 +40,11 @@ class ModMeterSwitchUpdateHelper
                   $result = JFactory::getDbo()->updateObject('joomla3_electrical_status', $profile, 'status_id');
 				  
 				  if($result == true){
-					  echo "<script>alert('更新成功！');history.back(); </script>";
+					  if($key == "info"){
+					      echo "<script>alert('更新成功！');location.href='meter-info'; </script>";
+				      }else{
+						  echo "<script>alert('更新成功！');location.href='meter-connect'; </script>";
+					  }
 				  }else{
 					  echo "<script>alert('更新失败，请重新修改！');history.back(); </script>";
 				  }
