@@ -179,11 +179,22 @@ defined('_JEXEC') or die;
   <tr align=left>
     <td width=200px style="padding-left:5px;">
 	 设置采集间隔：
-	<input class="input-small" id="fresh_time" name="fresh_time" type="text" size="10" value="<?php echo $fresh_time; ?>"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" onblur="change_time()" maxlength="10" /> 秒/次 
+	<input class="input-small" id="fresh_time" name="fresh_time" type="text" size="10" value="<?php if(($fresh_time=="")||($fresh_time==0)){echo "5";}else{echo $fresh_time;} ?>" 
+    onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}" 
+	
+	maxlength="10" /> 秒/次 
+	<!--"this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" -->
+	 &nbsp;&nbsp;&nbsp;&nbsp;
+	 电表反应时间：
+	 <input class="input-small" id="wait_time" name="wait_time" type="text" size="10" value="<?php if(($wait_time=="")||($wait_time==0)){echo "1.04";}else{echo $wait_time;} ?>"  
+      onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}" 
+
+	 onblur="change_wait()" maxlength="10" /> 秒/次 
 	<!--"this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" -->
 	 &nbsp;&nbsp;&nbsp;&nbsp;
 	<input   type="submit" value=" 开始采集数据 "  id="get_data" >
     </td>
+	
   </tr>
 </table>		
 </form>
@@ -241,6 +252,19 @@ function change_time(){
 
 }
 
+function change_wait(){
+
+    var wait_time = document.getElementById("wait_time");
+
+    if((wait_time.value < 0.5) || (wait_time.value == "")){
+		
+		alert('最小反应时间为 0.5 秒/次，时间越短取回的数据越容易出错！建议 1.04 秒');
+		wait_time.value = 1.04;
+		return false; 
+    }
+
+}
+
 function form_time(){
 
     var fresh_time = document.getElementById("fresh_time");
@@ -249,6 +273,15 @@ function form_time(){
 		
 		alert('最小刷新时间为 5 秒/次，将设置时间为 ：5 秒/次！');
 		fresh_time.value = 5;
+		return false; 
+    }
+	
+	var wait_time = document.getElementById("wait_time");
+
+    if((wait_time.value < 0.5) || (wait_time.value == "")){
+		
+		alert('最小反应时间为 0.5 秒/次，时间越短取回的数据越容易出错！建议 1.04 秒');
+		wait_time.value = 1.04;
 		return false; 
     }
 

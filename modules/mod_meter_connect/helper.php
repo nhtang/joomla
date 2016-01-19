@@ -205,4 +205,67 @@ class ModDianbiaoHelper
 			return $time;
 		}
 	}
-}
+	
+	public function checkWaitTime($wait_time) {
+		// read wait_time value
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM joomla3_varitely WHERE var_name = 'wait_time'";
+		$db->setQuery($query);
+		$row_wait = $db->loadAssoc();
+		
+
+		if($row_wait == ""){
+			
+            $var_name = "wait_time";
+			
+			if ($wait_time == "-1"){ $var_value = 1.04 ;}else{ $var_value = $wait_time ;}
+			
+            date_default_timezone_set('Asia/Singapore');
+            $create_time = date('Y-m-d H:i:s');	
+			
+			// if wait_time is  null
+            $profile_fresh = new stdClass();
+			$profile_fresh->var_name = $var_name;
+			$profile_fresh->var_value = $var_value;
+			$profile_fresh->create_time = $create_time;
+               
+            // Update the object from the user profile table.
+            $fresh_update = JFactory::getDbo()->insertObject('joomla3_varitely', $profile_fresh);
+			
+			//return the insert  var_value
+			return $var_value;
+			
+		}else if(($row_wait != "")&&($wait_time == "-1")){
+			
+			$wait_time = $row_wait['var_value'];
+		    return $wait_time ;
+			
+		}else{
+			
+			$var_name = "wait_time";
+			
+            date_default_timezone_set('Asia/Singapore');
+            $change_time = date('Y-m-d H:i:s');	
+			
+			// Put var  wait_time into table 
+            $profile_fresh = new stdClass();
+			$profile_fresh->var_name = $var_name;
+			$profile_fresh->var_value = $wait_time;
+			$profile_fresh->change_time = $change_time;
+               
+            // Update the object from the user profile table.
+            $fresh_update = JFactory::getDbo()->updateObject('joomla3_varitely', $profile_fresh, 'var_name');
+			return $wait_time;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}//class

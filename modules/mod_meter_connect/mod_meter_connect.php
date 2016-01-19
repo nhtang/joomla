@@ -11,14 +11,21 @@ defined('_JEXEC') or die;
 // Include the functions only once
 require_once __DIR__ . '/helper.php';
 require_once __DIR__ . '/conn.php';
+sleep(0.3);
 
-$wait_time = "68";
 
 JHTML::stylesheet('styles.css','modules/mod_meter_connect/css/');
 
 $info_id = JRequest::getVar('info_id', '-1');  //get info_id 
-$get_time = JRequest::getVar('fresh_time', '-1');  //get fresh_time 
+$get_time = JRequest::getVar('fresh_time', '-1');  //get fresh_time
+$wait_time = JRequest::getVar('wait_time', '-1');  //get fresh_time 
+
 $fresh_time = ModDianBiaoHelper::checkFreshTime($get_time);
+$wait_time = ModDianBiaoHelper::checkWaitTime($wait_time);
+
+$wait_time = dechex($wait_time*100);  //format wait_time form dec 10 to hex 16 
+//echo "<br>wait_time: $wait_time";
+
 
 //$s = 1;
 //do {
