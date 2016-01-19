@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 require_once __DIR__ . '/conn.php';
 
+JHTML::stylesheet('styles.css', 'modules/mod_meter_model4/css/');
 $result = ModMeterModelHelper::getMeterModelValues();
 
 	/*foreach($result as $row){

@@ -1,7 +1,7 @@
 ﻿<?php
 /**
  * @package     electromonitor.com
- * @subpackage  module="mod_meter_model4"
+ * @subpackage  module="mod_meter_model"
  *
  * @copyright   Copyright (C) 2016 All rights reserved.
  */

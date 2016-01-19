@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 
 
 <div id="electrical" style="padding-top:5px;">
-<table width="710px" align=center   border="1px">
+<table width="710px" border="1px"  align=center >
 
 <?php
     @$page = $_GET['page'];
@@ -57,7 +57,7 @@ defined('_JEXEC') or die;
   <td width=100px ><b>电表型号</td>
   <td width=100px ><b>采集参数项</td>  
   <td width=100px ><b>电表状态</td>
-  <td width=100px ><b>行动</td>
+  <td width=100px style="background-color:#F8F8FF;border-left:1px;border-top:1px;border-right:1px;"><b>行动</td>
  </tr>
 
     <?php		
@@ -180,8 +180,9 @@ defined('_JEXEC') or die;
     <td width=200px style="padding-left:5px;">
 	 设置采集间隔：
 	<input class="input-small" id="fresh_time" name="fresh_time" type="text" size="10" value="<?php echo $fresh_time; ?>"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" onblur="change_time()" maxlength="10" /> 秒/次 
+	<!--"this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" -->
 	 &nbsp;&nbsp;&nbsp;&nbsp;
-	<input   type="submit" value=" 采集电表数据 "  id="get_data" >
+	<input   type="submit" value=" 开始采集数据 "  id="get_data" >
     </td>
   </tr>
 </table>		
@@ -193,7 +194,7 @@ defined('_JEXEC') or die;
 	$rsl = mysql_query($sql);
 ?>
 <br><br>
-<form id=form  name="form"  method="post" action="index.php/meter-info-submit" onSubmit='javacheck(this)'>
+<form id=form  name="form"  method="post" action="index.php/meter-info-submit" onSubmit='return javacheck(this)'>
  <table width="900px" align=left  cellpadding="0" cellspacing="0" style="background-color:#F8F8FF;border-left:none;border-top:none;border-right:none;"> 
 <h4>&nbsp;增加电表信息：</h4>
    <tr><td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 
@@ -231,7 +232,7 @@ function change_time(){
 
     var fresh_time = document.getElementById("fresh_time");
 
-    if((fresh_time.value <= 5) || (fresh_time.value == "")){
+    if((fresh_time.value < 5) || (fresh_time.value == "")){
 		
 		alert('最小刷新时间为 5 秒/次，间隔时间太短取回的数据容易发生错误！');
 		fresh_time.value = 5;
@@ -244,44 +245,45 @@ function form_time(){
 
     var fresh_time = document.getElementById("fresh_time");
 
-    if((fresh_time.value <= 5) || (fresh_time.value == "")){
+    if((fresh_time.value < 5) || (fresh_time.value == "")){
 		
 		alert('最小刷新时间为 5 秒/次，将设置时间为 ：5 秒/次！');
 		fresh_time.value = 5;
-		fresh_tim.focus();
 		return false; 
     }
 
 }
+</script>
 
+<script language=JavaScript1.2>
  
-function javacheck()
+function javacheck(formct)
 {
 	
       
         
-        if (document.getElementById("location_id").value.replace(/^\s|\s$/g,'') == '') 
+        if (formct.location_id.value.replace(/^\s|\s$/g,'') == '') 
 	{
 		alert('请填写电表位置码！');
-                 document.getElementById("fresh_time").focus();
+                 formct.location_id.focus();
 		return false; 
 	} 
 
-        if (document.getElementById("meter_address").value.replace(/^\s|\s$/g,'') == '') 
+        if (formct.meter_address.value.replace(/^\s|\s$/g,'') == '') 
 	{
 		alert('请填写电表地址码！');
-                 document.getElementById("meter_address").focus();
+                 formct.meter_address.focus();
 		return false; 
 	} 
 	
-	    if (document.getElementById("meter_model").value.replace(/^\s|\s$/g,'') == '') 
+	    if (formct.meter_model.value.replace(/^\s|\s$/g,'') == '') 
 	{
 		alert('请填写电表型号！');
-                 document.getElementById("meter_model"). focus();
+                 formct.meter_model.focus();
 		return false; 
 	} 
 	
-       
+ 
 }
 
 

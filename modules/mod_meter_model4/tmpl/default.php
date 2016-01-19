@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
   <head>
   </head>
 
-<div id="table" style="padding-top:5px;">
-<table width="710px" align=center  cellpadding="0" cellspacing="0" style="background-color:#F8F8FF;border-left:none;border-top:none;border-right:none;">
+<div id="electrical" style="padding-top:5px;">
+<table width="710px" align="center"  broder="1px"">
 
 <?php
     @$page = $_GET['page'];
@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
         }
 		
 ?>
- <tr align=center >
+ <tr align="center" >
   <td width=50px><b>序号</font></td>
   <td width=120px><b>电表型号</font></td>
   <td width=100px><b>生产厂名</font></td> 

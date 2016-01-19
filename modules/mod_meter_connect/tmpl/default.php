@@ -15,16 +15,13 @@ defined('_JEXEC') or die;
 	
 	
 <form id=go  name="go"  method="post" action="meter-info" onSubmit='return javacheck(this)'>
-    <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" /><br>
+    <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
 	<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
-	<br>
 	    <input type="submit" value=" 退出采集 "  id="stop">
 </form>
 
 <div id="electrical">
     <h3>位置 [ <?php echo $location_id; ?> ] &nbsp;&nbsp; 电表 [ <?php echo $meter_address; ?> ] </h3>
-
-    
 
           <table border="1" >
             <tr >
@@ -106,7 +103,7 @@ defined('_JEXEC') or die;
               <td>kWh</td>
             </tr>
            </table>
-
+<br><br><br><br>
 	
 </div>
 </html>

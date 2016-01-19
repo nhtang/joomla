@@ -24,11 +24,11 @@ class ModMeterInfoUpdateHelper
                       //$query = 'SELECT * FROM joomla3_meter_info WHERE location_id ='.$location_id.' and location_id ='.$location_id;
 				
                 $db->setQuery($query);
-                $row = $db->loadResult();
-				//$row = $db->loadAssoc();      
+                //$result = $db->loadResult();
+				$row = $db->loadAssoc();      
 				
             if($row != ""){
-					echo " <script>alert('数据库中已存在位置、表地址码相同的记录！ 记录序号：".$row."');history.back(); </script>";
+					echo " <script>alert('数据库中已存在位置、表地址码相同的记录！ 记录序号：".$result."');history.back(); </script>";
 			}else{
 
 				  // Get data source Meter_model ---------------------------------------- 

@@ -74,6 +74,17 @@ class ModDianbiaoHelper
 		$row = $db->loadResult();
 		return $row;
 	}
+	
+	public function getSessionStatus() {
+		  // read MeterModelValus
+		  $db = JFactory::getDBO();
+          $query = "SELECT * FROM joomla3_session_status  ";
+          $db->setQuery($query);
+          $row_session = $db->loadAssoc();
+		  $session = $row_session['session'];
+		  return $session;
+      
+	}
 
 	public function getElectricalStatus($location_id, $meter_address) {
 		// read electrical status
@@ -89,7 +100,7 @@ class ModDianbiaoHelper
 	public function getMeterModelValus($meter_model) {
 		  // read MeterModelValus
 		  $db = JFactory::getDBO();
-          $query = "SELECT * FROM joomla3_metermodel where meter_model = '$meter_model'";
+          $query = "SELECT meter_model, function_code, command_code, command_code2, data_index FROM joomla3_metermodel where meter_model = '$meter_model'";
           $db->setQuery($query);
           $result = $db->loadAssocList(); 
 		  
