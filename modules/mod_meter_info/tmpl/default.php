@@ -186,7 +186,7 @@ defined('_JEXEC') or die;
 	<!--"this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" -->
 	 &nbsp;&nbsp;&nbsp;&nbsp;
 	 电表反应时间：
-	 <input class="input-small" id="wait_time" name="wait_time" type="text" size="10" value="<?php if(($wait_time=="")||($wait_time==0)){echo "1.04";}else{echo $wait_time;} ?>"  
+	 <input class="input-small" id="wait_time" name="wait_time" type="text" size="10" value="<?php if($wait_time==""){echo "1.04";}else{echo $wait_time;} ?>"  
       onkeypress="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onkeyup="if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value" onblur="if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}" 
 
 	 onblur="change_wait()" maxlength="10" /> 秒/次 

@@ -16,6 +16,7 @@ require_once __DIR__ . '/conn.php';
 JHTML::stylesheet('style.css','modules/mod_meter_info/css/');
 
 $fresh_time = ModMeterInfoHelper::getFreshTime($get_time);
+$wait_time = ModMeterInfoHelper::getFreshTime($wait_time);
 
 //$result = ModMeterInfoHelper::getMeterStatus($location_id, $meter_address);
 
