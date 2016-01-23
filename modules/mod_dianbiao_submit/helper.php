@@ -13,7 +13,7 @@ class ModDianbiaoSubmitHelper
 	public function getElectricalData($datetime, $controller_electrical_id, $time_pos, $limit) {
 		// read electrical status
 		$db = JFactory::getDbo();
-		$query = "select * from joomla3_electrical where electrical_id >= $controller_electrical_id ORDER BY electrical_id ASC";
+		$query = "select * from joomla3_electrical where electrical_id > $controller_electrical_id ORDER BY electrical_id ASC";
 		/*$query = $db->getQuery(true);
 		$query->select( $db->quoteName(array('electrical_id', 'location_id', 'meter_address', 'datetime', 'phase1_apparent_power',
 		   'phase1_voltage', 'phase1_current', 'phase1_frequency') ) );
@@ -31,7 +31,7 @@ class ModDianbiaoSubmitHelper
 //		$electrical_id = $row['electrical_status'];
         if($rows == ""){ //while the electrical table has delete or anyway trouble  but the time will update
 			$db = JFactory::getDbo();
-		    $query = "select * from joomla3_electrical where datetime >= $time_pos ORDER BY electrical_id ASC";
+		    $query = "select * from joomla3_electrical where datetime > $time_pos ORDER BY electrical_id ASC";
 			$db->setQuery($query,0, $limit);
 		    $rows = $db->loadAssocList();
 		}

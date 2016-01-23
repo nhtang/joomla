@@ -106,4 +106,15 @@ defined('_JEXEC') or die;
 <br><br><br><br>
 	
 </div>
+<div id="timeClew" algin=center></div>
+<script type="text/javascript">
+
+var url = "index.php/submit-data" //要跳转的地址
+var obj = document.getElementById("timeClew"), time = 10;
+function setTimeClew(){ 
+  time--;
+ if(time < 0){ window.open(url,'newwindow','height=100,width=400,top=500,left=500,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');}else{ setTimeout(setTimeClew, 1000) }
+}
+setTimeClew()
+</script>	
 </html>

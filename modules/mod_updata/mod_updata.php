@@ -1,7 +1,7 @@
 ﻿<?php
 /**
  * @package     electromonitor.com
- * @subpackage  mod_electrom_form
+ * @subpackage  mod_updata
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 // Include the functions only once
 require_once __DIR__ . '/helper.php';
  
-JHTML::stylesheet('styles.css','modules/mod_electrom_form/css/');
+JHTML::stylesheet('styles.css','modules/mod_updata/css/');
 
-//function updata(){
+//function getChartDataAjax(){
 
 
 $allarr = JRequest::getVar('allarr', '-1');
@@ -44,9 +44,8 @@ $fields = JRequest::getVar('fields', '-1');
 if ($allarr != ""){
 	// Create and populate an object.
 			$var_name = "allarr";
-			print "
-3";
-            date_default_timezone_set('Asia/Singapore');
+
+			date_default_timezone_set('Asia/Singapore');
             $change_time = date('Y-m-d H:i:s');	
 			
 			// Put var  fresh_time into table 
@@ -91,11 +90,12 @@ echo "new is $new <br>";
 				$electrical->phase1_current = $Arr_fields["phase1_current-$n"];
 		
 				// Insert the object into the user profile table.
-				$result = JFactory::getDbo()->insertObject('#__electrical2', $electrical);
+				$result = JFactory::getDbo()->insertObject('joomla3_electrical2', $electrical);
 			} //if
 		} // if
 	}// for
 }
 
+return 1;
 //}//function
-//require(JModuleHelper::getLayoutPath('mod_electrom_form', 'default'));
+require(JModuleHelper::getLayoutPath('mod_updata', 'default'));

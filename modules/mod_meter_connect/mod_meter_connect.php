@@ -657,7 +657,7 @@ echo ("window.location.reload();");
 echo ("}"); 
 echo ("setTimeout('fresh_page()',".$fresh_time.");");      
 echo ("</script>");
-	
-
 
 ?>
+
+

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 </head>
-
+<div id="setTimejump" algin=center></div>
 
 <div id="electrical">
     <h1>提交数据</h1>
@@ -55,3 +55,4 @@ defined('_JEXEC') or die;
           </table>
     </form>
 </div>
+

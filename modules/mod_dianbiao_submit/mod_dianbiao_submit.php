@@ -35,7 +35,7 @@ $datetime = date('Y-m-d H:i:s');
 $time = $datetime;
 $server_datetime = date("Y-m-d H:i:s", strtotime("-60 seconds"));
 
-$limit = 22; // number of records to retrieve
+$limit = 10; // number of records to retrieve
 
 
 $data_pos = ModDianBiaoSubmitHelper::getDataPos();
@@ -57,7 +57,7 @@ $size = count($electrical_data);
 
 // send data to electrom server
 //$url = 'http://www.electromonitor.com/monitor/index.php/submit-values';
- $url = 'http://localhost/joomla/index.php/submit-values';
+ //$url = 'http://localhost/joomla/index.php/submit-values';
 
 // set up _POST array of key value pairs
 $data_rows = $electrical_data;
@@ -99,56 +99,74 @@ foreach ($data_rows AS $data) {
 
 
 ?>
+<div id="setTimejump" algin=center></div>
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 <script type="text/javascript">
 
-   $(function(){
+ jQuery(function(){
+		
 	   var post = '<?php echo json_encode($_POST);?>';
 	   var data_pos = '<?php echo $data_pos;?>';
 	   var time_pos = '<?php echo $time_pos;?>';
 	   
-     $.ajax({
-         url: 'http://127.0.0.1/joomla/index.php/submit-values/show',
+    jQuery.ajax({
+         url: 'http://127.0.0.1/joomla/index.php/upload-data',
+		 //url: 'http://www.electromonitor.com/monitor/index.php/upload-data',
 		 datatype: "json",
-		 //type: "POST",
+		 timeout: 50000 ,
+		 type: "POST",
 		 traditional:true,
-         data:{ 
+        data:{
 		   allarr : post,
 		   num_records : "<?php echo $limit;?>",
 		   fields : "<?php echo $fields;?>"
-		 },
-          		 
-		 beforeSend:function(){},
-         error: function(){  
-             alert('Error loading XML document');  
-         },  
-         success: function(){  
-             alert(" Updata to server succeed! \n Last record controller_electrical_id is : "+data_pos+"\n Last record datetime is : "+time_pos);
-			 //document.write(" Updata to server succeed! \n Last record controller_electrical_id is : "+data_pos+"\n Last record datetime is : "+time_pos):
-			 
-         }
-     });
-     
- });
- 
+		},
+
+		beforeSend: function(){
+              
+        },
 		
+		//complete:  function(XMLHttpRequest, textStatus){
+              //alert(textStatus);
+        //},
+		
+		success: function(){  
+             //alert(" Updata to server succeed! \n Last record controller_electrical_id is : "+data_pos+"\n Last record datetime is : "+time_pos);
+			 //document.write(" Updata to server succeed! \n Last record controller_electrical_id is : "+data_pos+"\n Last record datetime is : "+time_pos):
+			 location.href="index.php/move-updata-pos?data_pos="+data_pos+"&time_pos="+time_pos;
+         },
+        
+		 error: function(request, status, error){  
+             alert(request.responseText);
+			 setTimejump()
+			 //history.back();
+             		 
+         }  
+         
+    });
+ 
+})
+
+var obj = document.getElementById("timeClew"), time = 10;
+function setTimejump(){ 
+  time--;
+  // obj.innerHTML = "上传数据失败! " + (time--) + "秒后自动重新上传，如果没有自动跳转<a href=\"" + url + "\">请点这里<\/a>";
+ if(time < 0){ location.href="index.php/submit-data";}else{ setTimeout(setTimejump, 1000) }
+}
+
 
 </script>
 
 <?php 
       
-    ModDianBiaoSubmitHelper::setDataPos($data_pos);
-    ModDianBiaoSubmitHelper::setTimePos($time_pos);
+    //ModDianBiaoSubmitHelper::setDataPos($data_pos);
+    //ModDianBiaoSubmitHelper::setTimePos($time_pos);
 
 //} // for k
 
 //$lines = file("http://localhost/joomla/index.php/submit-data");
 
 require(JModuleHelper::getLayoutPath('mod_dianbiao_submit', 'default'));
-
-
-
-
-
+//sleep(5);
 
 ?>
