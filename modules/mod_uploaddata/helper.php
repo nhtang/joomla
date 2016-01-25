@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     electromonitor.com
- * @subpackage  mod_updata
+ * @subpackage  mod_uploaddata
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
 
-defined('_JEXEC') or die;
-
-class modmod_updataHelper
+class modUploaddataHelper
 {
 	public static function isDataNew($controller_electrical_id, $location_id, $meter_address) {
 		// check if data is new based on controller_electrical_id and location_id
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('electrical_id');
+		$query->select($db->quoteName(array('electrical_id', 'controller_electrical_id', 'meter_address')));
 		$query->from($db->quoteName('joomla3_electrical2'));
 		$query->where("controller_electrical_id = " . $db->quote($controller_electrical_id) . " AND "
 		      . "location_id =  " . $db->quote($location_id). " AND "
 		      . "meter_address =  " . $db->quote($meter_address) );
+			  
+	    //$query = "SELECT * FROM joomla3_electrical2 WHERE controller_electrical_id = $controller_electrical_id  AND location_id =  $location_id ";		  
 
 		$db->setQuery($query);
 		$db->execute();
@@ -34,10 +34,6 @@ class modmod_updataHelper
 	
   public static function getUploadDataAjax(){
 	
-	jimport('joomla.log.log');
-	JLog::addLogger(array());
-	JLog::add(JText::_('Inside getDataAjax mod_updata'), JLog::WARNING, 'jerror');
-	
 	$allarr = JRequest::getVar('allarr', '-1');
     $num_records = JRequest::getVar('num_records', '-1');
     $fields = JRequest::getVar('fields', '-1');
@@ -45,7 +41,8 @@ class modmod_updataHelper
 	$arr_len = strlen($allarr);
     $allarr = substr($allarr , 1, $arr_len-2);
     $data_index = str_replace('"' , '', $allarr);
-  
+   
+	
   //explode $data_index    //example :$data_index = "num_records:2,controller_electrical_id-0:291,location_id-0:1,meter_address-0:04,datetime-0:2016-01-19 16:49:23,phase1_voltage-0:222.5077,phase1_current-0:40.6247,phase1_apparent_power-0:7.000000,phase1_frequency-0:50.0000";  
 	$strArr=explode(',',$data_index); 
 	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
@@ -63,7 +60,7 @@ class modmod_updataHelper
 	  $Arr_fields[$var_name] = $var_vaule ;
     }
 
-    if ($allarr != ""){
+    /*if ($allarr != ""){  //Update TABLE varitely for test receive data
 	// Create and populate an object.
 			$var_name = "allarr";
 
@@ -79,9 +76,9 @@ class modmod_updataHelper
             // Update the object from the user profile table.
             $fresh_update = JFactory::getDbo()->updateObject('joomla3_varitely', $profile_fresh, 'var_name');
 			//return $time;
-    }
+    }*/
 
-
+    
 
     if ($num_records>0) {
 	for ($n=0; $n<$num_records; $n++){
@@ -92,14 +89,18 @@ class modmod_updataHelper
 		$location_id = $Arr_fields["location_id-$n"];
 		$meter_address = $Arr_fields["meter_address-$n"];
 
-echo "controller_electrical_id is $controller_electrical_id <br>";
-echo "location_id is $location_id <br>";
+//echo "controller_electrical_id is $controller_electrical_id <br>";
+//echo "location_id is $location_id <br>";
+
+    //jimport('joomla.log.log');
+	//JLog::addLogger(array());
+	
 	
 		if ( ($controller_electrical_id >0) && ($location_id > 0) ) {
-			$new = isDataNew($controller_electrical_id, $location_id, $meter_address);
-echo "new is $new <br>";
+			$new = ModUploaddataHelper::isDataNew($controller_electrical_id, $location_id, $meter_address);
+//echo "new is $new <br>";
 			if ( $new ) {
-
+             
 				// Create and populate an object.
 				$electrical = new stdClass();
 				$electrical->controller_electrical_id = $controller_electrical_id;
@@ -118,24 +119,8 @@ echo "new is $new <br>";
 	}// for
     }//if ($num_records>0) 
 
-	
-		$db = JFactory::getDbo();
-		$query = "SELECT * FROM joomla3_electrical2 WHERE controller_electrical_id = $controller_electrical_id AND location_id = $location_id AND meter_address = $meter_address ";
-		/*$query = $db->getQuery(true);
-//		$query->select( $db->quoteName($columns) );
-		$query->select('*' );
-
-		$query->from( $db->quoteName("#__electrical") );		
-		$query->where( $db->quoteName('location_id')." = ".$db->quote($location_id) . 
-				" AND `datetime` >= " . $db->quote($from_datetime)); 
-		*/
-   		
-
-		$db->setQuery($query);
-		$rows = $db->loadAssocList();		
-
-	
-		return json_encode($rows);
+	    //JLog::add(JText::_("RETURN AJAX"), JLog::ERROR, 'jerror');////
+		return 1;
  } // getUploadData
 
 	

@@ -1,7 +1,7 @@
 ﻿<?php
 /**
  * @package     electromonitor.com
- * @subpackage  mod_updata
+ * @subpackage  mod_updata_error
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
@@ -16,19 +16,14 @@ defined('_JEXEC') or die;
 
 
 <div id="electrical">
-The Last record's contoller_electrical_id is : <?php echo $data_pos;?>
-<br>
-The Last record's datetime is : <?php echo $time_pos;?>
-<br>
-
 
 <div id="timeClew" algin=center></div>
 
 <script type="text/javascript">
 var url = "index.php/submit-data" //要跳转的地址
-var obj = document.getElementById("timeClew"), time = 30;
+var obj = document.getElementById("timeClew"), time = <?php echo $next_time;?>;
 function setTimeClew(){
- obj.innerHTML = "上传记录成功! " + (time--) + "秒后自动下一次数据上传，如果没有自动跳转<a href=\"" + url + "\">请点这里<\/a>";
+ obj.innerHTML = "<br><?php echo $error_msg ; ?><br><br>" + (time--) + "秒后自动重试数据上传，如果没有自动跳转<a href=\"" + url + "\">请点这里<\/a><br>";
  if(time < 0){ window.location.href = url; }else{ setTimeout(setTimeClew, 1000) }
 }
 setTimeClew();

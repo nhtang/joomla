@@ -192,6 +192,40 @@ class ModDianbiaoSubmitHelper
 	
 	}
 	
-	
+	public function getTryTime() {
+		// read DataPos value
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM joomla3_varitely WHERE var_name = 'try_time'";
+		$db->setQuery($query);
+		$row_trytime = $db->loadAssoc();
+		
+
+		if($row_trytime == ""){
+			
+            $var_name = "try_time";
+			$var_value = 3 ;
+			
+            date_default_timezone_set('Asia/Singapore');
+            $create_time = date('Y-m-d H:i:s');	
+			
+			// if DataPos is  null
+            $trytime = new stdClass();
+			$trytime->var_name = $var_name;
+			$trytime->var_value = $var_value;
+			$trytime->create_time = $create_time;
+               
+            // Insert the object from the user profile table.
+            $trytime_insert = JFactory::getDbo()->insertObject('joomla3_varitely', $trytime);
+			
+			//return the insert  var_value
+			return $var_value;
+			
+		}else {
+			
+			$try_time = $row_trytime['var_value'];
+		    return $try_time ;
+			
+		}
+	}
 	
 }

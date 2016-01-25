@@ -13,29 +13,13 @@ require_once __DIR__ . '/helper.php';
 
 JHTML::stylesheet('styles.css','modules/mod_dianbiao_submit/css/');
 
-//$electrical_status = JRequest::getVar('electrical_status', '-1');
-//$quantity = JRequest::getVar('quantity', '0');
-
-//if ($electrical_status != -1) {
-  // update database
-//  ModDianBiaoSwitchHelper::setElectricalStatus($electrical_status);
-
-//}
-
-// ask server for datetime (use current time - 10s for trial)
-// read database
-// list data
-// submit data
-
-
-//for ($k=0;$k<5;$k++){
 
 date_default_timezone_set('Asia/Singapore');
 $datetime = date('Y-m-d H:i:s');
 $time = $datetime;
 $server_datetime = date("Y-m-d H:i:s", strtotime("-60 seconds"));
 
-$limit = 10; // number of records to retrieve
+$limit = 100; // number of records to retrieve
 
 
 $data_pos = ModDianBiaoSubmitHelper::getDataPos();
@@ -47,7 +31,21 @@ $time_pos = date("Y-m-d H:i:s", strtotime($time_pos));
 //$controller_electrical_id = $data_pos;
 //$datatime = $time_pos;
 
-
+$try_time = ModDianBiaoSubmitHelper::getTryTime();
+echo "<br>try_time : $try_time";
+/*switch($try_time){
+	case "3":
+	  $try_time = 2 ; //next try again after 30's 
+	  break;
+    case "2":
+	  $try_time = 1 ;//The thrid try again after 10'm
+	  break;
+    case "1":
+	  $try_time = 3 ;//The last try again after 2'h
+	  break;
+    	  
+}*/
+//echo "<br>var try_time : $try_time";
 
 unset($electrical_data);
 $electrical_data = ModDianBiaoSubmitHelper::getElectricalData($server_datetime, $data_pos, $time_pos, $limit);
@@ -66,7 +64,7 @@ $n = 0;
 unset ($_POST);
 //$_POST["num_records"] = $limit;
 $num_records = $limit;
-$fields = 8;
+//$fields = 16;
 foreach ($data_rows AS $data) {
 
   $_POST["controller_electrical_id-$n"]  = $data['electrical_id'];
@@ -77,11 +75,21 @@ foreach ($data_rows AS $data) {
   $_POST["phase1_current-$n"]  = $data['phase1_current'];
   $_POST["phase1_apparent_power-$n"]  = $data['phase1_apparent_power'];
   $_POST["phase1_frequency-$n"]  = $data['phase1_frequency'];
+  $_POST["phase2_voltage-$n"]  = $data['phase2_voltage'];
+  $_POST["phase2_current-$n"]  = $data['phase2_current'];
+  $_POST["phase2_apparent_power-$n"]  = $data['phase2_apparent_power'];
+  $_POST["phase2_frequency-$n"]  = $data['phase2_frequency'];
+  $_POST["phase3_voltage-$n"]  = $data['phase3_voltage'];
+  $_POST["phase3_current-$n"]  = $data['phase3_current'];
+  $_POST["phase3_apparent_power-$n"]  = $data['phase3_apparent_power'];
+  $_POST["phase3_frequency-$n"]  = $data['phase3_frequency'];
   
   $n++;
    //echo "n= $n ...";
 
 } //foreach
+  $fields = sizeof($_POST)/$n;
+  //echo "<br>fields : $fields ";
   
   /*
   $json_post = json_encode($_POST);
@@ -94,8 +102,6 @@ foreach ($data_rows AS $data) {
 
     $data_pos = $data['electrical_id'];
     $time_pos = $data['datetime'];
-    //ModDianBiaoSubmitHelper::setDataPos($data_pos);
-    //ModDianBiaoSubmitHelper::setTimePos($time_pos);
 
 
 ?>
@@ -103,53 +109,44 @@ foreach ($data_rows AS $data) {
 <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
 <script type="text/javascript">
 
- jQuery(function(){
-		
-	   var post = '<?php echo json_encode($_POST);?>';
-	   var data_pos = '<?php echo $data_pos;?>';
-	   var time_pos = '<?php echo $time_pos;?>';
+function uploaddata(){
+	//alert(" inside getpushdata");
 	   
-    jQuery.ajax({
-         url: 'http://127.0.0.1/joomla/index.php/upload-data',
-		 //url: 'http://www.electromonitor.com/monitor/index.php/upload-data',
-		 datatype: "json",
-		 timeout: 50000 ,
-		 type: "POST",
-		 traditional:true,
-        data:{
-		   allarr : post,
-		   num_records : "<?php echo $limit;?>",
-		   fields : "<?php echo $fields;?>"
-		},
+       var post = '<?php echo json_encode($_POST);?>';
+	   var data_pos = '<?php echo $data_pos ;?> ';
+	   var time_pos = '<?php echo $time_pos ;?> ';
+	   
+		jQuery.ajax({
+			url: "index.php",
+			//url: 'http://www.electromonitor.com/monitor/index.php',
+			data: {"option":"com_ajax", "module":"uploaddata", "method":"getUploadData","format":"json" 
+			 , "allarr" : post,
+		   "num_records" : "<?php echo $limit;?>",
+		   "fields" : "<?php echo $fields;?>"
+		   }
+		})
+		.done(function () {
+			//alert(" Updata to server succeed! \n Last record controller_electrical_id is : "+data_pos+"\n Last record datetime is : "+time_pos);
+			location.href="index.php/move-updata-pos?data_pos="+data_pos+"&time_pos="+time_pos;
+		})
+		.fail(function (request, status, error) {
+			alert(request.responseText);
+			//setTimejump()
+			location.href="index.php/updata-error?&try_time=<?php echo $try_time;?>&error_msg="+request.responseText;
+		});
+	//alert(" end jquery");
+}
 
-		beforeSend: function(){
-              
-        },
-		
-		//complete:  function(XMLHttpRequest, textStatus){
-              //alert(textStatus);
-        //},
-		
-		success: function(){  
-             //alert(" Updata to server succeed! \n Last record controller_electrical_id is : "+data_pos+"\n Last record datetime is : "+time_pos);
-			 //document.write(" Updata to server succeed! \n Last record controller_electrical_id is : "+data_pos+"\n Last record datetime is : "+time_pos):
-			 location.href="index.php/move-updata-pos?data_pos="+data_pos+"&time_pos="+time_pos;
-         },
-        
-		 error: function(request, status, error){  
-             alert(request.responseText);
-			 setTimejump()
-			 //history.back();
-             		 
-         }  
-         
-    });
- 
-})
+uploaddata()  //Run Ajax functon uploadata()
 
-var obj = document.getElementById("timeClew"), time = 10;
+
+
+var time = 30;
+var try_times = "<?php echo $try_time; ?>";
 function setTimejump(){ 
   time--;
+  try_times--;
+  
   // obj.innerHTML = "上传数据失败! " + (time--) + "秒后自动重新上传，如果没有自动跳转<a href=\"" + url + "\">请点这里<\/a>";
  if(time < 0){ location.href="index.php/submit-data";}else{ setTimeout(setTimejump, 1000) }
 }
@@ -162,7 +159,7 @@ function setTimejump(){
     //ModDianBiaoSubmitHelper::setDataPos($data_pos);
     //ModDianBiaoSubmitHelper::setTimePos($time_pos);
 
-//} // for k
+
 
 //$lines = file("http://localhost/joomla/index.php/submit-data");
 
