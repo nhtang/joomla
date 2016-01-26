@@ -34,6 +34,7 @@ class modUploaddataHelper
 	
   public static function getUploadDataAjax(){
 	
+	
 	$allarr = JRequest::getVar('allarr', '-1');
     $num_records = JRequest::getVar('num_records', '-1');
     $fields = JRequest::getVar('fields', '-1');
@@ -43,7 +44,7 @@ class modUploaddataHelper
     $data_index = str_replace('"' , '', $allarr);
    
 	
-  //explode $data_index    //example :$data_index = "num_records:2,controller_electrical_id-0:291,location_id-0:1,meter_address-0:04,datetime-0:2016-01-19 16:49:23,phase1_voltage-0:222.5077,phase1_current-0:40.6247,phase1_apparent_power-0:7.000000,phase1_frequency-0:50.0000";  
+    //explode $data_index     
 	$strArr=explode(',',$data_index); 
 	$arr_num = sizeof($strArr); //cout array numbers or // $arr_num = count($strArr);
 	for($i = 0; $i<$arr_num ; $i++){
@@ -60,24 +61,6 @@ class modUploaddataHelper
 	  $Arr_fields[$var_name] = $var_vaule ;
     }
 
-    /*if ($allarr != ""){  //Update TABLE varitely for test receive data
-	// Create and populate an object.
-			$var_name = "allarr";
-
-			date_default_timezone_set('Asia/Singapore');
-            $change_time = date('Y-m-d H:i:s');	
-			
-			// Put var  fresh_time into table 
-            $profile_fresh = new stdClass();
-			$profile_fresh->var_name = $var_name;
-			$profile_fresh->var_value = $allarr;
-			$profile_fresh->change_time = $change_time;
-               
-            // Update the object from the user profile table.
-            $fresh_update = JFactory::getDbo()->updateObject('joomla3_varitely', $profile_fresh, 'var_name');
-			//return $time;
-    }*/
-
     
 
     if ($num_records>0) {
@@ -89,16 +72,12 @@ class modUploaddataHelper
 		$location_id = $Arr_fields["location_id-$n"];
 		$meter_address = $Arr_fields["meter_address-$n"];
 
-//echo "controller_electrical_id is $controller_electrical_id <br>";
-//echo "location_id is $location_id <br>";
 
-    //jimport('joomla.log.log');
-	//JLog::addLogger(array());
 	
 	
 		if ( ($controller_electrical_id >0) && ($location_id > 0) ) {
 			$new = ModUploaddataHelper::isDataNew($controller_electrical_id, $location_id, $meter_address);
-//echo "new is $new <br>";
+
 			if ( $new ) {
              
 				// Create and populate an object.
@@ -119,8 +98,25 @@ class modUploaddataHelper
 	}// for
     }//if ($num_records>0) 
 
-	    //JLog::add(JText::_("RETURN AJAX"), JLog::ERROR, 'jerror');////
-		return 1;
+
+//JLog::add(JText::_("Before return 1"), JLog::ERROR, 'jerror');
+
+        $db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select( $db->quoteName(array('electrical_id', 'location_id', 'datetime', 'phase1_apparent_power', 'phase1_voltage', 'phase1_current', 'phase1_frequency') ) );
+			$query->from( $db->quoteName('joomla3_electrical2') );
+			$query->where( $db->quoteName('controller_electrical_id')." = ".$db->quote(1) );
+			$query->order('datetime DESC');
+	
+			$db->setQuery($query);
+			$rows = $db->loadAssocList();		
+	
+		//return json_encode($rows);
+		
+		$str = "{success:true, message:'Ö´ÐÐ³É¹¦£¡', messages:'messages', data:json_encode($rows)}";
+		return $str
+		
+		
  } // getUploadData
 
 	

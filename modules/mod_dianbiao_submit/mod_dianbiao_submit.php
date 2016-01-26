@@ -5,7 +5,7 @@
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
-
+header('Content-type: text/html; charset=utf8');
 defined('_JEXEC') or die;
 
 // Include the functions only once
@@ -19,7 +19,7 @@ $datetime = date('Y-m-d H:i:s');
 $time = $datetime;
 $server_datetime = date("Y-m-d H:i:s", strtotime("-60 seconds"));
 
-$limit = 100; // number of records to retrieve
+$limit = 30; // number of records to retrieve
 
 
 $data_pos = ModDianBiaoSubmitHelper::getDataPos();
@@ -106,8 +106,11 @@ foreach ($data_rows AS $data) {
 
 ?>
 <div id="setTimejump" algin=center></div>
-<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<!--script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script-->
 <script type="text/javascript">
+
+
 
 function uploaddata(){
 	//alert(" inside getpushdata");
@@ -117,40 +120,101 @@ function uploaddata(){
 	   var time_pos = '<?php echo $time_pos ;?> ';
 	   
 		jQuery.ajax({
-			url: "index.php",
-			//url: 'http://www.electromonitor.com/monitor/index.php',
-			data: {"option":"com_ajax", "module":"uploaddata", "method":"getUploadData","format":"json" 
-			 , "allarr" : post,
-		   "num_records" : "<?php echo $limit;?>",
-		   "fields" : "<?php echo $fields;?>"
-		   }
+			type : "get",
+            //async : false,
+			//cache:false,
+			//crossdomain: true,
+			//url: "index.php",
+			url: "http://www.electromonitor.com/monitor/index.php",
+			
+			dataType:'jsonp',  //选择返回值类型  
+			jsonp: "callbackparam",    //规定发送/接收参数，默认为callback
+            jsonpCallback:"jsonpCallback",
+            timeout:5000,
+			data: {"option":"com_ajax", "module":"uploaddata", "method":"getUploadData","format":"jsonp", 
+			       "allarr" : post,
+		           "num_records" : "<?php echo $limit;?>",
+		           "fields" : "<?php echo $fields;?>"
+		    },
+            success: function(){
+				alert('success!');
+             },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+				         //result = JSON.stringify(XMLHttpRequest);
+						 callText = XMLHttpRequest.statusText;
+						 //dataToLoadObj = JSON.parse(result); // dataToLoadObj is a JSON object, not an array
+			             //dataToLoad = Object.keys(result).map(  function(2) { return dataToLoadObj[0] }  );
+				       //alert('XMLHttpRequest : '+returnText);
+						alert('XMLHttpRequest : '+callText);
+                        //alert('status : '+XMLHttpRequest.status);
+                        //alert('readyState : '+ XMLHttpRequest.readyState);
+                        //alert('textStatus : '+textStatus);
+						//alert('errorThrown : '+XMLHttpRequest.errorThrown);
+						
+						if(callText == "success"){
+							location.href="index.php/updata-pos?data_pos="+data_pos+"&time_pos="+time_pos;
+						}else{
+							location.href="index.php/updata-error?&try_time=<?php echo $try_time;?>&error_msg="+callText;
+						}
+            },
+            complete: function(XMLHttpRequest, textStatus) {
+                        this; // 调用本次AJAX请求时传递的options参数
+            }
+        });
+}			
+
+/*parsererror原因分析： 
+   1.data:"{}", data为空也一定要传"{}"；不然返回的是xml格式的 
+   2.返回的数据中必须将单引号改为双引号 (默认: 自动判断 (xml 或 html)) 请求失败时调用时间。
+       参数有以下三个：XMLHttpRequest 对象、错误信息、（可选）捕获的错误对象。
+	   如果发生了错误，错误信息（第二个参数）除了得到null之外，还可能是"timeout", "error", "notmodified" 和 "parsererror"。
+	   
+	error事件返回的第一个参数XMLHttpRequest有一些有用的信息：XMLHttpRequest.readyState: 
+	       状态码 0 － （未初始化）还没有调用send()方法 
+		          1 － （载入）已调用send()方法，正在发送请求 
+				  2 － （载入完成）send()方法执行完成，已经接收到全部响应内容
+				  3 － （交互）正在解析响应内容 
+				  4 － （完成）响应内容解析完成，可以在客户端调用了 XMLHttpRequest.status属性
+*/
+
+
+/*
+function uploaddata(){
+	//alert(" inside getpushdata");
+	   
+       var post = '<?php echo json_encode($_POST);?>';
+	   var data_pos = '<?php echo $data_pos ;?> ';
+	   var time_pos = '<?php echo $time_pos ;?> ';
+	   
+		jQuery.ajax({
+			//url: "index.php",
+			url: "http://www.electromonitor.com/monitor/index.php",
+			
+			//async: false,
+			data: {"option":"com_ajax", "module":"uploaddata", "method":"getUploadData","format":"json", 
+			       "allarr" : post,
+		           "num_records" : "<?php echo $limit;?>",
+		           "fields" : "<?php echo $fields;?>"
+		    }
+			 
+			
 		})
-		.done(function () {
+		.done(function (data, status) {
+
 			//alert(" Updata to server succeed! \n Last record controller_electrical_id is : "+data_pos+"\n Last record datetime is : "+time_pos);
-			location.href="index.php/move-updata-pos?data_pos="+data_pos+"&time_pos="+time_pos;
+			location.href="index.php/updata-pos?data_pos="+data_pos+"&time_pos="+time_pos;
 		})
 		.fail(function (request, status, error) {
-			alert(request.responseText);
-			//setTimejump()
+			alert(request.error);
 			location.href="index.php/updata-error?&try_time=<?php echo $try_time;?>&error_msg="+request.responseText;
 		});
+		
 	//alert(" end jquery");
 }
+*/
+
 
 uploaddata()  //Run Ajax functon uploadata()
-
-
-
-var time = 30;
-var try_times = "<?php echo $try_time; ?>";
-function setTimejump(){ 
-  time--;
-  try_times--;
-  
-  // obj.innerHTML = "�ϴ�����ʧ��! " + (time--) + "����Զ������ϴ������û���Զ���ת<a href=\"" + url + "\">�������<\/a>";
- if(time < 0){ location.href="index.php/submit-data";}else{ setTimeout(setTimejump, 1000) }
-}
-
 
 </script>
 
@@ -158,8 +222,6 @@ function setTimejump(){
       
     //ModDianBiaoSubmitHelper::setDataPos($data_pos);
     //ModDianBiaoSubmitHelper::setTimePos($time_pos);
-
-
 
 //$lines = file("http://localhost/joomla/index.php/submit-data");
 
