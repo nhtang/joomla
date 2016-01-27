@@ -108,7 +108,7 @@ defined('_JEXEC') or die;
 </div>
 <div id="timeClew" algin=center></div>
 <script type="text/javascript">
-
+/*
 var url = "index.php/upload-data" //要跳转的地址
 var obj = document.getElementById("timeClew"), time = 10;
 function setTimeClew(){ 
@@ -116,5 +116,6 @@ function setTimeClew(){
  if(time < 0){ window.open(url,'newwindow','height=600,width=800,top=500,left=500,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');}else{ setTimeout(setTimeClew, 1000) }
 }
 setTimeClew()
+*/
 </script>	
 </html>

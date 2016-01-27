@@ -53,4 +53,23 @@ class ModMeterInfoHelper
 		    return $fresh_time ;		
 	    }
     }
+	public function getWaitTime() {
+		// read fresh_time value
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM joomla3_varitely WHERE var_name = 'wait_time'";
+		$db->setQuery($query);
+		$row_wait = $db->loadAssoc();
+		
+		if($row_wait == ""){
+			
+			$wait_time = 1.5 ;
+		    return $wait_time ;
+	
+		}else {
+			
+			$wait_time = $row_wait['var_value'];
+		    return $wait_time ;		
+	    }
+    }
+	
 }

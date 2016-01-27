@@ -16,26 +16,6 @@ defined('_JEXEC') or die;
 <body>
 <div id="timeClew" algin=center></div>
 <div id="timeClew2" algin=center></div>
-<script type="text/javascript">
-
-var url = "index.php/meter-connect" //要跳转的地址
-var obj = document.getElementById("timeClew"), time = 2;
-function openMeterConnect(){ 
-  time--;
- if(time < 0){ window.open(url,'newwindow','height=600,width=900,top=10,left=10,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');}else{ setTimeout(openMeterConnect, 1000) }
-}
-openMeterConnect();
-
-var url2 = "index.php/submit-data" //要跳转的地址
-var obj2 = document.getElementById("timeClew2"), time2 = 5;
-function setTimeClew(){ 
-  time2--;
- if(time < 0){ window.open(url2,'newwindow','height=600,width=600,top=10,left=10,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');}else{ setTimeout(setTimeClew, 1000) }
-}
-setTimeClew();
-
-
-</script>
 
 <div id="electrical" style="padding-top:5px;">
 <table width="710px" border="1px"  align=center >
@@ -279,8 +259,8 @@ function change_wait(){
 
     if((wait_time.value < 0.5) || (wait_time.value == "")){
 		
-		alert('最小反应时间为 0.5 秒/次，时间越短取回的数据越容易出错！建议 1.04 秒');
-		wait_time.value = 1.04;
+		alert('最小反应时间为 0.5 秒/次，时间越短取回的数据越容易出错！建议 1.5 秒');
+		wait_time.value = 1.5;
 		return false; 
     }
 
@@ -301,8 +281,8 @@ function form_time(){
 
     if((wait_time.value < 0.5) || (wait_time.value == "")){
 		
-		alert('最小反应时间为 0.5 秒/次，时间越短取回的数据越容易出错！建议 1.04 秒');
-		wait_time.value = 1.04;
+		alert('最小反应时间为 0.5 秒/次，时间越短取回的数据越容易出错！建议 1.5 秒');
+		wait_time.value = 1.5;
 		return false; 
     }
 

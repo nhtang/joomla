@@ -94,7 +94,7 @@ if($result == ""){
   $check_A = ModDianbiaoHelper::convert_code($ch_A);
   
   $all_A = $device_id ." ". $biao_command_code ." ". $all_code ." ". $check_A ;
-  echo "<br>all code: $all_A";
+  //echo "<br>all code: $all_A";
   
 
 //Classify meter_model retun code
@@ -202,7 +202,7 @@ echo "<br>";
   
   $all_B = $device_id ." ". $biao_command_code ." ". $all_code2 ." ". $check_B ;
   
-  echo "<br>all codeB: $all_B";
+  //echo "<br>all codeB: $all_B";
   unset($all_output2);
   $send_B =  exec("sudo /usr/bin/./mod_dianbiao $all_B $wait_time", $all_output2);
   //sleep(0.3);
