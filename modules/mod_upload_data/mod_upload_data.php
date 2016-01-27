@@ -20,7 +20,7 @@ $datetime = date('Y-m-d H:i:s');
 $time = $datetime;
 $server_datetime = date("Y-m-d H:i:s", strtotime("-60 seconds"));
 
-$limit = 10; // number of records to retrieve
+$limit = 8; // number of records to retrieve
 
 
 $data_pos = ModDianBiaoSubmitHelper::getDataPos();
@@ -56,14 +56,27 @@ foreach ($data_rows AS $data) {
   $_POST["location_id-$n"]  = $data['location_id'];
   $_POST["meter_address-$n"]  = $data['meter_address'];
   $_POST["datetime-$n"]  = $data['datetime'];
+  
+   
+   $_POST["total_apparent_power-$n"]  = $data['total_apparent_power'];
+   $_POST["real_power-$n"]  = $data['real_power'];
+   $_POST["phase1_power_factor-$n"]  = $data['power_factor'];
+   
+   $_POST["phase1_real_power-$n"]  = $data['phase1_real_power'];
+   $_POST["phase2_real_power-$n"]  = $data['phase2_real_power'];
+   $_POST["phase3_real_power-$n"]  = $data['phase3_real_power'];
+   
+   
   $_POST["phase1_voltage-$n"]  = $data['phase1_voltage'];
   $_POST["phase1_current-$n"]  = $data['phase1_current'];
   $_POST["phase1_apparent_power-$n"]  = $data['phase1_apparent_power'];
   $_POST["phase1_frequency-$n"]  = $data['phase1_frequency'];
+  
   $_POST["phase2_voltage-$n"]  = $data['phase2_voltage'];
   $_POST["phase2_current-$n"]  = $data['phase2_current'];
   $_POST["phase2_apparent_power-$n"]  = $data['phase2_apparent_power'];
   $_POST["phase2_frequency-$n"]  = $data['phase2_frequency'];
+  
   $_POST["phase3_voltage-$n"]  = $data['phase3_voltage'];
   $_POST["phase3_current-$n"]  = $data['phase3_current'];
   $_POST["phase3_apparent_power-$n"]  = $data['phase3_apparent_power'];
@@ -105,7 +118,7 @@ function uploaddata(){
 	   var time_pos = '<?php echo $time_pos ;?> ';
 	   
 		jQuery.ajax({
-			type : "get",
+			//type : "get",
             //async : false,
 			//cache:false,
 			//crossdomain: true,
@@ -122,7 +135,8 @@ function uploaddata(){
 		           "fields" : "<?php echo $fields;?>"
 		    },
             success: function(){
-				alert('success!');
+				//alert('Success!');
+				location.href="index.php/updata-pos?data_pos="+data_pos+"&time_pos="+time_pos;
              },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
 				         //result = JSON.stringify(XMLHttpRequest);
@@ -192,7 +206,7 @@ uploaddata()  //Run Ajax functon uploadata()
 
 //$lines = file("http://localhost/joomla/index.php/submit-data");
 
-require(JModuleHelper::getLayoutPath('mod_dianbiao_submit', 'default'));
+require(JModuleHelper::getLayoutPath('mod_upload_data', 'default'));
 //sleep(5);
 
 ?>

@@ -13,11 +13,11 @@ class ModDianbiaoSubmitHelper
 	public function getElectricalData($datetime, $controller_electrical_id, $time_pos, $limit) {
 		// read electrical status
 		$db = JFactory::getDbo();
-		$query = "select * from joomla3_electrical where electrical_id > $controller_electrical_id ORDER BY electrical_id ASC";
+		$query = "select * from #__electrical where electrical_id > $controller_electrical_id ORDER BY electrical_id ASC";
 		/*$query = $db->getQuery(true);
 		$query->select( $db->quoteName(array('electrical_id', 'location_id', 'meter_address', 'datetime', 'phase1_apparent_power',
 		   'phase1_voltage', 'phase1_current', 'phase1_frequency') ) );
-		$query->from( $db->quoteName('joomla3_electrical') );
+		$query->from( $db->quoteName('#__electrical') );
 		$query->where( $db->quoteName('location_id')." = ".$db->quote(1) . 
 		   " AND `datetime` > '$datetime'" );
 		$query->order('datetime ASC');
@@ -31,7 +31,7 @@ class ModDianbiaoSubmitHelper
 //		$electrical_id = $row['electrical_status'];
         if($rows == ""){ //while the electrical table has delete or anyway trouble  but the time will update
 			$db = JFactory::getDbo();
-		    $query = "select * from joomla3_electrical where datetime > $time_pos ORDER BY electrical_id ASC";
+		    $query = "select * from #__electrical where datetime > $time_pos ORDER BY electrical_id ASC";
 			$db->setQuery($query,0, $limit);
 		    $rows = $db->loadAssocList();
 		}
@@ -43,7 +43,7 @@ class ModDianbiaoSubmitHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('electrical_status');
-		$query->from($db->quoteName('joomal3_electrical_status'));
+		$query->from($db->quoteName('#__electrical_status'));
 		$query->where($db->quoteName('location_id')." = ".$db->quote(1));
 
 		$db->setQuery($query);
@@ -60,7 +60,7 @@ class ModDianbiaoSubmitHelper
 		$profile->electrical_status = $electrical_status;
 
 		// Update the object into the user profile table.
-		$result = JFactory::getDbo()->updateObject('joomal3_electrical_status', $profile, 'location_id');
+		$result = JFactory::getDbo()->updateObject('#__electrical_status', $profile, 'location_id');
 
 	}
 
@@ -76,7 +76,7 @@ class ModDianbiaoSubmitHelper
 		$profile->phase1_frequency = $f;
 
 		// Insert the object into the user profile table.
-		$result = JFactory::getDbo()->insertObject('joomal3_electrical', $profile);
+		$result = JFactory::getDbo()->insertObject('#__electrical', $profile);
 
 	}
 	
@@ -84,7 +84,7 @@ class ModDianbiaoSubmitHelper
 	public function getDataPos() {
 		// read DataPos value
 		$db = JFactory::getDbo();
-		$query = "SELECT * FROM joomla3_varitely WHERE var_name = 'controller_electrical_id'";
+		$query = "SELECT * FROM #__varitely WHERE var_name = 'controller_electrical_id'";
 		$db->setQuery($query);
 		$row_id = $db->loadAssoc();
 		
@@ -104,7 +104,7 @@ class ModDianbiaoSubmitHelper
 			$profile_controller->create_time = $create_time;
                
             // Insert the object from the user profile table.
-            $controller_insert = JFactory::getDbo()->insertObject('joomla3_varitely', $profile_controller);
+            $controller_insert = JFactory::getDbo()->insertObject('#__varitely', $profile_controller);
 			
 			//return the insert  var_value
 			return $var_value;
@@ -120,7 +120,7 @@ class ModDianbiaoSubmitHelper
     public function getTimePos(){
 		//---------------------------------------------------------------------------
 		$db2 = JFactory::getDbo();
-		$query2 = "SELECT * FROM joomla3_varitely WHERE var_name = 'time_pos'";
+		$query2 = "SELECT * FROM #__varitely WHERE var_name = 'time_pos'";
 		$db2->setQuery($query2);
 		$row_time = $db2->loadAssoc();
 		
@@ -139,7 +139,7 @@ class ModDianbiaoSubmitHelper
 			$profile_time->create_time = $create_time;
                
             // Insert the object from the user profile table.
-            $time_pos_insert = JFactory::getDbo()->insertObject('joomla3_varitely', $profile_time);
+            $time_pos_insert = JFactory::getDbo()->insertObject('#__varitely', $profile_time);
 			
 			//return the insert  var_value
 			return $var_value;
@@ -169,7 +169,7 @@ class ModDianbiaoSubmitHelper
 			$profile_update->change_time = $change_time;
                
             // Update the object from the user profile table.
-            $controller_update = JFactory::getDbo()->updateObject('joomla3_varitely', $profile_update, 'var_name');
+            $controller_update = JFactory::getDbo()->updateObject('#__varitely', $profile_update, 'var_name');
 	
 	}
 	
@@ -188,14 +188,14 @@ class ModDianbiaoSubmitHelper
 			$profile_update->change_time = $change_time;
                
             // Update the object from the user profile table.
-            $time_pos_update = JFactory::getDbo()->updateObject('joomla3_varitely', $profile_update, 'var_name');
+            $time_pos_update = JFactory::getDbo()->updateObject('#__varitely', $profile_update, 'var_name');
 	
 	}
 	
 	public function getTryTime() {
 		// read DataPos value
 		$db = JFactory::getDbo();
-		$query = "SELECT * FROM joomla3_varitely WHERE var_name = 'try_time'";
+		$query = "SELECT * FROM #__varitely WHERE var_name = 'try_time'";
 		$db->setQuery($query);
 		$row_trytime = $db->loadAssoc();
 		
@@ -215,7 +215,7 @@ class ModDianbiaoSubmitHelper
 			$trytime->create_time = $create_time;
                
             // Insert the object from the user profile table.
-            $trytime_insert = JFactory::getDbo()->insertObject('joomla3_varitely', $trytime);
+            $trytime_insert = JFactory::getDbo()->insertObject('#__varitely', $trytime);
 			
 			//return the insert  var_value
 			return $var_value;

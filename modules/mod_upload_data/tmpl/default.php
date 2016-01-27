@@ -23,20 +23,45 @@ defined('_JEXEC') or die;
 			<th>Electrical_id</th>
 			<th>Location_id</th>
 			<th>Datetime</th>
+			
 			<th>Voltage 1</th>
 			<th>Current 1</th>
-			<th>Frequency 1</th>
 			<th>Apparent Power 1</th>
+			
+			<th>Voltage 2</th>
+			<th>Current 2</th>
+			<th>Apparent Power 2</th>
+			
+			<th>Voltage 3</th>
+			<th>Current 3</th>
+			<th>Apparent Power 3</th>
+			
+			<th>Frequency </th>
+			<th>Total Apparent Power</th>
+			<th>Real Power</th>
 		</tr>
 		<?php foreach ($electrical_data as $data) { ?>
 		<tr>
 			<td><?php echo "{$data['electrical_id']}"; ?></td>
 			<td><?php echo "{$data['location_id']}"; ?></td>
 			<td><?php echo "{$data['datetime']}"; ?></td>
+			
 			<td><?php echo "{$data['phase1_voltage']}"; ?></td>
 			<td><?php echo "{$data['phase1_current']}"; ?></td>
-			<td><?php echo "{$data['phase1_frequency']}"; ?></td>
 			<td><?php echo "{$data['phase1_apparent_power']}"; ?></td>
+			
+			<td><?php echo "{$data['phase2_voltage']}"; ?></td>
+			<td><?php echo "{$data['phase2_current']}"; ?></td>
+			<td><?php echo "{$data['phase2_apparent_power']}"; ?></td>
+			
+			<td><?php echo "{$data['phase3_voltage']}"; ?></td>
+			<td><?php echo "{$data['phase3_current']}"; ?></td>
+			<td><?php echo "{$data['phase3_apparent_power']}"; ?></td>
+			
+			
+			<td><?php echo "{$data['phase1_frequency']}"; ?></td>
+			<td><?php echo "{$data['total_apparent_power']}"; ?></td>
+			<td><?php echo "{$data['real_power']}"; ?></td>
 		</tr>	
 		<?php }?>
 	</table>
