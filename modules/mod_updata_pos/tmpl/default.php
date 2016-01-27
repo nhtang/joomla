@@ -25,7 +25,7 @@ The Last record's datetime is : <?php echo $time_pos;?>
 <div id="timeClew" algin=center></div>
 
 <script type="text/javascript">
-var url = "index.php/submit-data" //要跳转的地址
+var url = "index.php/upload-data" //要跳转的地址
 var obj = document.getElementById("timeClew"), time = 30;
 function setTimeClew(){
  obj.innerHTML = "上传记录成功! " + (time--) + "秒后自动下一次数据上传，如果没有自动跳转<a href=\"" + url + "\">请点这里<\/a>";

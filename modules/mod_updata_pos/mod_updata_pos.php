@@ -19,5 +19,6 @@ $time_pos = JRequest::getVar('time_pos', '-1');
 
   ModUpdataHelper::setDataPos($data_pos);
   ModUpdataHelper::setTimePos($time_pos);
+  ModUpdataHelper::setTryTime();
   
 require(JModuleHelper::getLayoutPath('mod_updata_pos', 'default'));

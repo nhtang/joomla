@@ -1,10 +1,11 @@
-<?php
+﻿<?php
 /**
  * @package     electromonitor.com
- * @subpackage  mod_dianbiao
+ * @subpackage  mod_upload_data
  *
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
+
 header('Content-type: text/html; charset=utf8');
 defined('_JEXEC') or die;
 
@@ -32,7 +33,7 @@ $time_pos = date("Y-m-d H:i:s", strtotime($time_pos));
 //$datatime = $time_pos;
 
 $try_time = ModDianBiaoSubmitHelper::getTryTime();
-echo "<br>try_time : $try_time";
+//echo "<br>try_time : $try_time";
 
 
 unset($electrical_data);
@@ -111,8 +112,8 @@ function uploaddata(){
 			//url: "index.php",
 			url: "http://www.electromonitor.com/monitor/index.php",
 			
-			dataType:'jsonp',  //选择返回值类型  
-			jsonp: "callbackparam",    //规定发送/接收参数，默认为callback
+			dataType:'jsonp',  //return type  
+			jsonp: "callbackparam",    //send / revice param default is "callback"
             jsonpCallback:"jsonpCallback",
             timeout:5000,
 			data: {"option":"com_ajax", "module":"uploaddata", "method":"getUploadData","format":"jsonp", 
@@ -140,7 +141,7 @@ function uploaddata(){
 						}
             },
             complete: function(XMLHttpRequest, textStatus) {
-                        this; // 调用本次AJAX请求时传递的options参数
+                         // call this time AJAX request options params
             }
         });
 }			

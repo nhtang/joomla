@@ -49,6 +49,28 @@ class ModUpdataHelper
 	
 	}
 	
+	public function setTryTime() {
+		
+            $var_name = "try_time";
+
+			$var_value = 3;
+			
+			//echo "<br>setTryTime try_time : $try_time";
+			
+            date_default_timezone_set('Asia/Singapore');
+            $change_time = date('Y-m-d H:i:s');	
+			
+			
+            $profile_update = new stdClass();
+			$profile_update->var_name = $var_name;
+			$profile_update->var_value = $var_value;
+			$profile_update->change_time = $change_time;
+               
+            // Update the object from the user profile table.
+            $try_time_update = JFactory::getDbo()->updateObject('joomla3_varitely', $profile_update, 'var_name');
+			return $var_value;
+	
+	}
 	
 	
 }
