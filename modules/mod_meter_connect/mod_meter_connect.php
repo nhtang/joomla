@@ -24,7 +24,7 @@ $fresh_time = ModDianBiaoHelper::checkFreshTime($get_time);
 $wait_time = ModDianBiaoHelper::checkWaitTime($wait_time);
 
 $wait_time = dechex($wait_time*100);  //format wait_time form dec 10 to hex 16 
-//echo "<br>wait_time: $wait_time";
+echo "<br>wait_time: $wait_time";
 
 
 //$s = 1;
@@ -94,7 +94,7 @@ if($result == ""){
   $check_A = ModDianbiaoHelper::convert_code($ch_A);
   
   $all_A = $device_id ." ". $biao_command_code ." ". $all_code ." ". $check_A ;
-  //echo "<br>all code: $all_A";
+  echo "<br>all code: $all_A";
   
 
 //Classify meter_model retun code

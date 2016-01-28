@@ -145,8 +145,8 @@ class ModDianbiaoHelper
 		$profile->phase3_apparent_power = $s3;
 		$profile->phase3_frequency = $f3;
 		
-		$profile->total_apparent_power = $pE;
-		$profile->real_power = $Ep1;
+		$profile->total_power = $pE;
+		$profile->energy_kwh = $Ep1;
 
 		// Insert the object into the user profile table.
 		$result = JFactory::getDbo()->insertObject('joomla3_electrical', $profile);

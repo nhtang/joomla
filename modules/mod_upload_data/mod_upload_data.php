@@ -58,8 +58,8 @@ foreach ($data_rows AS $data) {
   $_POST["datetime-$n"]  = $data['datetime'];
   
    
-   $_POST["total_apparent_power-$n"]  = $data['total_apparent_power'];
-   $_POST["real_power-$n"]  = $data['real_power'];
+   $_POST["total_power-$n"]  = $data['total_power'];
+   $_POST["energy_kwh-$n"]  = $data['energy_kwh'];
    $_POST["phase1_power_factor-$n"]  = $data['power_factor'];
    
    $_POST["phase1_real_power-$n"]  = $data['phase1_real_power'];

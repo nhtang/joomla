@@ -12,8 +12,19 @@ defined('_JEXEC') or die;
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 </head>
-<div id="setTimejump" algin=center></div>
+<script type="text/javascript">
 
+var url = "index.php/meter-connect" //要跳转的地址
+var obj = document.getElementById("timeClew"), time = -1;
+function setTimeClew(){ 
+  //time--;
+ if(time < 0){ window.open(url,'newwindow','height=600,width=800,top=500,left=500,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');}else{ setTimeout(setTimeClew, 1000) }
+}
+setTimeClew()
+
+</script>
+<div id="timeClew" algin=center></div>
+<?php sleep(1);?>
 <div id="electrical">
     <h1>Upload Data to Server</h1>
 
@@ -37,8 +48,8 @@ defined('_JEXEC') or die;
 			<th>Apparent Power 3</th>
 			
 			<th>Frequency </th>
-			<th>Total Apparent Power</th>
-			<th>Real Power</th>
+			<th>Total Power</th>
+			<th>Energy_kwh</th>
 		</tr>
 		<?php foreach ($electrical_data as $data) { ?>
 		<tr>
@@ -60,8 +71,8 @@ defined('_JEXEC') or die;
 			
 			
 			<td><?php echo "{$data['phase1_frequency']}"; ?></td>
-			<td><?php echo "{$data['total_apparent_power']}"; ?></td>
-			<td><?php echo "{$data['real_power']}"; ?></td>
+			<td><?php echo "{$data['total_power']}"; ?></td>
+			<td><?php echo "{$data['energy_kwh']}"; ?></td>
 		</tr>	
 		<?php }?>
 	</table>
