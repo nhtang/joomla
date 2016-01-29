@@ -122,12 +122,12 @@ function uploaddata(){
             //async : false,
 			//cache:false,
 			//crossdomain: true,
-			//url: "index.php",
-			url: "http://www.electromonitor.com/monitor/index.php",
+			url: "index.php",
+			//url: "http://www.electromonitor.com/monitor/index.php",
 			
-			dataType:'jsonp',  //return type  
-			jsonp: "callbackparam",    //send / revice param default is "callback"
-            jsonpCallback:"jsonpCallback",
+			//dataType:'jsonp',  //return type  
+			//jsonp: "callbackparam",    //send / revice param default is "callback"
+            //jsonpCallback:"jsonpCallback",
             timeout:5000,
 			data: {"option":"com_ajax", "module":"uploaddata", "method":"getUploadData","format":"jsonp", 
 			       "allarr" : post,

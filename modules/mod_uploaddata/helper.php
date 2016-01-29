@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2015 All rights reserved.
  */
 header('Content-type: text/html; charset=utf8');
+
 //jimport('joomla.log.log');
 //JLog::addLogger(array());
 
@@ -38,6 +39,7 @@ class modUploaddataHelper
 	
   
   public static function getUploadDataAjax(){
+	
 
 	$allarr = JRequest::getVar('allarr', '-1');
     $num_records = JRequest::getVar('num_records', '-1');
@@ -84,15 +86,15 @@ class modUploaddataHelper
 
 			if ( $new ) {
              
-			   // Create and populate an object.
+				// Create and populate an object.
 				$electrical = new stdClass();
 				$electrical->controller_electrical_id = $controller_electrical_id;
 				$electrical->location_id = $location_id;
 				$electrical->meter_address = $meter_address;
 				$electrical->datetime = $Arr_fields["datetime-$n"];
 				
-				$electrical->total_apparent_power = $Arr_fields["total_apparent_power-$n"];
-				$electrical->real_power = $Arr_fields["real_power-$n"];
+				$electrical->total_power = $Arr_fields["total_power-$n"];
+				$electrical->energy_kwh = $Arr_fields["energy_kwh-$n"];
 				$electrical->phase1_power_factor = $Arr_fields["phase1_power_factor-$n"];
 				
 				$electrical->phase1_real_power = $Arr_fields["phase1_real_power-$n"];
@@ -115,7 +117,6 @@ class modUploaddataHelper
 				$electrical->phase3_voltage = $Arr_fields["phase3_voltage-$n"];
 				$electrical->phase3_current = $Arr_fields["phase3_current-$n"];
 		
-				
 				// Insert the object into the user profile table.
 				$result = JFactory::getDbo()->insertObject('joomla3_electrical2', $electrical);
 				//$result = JFactory::getDbo()->insertObject('#__electrical', $electrical);
@@ -125,7 +126,7 @@ class modUploaddataHelper
     }//if ($num_records>0) 
 
 
-//JLog::add(JText::_("Before return 1"), JLog::WARRING, 'jerror');
+//JLog::add(JText::_("Before return 1"), JLog::ERROR, 'jerror');
 
         $db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -149,7 +150,6 @@ class modUploaddataHelper
  } // getUploadData
 
 	
-
 	
 	
 }
