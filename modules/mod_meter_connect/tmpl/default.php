@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * @package     electromonitor.com
  * @subpackage  mod_meter_connect
@@ -7,6 +7,8 @@
  */
 
 defined('_JEXEC') or die;
+
+
 ?>
 <html>
 <head>
@@ -14,12 +16,11 @@ defined('_JEXEC') or die;
 </head>
 	
 	
-<form id=go  name="go"  method="post" action="meter-info" onSubmit='return javacheck(this)'>
+<!--form id=go  name="go"  method="post" action="meter-info" onSubmit='return javacheck(this)'>
     <input id="location_id" name="location_id" type="hidden" size="10" value="<?php echo $location_id; ?>" />
 	<input id="meter_address" name="meter_address" type="hidden" size="10" value="<?php echo $meter_address; ?>" />
 	    <input type="submit" value=" 退出采集 "  id="stop">
-</form>
-
+</form-->
 <div id="electrical">
     <h3>位置 [ <?php echo $location_id; ?> ] &nbsp;&nbsp; 电表 [ <?php echo $meter_address; ?> ] </h3>
 
@@ -56,7 +57,7 @@ defined('_JEXEC') or die;
             </tr>
             <tr align=center>
               <td>时间</td>  
-              <td colspan="8" align="left"><?php echo $time; ?></td>
+              <td colspan="8" align="left"><?php if($time_status == "1"){echo "<font color=#FF0000>$time</font>";}else{echo $time;} ?></td>
             </tr>
             <tr align=center>
               <td>电压1</td>  
@@ -103,19 +104,7 @@ defined('_JEXEC') or die;
               <td>kWh</td>
             </tr>
            </table>
-<br><br><br><br>
-	
+		   	
 </div>
-<div id="timeClew" algin=center></div>
-<script type="text/javascript">
-/*
-var url = "index.php/upload-data" //要跳转的地址
-var obj = document.getElementById("timeClew"), time = 1;
-function setTimeClew(){ 
-  time--;
- if(time < 0){ window.open(url,'newwindow','height=600,width=800,top=500,left=500,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');}else{ setTimeout(setTimeClew, 1000) }
-}
-setTimeClew()
-*/
-</script>	
+
 </html>

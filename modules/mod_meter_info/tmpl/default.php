@@ -226,9 +226,26 @@ defined('_JEXEC') or die;
 	</td></tr>	  
 	<tr><td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 	  
 		   采集参数项&nbsp;：
-        <input id="data_select" name="data_select" type="text" size="10" value="" /><br>
+        <input id="data_select" name="data_select" type="text" size="10" value=" Ua, Ub, Uc, Ia, Ib, Ic, Pa, Pb, Pc, Ps, F, EPP" class="input-xxlarge"/>  (空为采集全部)<br>
+		<!--input name="u1" type="checkbox" value="u1" />&nbsp;u1&nbsp;&nbsp;
+		<input name="u2" type="checkbox" value="u2" />&nbsp;u2&nbsp;&nbsp;
+		<input name="u3" type="checkbox" value="u3" />&nbsp;u3&nbsp;&nbsp;
+		
+		<input name="i1" type="checkbox" value="i1" />&nbsp;i1&nbsp;&nbsp;
+		<input name="i2" type="checkbox" value="i2" />&nbsp;i2&nbsp;&nbsp;
+		<input name="i3" type="checkbox" value="i3" />&nbsp;i3&nbsp;&nbsp;
+		
+		<input name="s1" type="checkbox" value="s1" />&nbsp;s1&nbsp;&nbsp;
+		<input name="s2" type="checkbox" value="s2" />&nbsp;s2&nbsp;&nbsp;
+		<input name="s3" type="checkbox" value="s3" />&nbsp;s3&nbsp;&nbsp;
+		
+		<input name="f1" type="checkbox" value="f1" />&nbsp;f1&nbsp;&nbsp;
+		<input name="f2" type="checkbox" value="f2" />&nbsp;f2&nbsp;&nbsp;
+		<input name="f3" type="checkbox" value="f3" />&nbsp;f3&nbsp;&nbsp;
+		
+		<br-->
 		  <font style="color:#5d5d5d;"> 
-		    * 采集参数项的填写模式为：( u1 , u2 , u3 , i1 , i2 , i3 , s1 , s2 , s3 , f1 , f2 , f3 , ... )
+		    * 填写模式、包含采集的参数项为：  Ua, Ub, Uc, U_ab, U_bc, U_ca, Ia, Ib, Ic, Pa, Pb, Pc, Ps, F, Qa, Qb, Qc, Qs, PFa, PFb, PFc, PFs, Sa, Sb, Sc, Ss, WPP, WPN, WQP, WQN, EPP, EPN, EQP,EQN  
 		  </font>
 	</td></tr>	  
     <tr><td border="0" cellpadding="0" cellspacing="0" style="padding-left:5px;"> 	

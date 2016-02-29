@@ -116,6 +116,34 @@ class modUploaddataHelper
 				$electrical->phase3_apparent_power = $Arr_fields["phase3_apparent_power-$n"];
 				$electrical->phase3_voltage = $Arr_fields["phase3_voltage-$n"];
 				$electrical->phase3_current = $Arr_fields["phase3_current-$n"];
+				
+				$electrical->Uab = $Arr_fields["Uab-$n"];
+				$electrical->Ubc = $Arr_fields["Ubc-$n"];
+				$electrical->Uca = $Arr_fields["Uca-$n"];
+				
+				$electrical->Qa = $Arr_fields["Qa-$n"];
+				$electrical->Qb = $Arr_fields["Qb-$n"];
+				$electrical->Qc = $Arr_fields["Qc-$n"];
+				$electrical->Qs = $Arr_fields["Qs-$n"];
+				
+				$electrical->PFa = $Arr_fields["PFa-$n"];
+				$electrical->PFb = $Arr_fields["PFb-$n"];
+				$electrical->PFc = $Arr_fields["PFc-$n"];
+				$electrical->PFs = $Arr_fields["PFs-$n"];
+				
+				$electrical->Sa = $Arr_fields["Sa-$n"];
+				$electrical->Sb = $Arr_fields["Sb-$n"];
+				$electrical->Sc = $Arr_fields["Sc-$n"];
+				$electrical->Ss = $Arr_fields["Ss-$n"];
+				
+				$electrical->WPP = $Arr_fields["WPP-$n"];
+				$electrical->WPN = $Arr_fields["WPN-$n"];
+				$electrical->WQP = $Arr_fields["WQP-$n"];
+				$electrical->WQN = $Arr_fields["WQN-$n"];
+				
+				$electrical->EPN = $Arr_fields["EPN-$n"];
+				$electrical->EQP = $Arr_fields["EQP-$n"];
+				$electrical->EQN = $Arr_fields["EQN-$n"];
 		
 				// Insert the object into the user profile table.
 				$result = JFactory::getDbo()->insertObject('joomla3_electrical2', $electrical);

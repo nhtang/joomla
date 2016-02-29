@@ -82,6 +82,34 @@ foreach ($data_rows AS $data) {
   $_POST["phase3_apparent_power-$n"]  = $data['phase3_apparent_power'];
   $_POST["phase3_frequency-$n"]  = $data['phase3_frequency'];
   
+  $_POST["Uab-$n"]  = $data['Uab'];
+  $_POST["Ubc-$n"]  = $data['Ubc'];
+  $_POST["Uca-$n"]  = $data['Uca'];
+  
+  $_POST["Qa-$n"]  = $data['Qa'];
+  $_POST["Qb-$n"]  = $data['Qb'];
+  $_POST["Qc-$n"]  = $data['Qc'];
+  $_POST["Qs-$n"]  = $data['Qs'];
+  
+  $_POST["PFa-$n"]  = $data['PFa'];
+  $_POST["PFb-$n"]  = $data['PFb'];
+  $_POST["PFc-$n"]  = $data['PFc'];
+  $_POST["PFs-$n"]  = $data['PFs'];
+  
+  $_POST["Sa-$n"]  = $data['Sa'];
+  $_POST["Sb-$n"]  = $data['Sb'];
+  $_POST["Sc-$n"]  = $data['Sc'];
+  $_POST["Ss-$n"]  = $data['Ss'];
+  
+  $_POST["WPP-$n"]  = $data['WPP'];
+  $_POST["WPN-$n"]  = $data['WPN'];
+  $_POST["WQP-$n"]  = $data['WQP'];
+  $_POST["WQN-$n"]  = $data['WQN'];
+  
+  $_POST["EPN-$n"]  = $data['EPN'];
+  $_POST["EQP-$n"]  = $data['EQP'];
+  $_POST["EQN-$n"]  = $data['EQN'];
+  
   $n++;
    //echo "n= $n ...";
 
@@ -125,9 +153,9 @@ function uploaddata(){
 			url: "index.php",
 			//url: "http://www.electromonitor.com/monitor/index.php",
 			
-			//dataType:'jsonp',  //return type  
-			//jsonp: "callbackparam",    //send / revice param default is "callback"
-            //jsonpCallback:"jsonpCallback",
+			dataType:'jsonp',  //return type  
+			jsonp: "callbackparam",    //send / revice param default is "callback"
+            jsonpCallback:"jsonpCallback",
             timeout:5000,
 			data: {"option":"com_ajax", "module":"uploaddata", "method":"getUploadData","format":"jsonp", 
 			       "allarr" : post,
